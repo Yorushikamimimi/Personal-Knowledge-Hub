@@ -12,3 +12,4 @@ Thumbs.db
 .env.production.local
 .codex-qa/
 .codex_tmp/
+.git-ssh/
