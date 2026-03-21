@@ -1,4 +1,4 @@
-﻿node_modules
+node_modules
 .next
 out
 coverage
@@ -13,3 +13,5 @@ Thumbs.db
 .codex-qa/
 .codex_tmp/
 .git-ssh/
+*.bundle
+
