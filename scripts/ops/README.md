@@ -18,6 +18,7 @@ Keep deployment reproducible with the existing host port strategy:
 - `deploy.sh`: sync code, build, reload PM2, and run health check
 - `rollback.sh <commit-sha>`: rollback to a commit and restart
 - `healthcheck.sh [domain]`: local and public endpoint checks
+- `deploy-notes.sh [online|offline]`: note content publish helper
 - `nginx-site.conf.example`: main site Nginx example (`yoruming.cn`)
 - `nginx-music-site.conf.example`: music site Nginx example (`music.yoruming.cn`)
 
@@ -43,4 +44,11 @@ If GitHub is unreachable but NPM is reachable:
 
 ```bash
 SKIP_GIT_SYNC=1 bash scripts/ops/deploy.sh
+```
+
+## Notes publish quick start
+
+```bash
+cd /srv/sites/personal-knowledge-hub/app
+bash scripts/ops/deploy-notes.sh online
 ```
