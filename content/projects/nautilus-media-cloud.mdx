@@ -1,0 +1,76 @@
+---
+title: "nautilus-media-cloud"
+slug: "nautilus-media-cloud"
+summary: "一个基于 PostgreSQL SKIP LOCKED 的 Pull 型异步任务调度项目，包含 Spring Boot 控制面、Python Worker 和轻量控制台，用于验证数据库队列、任务认领和状态流转链路。"
+role: "独立完成（AI 辅助）"
+techStack:
+  - "Java"
+  - "Spring Boot"
+  - "PostgreSQL"
+  - "SKIP LOCKED"
+  - "Python"
+  - "SSE"
+  - "MyBatis"
+  - "JSONB"
+highlights:
+  - "把 PostgreSQL 当作任务调度核心，用 SKIP LOCKED 完成 Pull 型任务认领，重点展示并发认领、状态流转和任务重试机制。"
+  - "采用 Spring Boot 控制面 + Python Worker 的跨语言协作方式，让调度、执行和前台展示职责更清晰。"
+  - "补充超时回收、失败重试、SSE 状态推送和 JSONB 元信息存储，项目更适合讨论工程取舍，而不是只做任务列表页面。"
+goals:
+  - "验证在不引入 MQ 的前提下，数据库队列是否能支撑一个结构清晰的异步任务调度原型。"
+  - "沉淀一个能体现任务系统、并发控制、跨语言协作和工程边界判断的项目案例。"
+responsibilities:
+  - "负责任务模型设计、调度流程实现、控制面接口、Worker 通信方式和控制台页面组织。"
+  - "负责 PostgreSQL 任务表结构、认领逻辑、失败重试、超时回收、状态推送和项目文档整理。"
+  - "负责仓库公开整理、启动脚本、截图、架构说明和边界描述。"
+boundaries:
+  - "当前项目以本地启动和仓库展示为主，暂不提供公网 Demo。"
+  - "项目强调数据库队列方案的工程取舍，不等同于通用生产级调度平台。"
+  - "鉴权、下载路径、本机文件依赖和小规模统计聚合等限制，已在仓库文档中显式说明。"
+metrics:
+  - value: "1 套"
+    label: "数据库认领机制"
+    note: "基于 PostgreSQL 与 SKIP LOCKED 实现 Pull 型任务认领，说明核心调度逻辑不是停留在概念层。"
+  - value: "4 类"
+    label: "稳定性环节"
+    note: "认领、重试、超时回收、状态推送都已进入同一条执行链路，项目具备基本调度闭环。"
+  - value: "3 层"
+    label: "协作职责拆分"
+    note: "控制面、Python Worker、轻量控制台分工清晰，适合解释跨语言协作与边界划分。"
+screenshotNote: "这里保留的是最能说明调度控制面价值的界面，不再把截图当作单纯的页面陈列。"
+screenshots:
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-media-cloud/main/docs/images/dashboard-overview.png"
+    alt: "nautilus-media-cloud 控制台首页截图"
+    caption: "这张图值得看，是因为它把在线 Worker、任务统计和任务队列放到了同一决策界面里，直接说明系统是围绕调度闭环设计的。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-media-cloud/main/docs/images/task-create-modal.png"
+    alt: "nautilus-media-cloud 创建任务截图"
+    caption: "重点不在弹窗本身，而在它证明了控制面已经具备可操作的任务入口，任务不是通过手写 SQL 或脚本硬塞进队列。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-media-cloud/main/docs/images/task-format-options.png"
+    alt: "nautilus-media-cloud 参数配置截图"
+    caption: "这张图说明任务元信息和执行参数是可配置、可承载的，系统不是只跑固定流程，而是在为调度扩展性留口。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-media-cloud/main/docs/images/task-success-detail.png"
+    alt: "nautilus-media-cloud 执行结果截图"
+    caption: "这里最有价值的是状态、结果和后续处理信息已经被收口到结果详情里，说明执行链路不是黑箱。"
+githubUrl: "https://github.com/Yorushikamimimi/nautilus-media-cloud"
+readmeUrl: "https://github.com/Yorushikamimimi/nautilus-media-cloud#readme"
+demoUrl: ""
+featured: true
+sortOrder: 2
+status: "published"
+---
+
+## 为什么这个项目值得看
+这个项目适合展示后端工程取舍，而不是单纯展示功能数量。它围绕“任务如何入库、如何认领、如何防止并发冲突、如何失败重试、如何把状态推给控制台”这条链路组织实现，比起普通 CRUD 项目，更能说明我对系统边界和调度机制的理解。
+
+## 面试里适合继续追问的点
+
+- 为什么这里选择 PostgreSQL SKIP LOCKED，而不是先引入 MQ
+- 任务认领为什么必须放在同一事务里完成
+- 超时回收、失败重试和状态流转如何避免出现脏状态
+- 为什么 Worker 不直接连接数据库，以及跨语言协作怎么划清边界
+
+## 如果继续迭代
+
+- 增加任务流转时序图和数据表结构图
+- 补充调度压力测试与更细的失败注入验证
+- 收口更完整的权限和文件依赖管理能力

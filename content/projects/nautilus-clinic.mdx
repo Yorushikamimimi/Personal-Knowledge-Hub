@@ -1,0 +1,78 @@
+---
+title: "nautilus-clinic"
+slug: "nautilus-clinic"
+summary: "一个基于 Spring Boot、Vue 和 PostgreSQL 的门诊管理系统，聚焦 RBAC 权限控制、门诊业务流程、药品库存管理与低成本私有化部署。"
+role: "独立完成（AI 辅助）"
+techStack:
+  - "Java"
+  - "Spring Boot"
+  - "Vue"
+  - "PostgreSQL"
+  - "RBAC"
+  - "JSONB"
+  - "RuoYi"
+highlights:
+  - "围绕门诊业务把患者、就诊记录、库存和权限体系串成一条完整流程，项目更偏真实业务管理系统，而不是单一模块 demo。"
+  - "在现有框架基础上做业务化改造，重点体现 RBAC、模块划分、接口组织和 PostgreSQL / JSONB 的场景化使用。"
+  - "补齐 README、接口文档、核心页面截图和私有化部署说明，让项目既能展示业务理解，也能展示工程落地能力。"
+goals:
+  - "实现一个适合小型门诊或私有化场景的管理系统原型，覆盖患者、问诊、库存和权限管理等核心流程。"
+  - "沉淀一个能代表业务系统实现能力、权限设计和数据建模思路的项目案例。"
+responsibilities:
+  - "负责系统结构整理、业务模块设计、核心后端接口、前端页面承载和 PostgreSQL 相关配置。"
+  - "负责门诊业务表、JSONB 字段使用、权限和模块组织、接口说明以及仓库公开整理。"
+  - "负责 README、启动步骤、截图和项目边界说明收口。"
+boundaries:
+  - "当前项目以本地运行和仓库展示为主，暂不提供公网 Demo。"
+  - "项目建立在 RuoYi 开源生态基础上进行业务化扩展，项目页会明确这一点，不把底层框架能力全部包装成个人原创。"
+  - "当前更适合作为业务系统结构和实现思路展示，不刻意包装成成熟商用 SaaS。"
+metrics:
+  - value: "4 类"
+    label: "核心业务域"
+    note: "患者、就诊、库存、权限四类业务都已进入同一套后台体系，不是单页演示或单模块拼接。"
+  - value: "1 条"
+    label: "后台权限链"
+    note: "角色、菜单、页面、接口之间的承接关系清晰，RBAC 不是口头描述，而是能在系统里看到的结构。"
+  - value: "5 张"
+    label: "关键页面证据"
+    note: "登录、首页、就诊、库存、RBAC 五类截图都可验证，说明系统既有业务流程，也有后台运营和权限侧证据。"
+screenshotNote: "保留的是最能说明门诊业务、后台结构和权限体系的几张图，而不是把每个页面都平均贴出来。"
+screenshots:
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/01-login.png"
+    alt: "nautilus-clinic 登录页截图"
+    caption: "登录页值得看，不是因为它本身复杂，而是它说明这个项目从入口开始就是一套完整的后台业务系统，而不是单页原型。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/02-home.png"
+    alt: "nautilus-clinic 首页截图"
+    caption: "首页截图的价值在于它呈现了后台系统的承载方式，能直观看到模块入口和管理场景已经被组织起来。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/04-consultation.png"
+    alt: "nautilus-clinic 就诊记录截图"
+    caption: "这张图最值得看的点是它直连核心业务流程，能说明项目不是空壳后台，而是围绕具体门诊场景展开。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/05-inventory.png"
+    alt: "nautilus-clinic 库存管理截图"
+    caption: "库存页说明系统不仅覆盖问诊，还延伸到了药品管理和后台运营模块，业务范围更完整。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/06-rbac-role.png"
+    alt: "nautilus-clinic RBAC 截图"
+    caption: "这张图的价值在于它直接证明权限体系不是口头描述，而是已经落到了页面、角色和后台组织结构里。"
+githubUrl: "https://github.com/Yorushikamimimi/nautilus-clinic"
+readmeUrl: "https://github.com/Yorushikamimimi/nautilus-clinic#readme"
+demoUrl: ""
+featured: true
+sortOrder: 3
+status: "published"
+---
+
+## 为什么这个项目值得看
+如果说 rag-nexus 更偏 AI 集成与知识系统，nautilus-media-cloud 更偏任务调度与工程机制，那么 nautilus-clinic 更适合作为“业务系统实现能力”的代表项目。它能回答的是：我是否能把权限、流程、数据和后台页面围绕一个真实场景组织起来。
+
+## 面试里适合继续追问的点
+
+- 在现有框架基础上如何做业务化改造，而不是只会生成功能页
+- RBAC 权限、门诊流程和后台页面如何一一对应
+- PostgreSQL / JSONB 在这个业务场景里具体承担了什么
+- 私有化部署场景里，为什么结构清晰比功能堆叠更重要
+
+## 如果继续迭代
+
+- 补更多患者详情、库存操作和权限变更流程图
+- 增加更细的模块边界说明和数据流说明
+- 进一步强化私有化部署、审计和角色配置能力

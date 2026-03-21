@@ -1,0 +1,70 @@
+---
+title: "rag-nexus"
+slug: "rag-nexus"
+summary: "一个面向知识库问答场景的全栈 RAG 项目，基于 Spring AI、pgvector、Vue 3、Python 爬虫服务与 DashScope，支持文档 / 文本 / URL 注入和流式问答。"
+role: "独立完成（AI 辅助）"
+techStack:
+  - "Java"
+  - "Spring Boot"
+  - "Spring AI"
+  - "PostgreSQL"
+  - "pgvector"
+  - "Vue 3"
+  - "Python"
+  - "Docker Compose"
+highlights:
+  - "把知识注入、向量检索、同步问答、SSE 流式问答和前台交互收成了一条完整的全栈 RAG 闭环，而不是停留在单一聊天页面。"
+  - "同时支持文本、文件和 URL 注入，后端负责知识库接入、查询与会话处理，前端负责问答交互和资料管理，链路完整。"
+  - "补齐失败模式文档、Swagger 接口、基础测试和已知边界说明，让项目更接近可解释、可复盘、可继续迭代的工程项目。"
+goals:
+  - "构建一个可运行的个人 RAG 知识库系统，验证从语料注入到问答交付的完整链路。"
+  - "在静态项目展示之外，沉淀一个能体现后端主导、前后端联动和 AI 集成能力的代表项目。"
+responsibilities:
+  - "负责整体方案设计与落地，包括 Spring Boot 后端、Vue 3 前端、Python 爬虫服务和 pgvector 存储链路。"
+  - "负责知识注入、问答接口、流式输出、会话处理、基础配置、项目文档和本地启动方式整理。"
+  - "负责 README、失败模式说明、接口文档、截图整理和本地运行闭环收口。"
+boundaries:
+  - "当前公开版本以本地运行和仓库展示为主，暂不提供公网 Demo。"
+  - "扫描件 PDF、持久化会话、精细权限控制和更完整的召回评估仍在后续优化范围内。"
+  - "当前项目强调工程闭环与结构清晰，不刻意包装成生产级商业产品。"
+metrics:
+  - value: "3 类"
+    label: "知识注入入口"
+    note: "文本、文件、URL 三类输入都已进入同一条知识处理链路，不是只支持单一数据源。"
+  - value: "2 种"
+    label: "问答输出模式"
+    note: "同步回答和 SSE 流式问答都已打通，能直接验证交互链路不是停留在后端接口层。"
+  - value: "4 个"
+    label: "核心交付面"
+    note: "后端 API、前端交互、爬虫注入、向量存储四个面都已落地，说明项目是系统级闭环。"
+screenshotNote: "保留两张最能证明产品入口和回答链路的截图，避免截图区变成只说明“有哪些页面”的贴图墙。"
+screenshots:
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/rag-nexus/main/docs/screenshots/homepage.png"
+    alt: "rag-nexus 首页截图"
+    caption: "值得看的不是页面样式，而是它已经把问答入口、知识库场景和产品壳组织成一个完整页面，不是只展示接口调试结果。"
+  - src: "https://raw.githubusercontent.com/Yorushikamimimi/rag-nexus/main/docs/screenshots/streaming-chat.png"
+    alt: "rag-nexus 流式问答截图"
+    caption: "这张图的价值在于证明 SSE 流式输出和前端反馈链路已经打通，项目不是停留在普通同步返回文本的最小 demo。"
+githubUrl: "https://github.com/Yorushikamimimi/rag-nexus"
+readmeUrl: "https://github.com/Yorushikamimimi/rag-nexus#readme"
+demoUrl: ""
+featured: true
+sortOrder: 1
+status: "published"
+---
+
+## 为什么这个项目值得看
+这个项目的价值不在于“接了一个大模型”，而在于把知识注入、检索、问答、流式输出和前台交互这条链路真正收成了一个能运行的系统。它更适合用来说明我如何把一个前后端协同、带 AI 集成属性的项目做成结构清晰的工程闭环。
+
+## 面试里适合继续追问的点
+
+- Spring AI 与 pgvector 的集成方式是如何组织的
+- 文档 / 文本 / URL 注入链路为什么要统一抽象
+- 流式问答与普通问答在后端输出和前端交互上的差异
+- 为什么要把已知问题和失败模式明确写进项目边界，而不是回避
+
+## 如果继续迭代
+
+- 补充更完整的召回评估与答案质量验证
+- 引入持久化会话和更细的权限控制
+- 增加 Docker 启动日志、流程图和架构图，补强交付证据
