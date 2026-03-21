@@ -1,0 +1,128 @@
+---
+title: "项目落地和使用工作流的具体例子介绍（完整md文件见我github）"
+slug: "md-github"
+summary: "结论 这个文件夹应该当成一套 playbook（操作手册） + prompt library（提示词库） + template library（模板库） 来用，而不是项目本身。 实际用法是：先用 ai engineering workflow"
+category: "interview"
+tags:
+  - "workflow"
+  - "prompt"
+  - "example"
+topicSlugs:
+  - "interview-preparation"
+publishedAt: "2026-03-21"
+updatedAt: "2026-03-21"
+isOriginal: true
+status: "published"
+---
+
+**结论**
+这个文件夹应该当成一套 `playbook（操作手册）` + `prompt library（提示词库）` + `template library（模板库）` 来用，而不是项目本身。  
+实际用法是：先用 [ai-engineering-workflow.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/ai-engineering-workflow.md) 看阶段顺序，再按 [prompt-index.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/prompt/prompt-index.md) 选对应 Prompt，把结果落到你真实项目里的文档；最后上线后回到这个文件夹更新 server registry（服务台账）和 port registry（端口台账）。
+
+**原因**
+这套文件现在分成 5 类，各有明确职责：
+
+1. [ai-engineering-workflow.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/ai-engineering-workflow.md)：总流程，告诉你先做需求、再做实现、再做部署、再做上线前检查。
+2. [server-deployment-standard.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/standards/server-deployment-standard.md)：硬规则，约束 Docker/systemd、端口、日志、回滚、Nginx、上线 gate。
+3. `prompt/*.md`：发给 GPT 或 Codex 的标准 Prompt。
+4. `templates/*.md`：生成项目文档时套用的模板。
+5. [server-service-registry.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/registry/server-service-registry.md) 和 [server-port-registry.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/registry/server-port-registry.md)：项目上线后更新的服务器事实台账。
+
+**完整例子**
+假设你现在有一个想法：做一个“个人书签收藏站 BookmarkBox”，支持保存链接、标签、备注、搜索，给自己和 2-3 个朋友用。
+
+1. 先问 GPT 做需求澄清。  
+打开 [project-requirement-clarification-prompt.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/prompt/project-requirement-clarification-prompt.md)，把整段内容发给 GPT，并在最前面补一句：  
+“我想做一个个人书签收藏站，用户可以保存网页链接、标签、备注并搜索，先给自己和朋友用。”  
+目标不是要代码，而是让 GPT 帮你收敛边界。
+
+2. 把 GPT 结果落到项目文档。  
+你新建真实项目目录，例如 `D:\Workspace\bookmark-box`，然后按模板整理成：
+- `docs/project/requirements-summary.md`，参考 [project-requirement-summary-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/project-requirement-summary-template.md)
+- `docs/project/mvp-boundary.md`，参考 [mvp-boundary-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/mvp-boundary-template.md)
+- `docs/project/technical-decision.md`，参考 [technical-decision-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/technical-decision-template.md)
+
+3. 这 3 个文件在这个例子里可以是这样的。  
+`requirements-summary.md` 写：
+- 项目定义：一个给个人和小团队使用的书签收藏站
+- 目标用户：自己和 2-3 个固定成员
+- 核心问题：链接分散、找不到、备注不统一
+- 核心场景：保存链接、打标签、按关键词搜索、查看详情
+
+`mvp-boundary.md` 写：
+- MVP 必做：登录、保存链接、标签、备注、列表页、搜索
+- 明确不做：浏览器插件、AI 自动打标签、团队权限体系、全文爬取
+- 后续再做：批量导入、公开分享、站内推荐
+
+`technical-decision.md` 写：
+- Type A
+- 前端需要，后端需要，数据库需要，Redis 不需要
+- 单体优先，不拆多服务
+- 本地运行用 Hybrid Dev（混合开发，指数据库容器化、应用本地跑）
+- 部署倾向用 Docker
+- 内部端口先定 `8081`
+
+4. 然后交给 Codex 连续推进实现。  
+打开 [codex-master-execution-prompt.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/prompt/codex-master-execution-prompt.md)，在 `D:\Workspace\bookmark-box` 里让 Codex执行。  
+你给 Codex 的话很简单：  
+“请按 `docs/project/requirements-summary.md`、`docs/project/mvp-boundary.md`、`docs/project/technical-decision.md` 和这份 master prompt 连续推进项目。”  
+这一步的目标是让 Codex生成项目骨架、README、`.env.example`、`scripts/`、核心模块代码。
+
+5. MVP 完成后，补质量报告。  
+让 Codex按 [quality-report-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/quality-report-template.md) 生成 `docs/project/quality-report.md`。  
+这里记录 lint、test、build、smoke test 是否通过。  
+这一步过了，才进入部署阶段。
+
+6. 生成部署骨架。  
+因为这个例子已经在 `technical-decision.md` 里定了 Docker，所以直接用 [codex-docker-deployment-prompt.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/prompt/codex-docker-deployment-prompt.md)。  
+同时让它参考：
+- [docker-deploy-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/docker-deploy-template.md)
+- [nginx-reverse-proxy-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/nginx-reverse-proxy-template.md)
+- [deployment-runbook-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/deployment-runbook-template.md)
+- [deployment-checklist.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/deployment-checklist.md)
+
+这一步会在你的项目里生成：
+- `deploy/docker-compose.yml`
+- `deploy/.env`
+- `deploy/nginx/bookmark-box.conf`
+- `deployment.md`
+- `deployment-checklist.md`
+
+7. 上线前再做一次 predeploy check（上线前审查）。  
+用 [codex-predeploy-check-prompt.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/prompt/codex-predeploy-check-prompt.md)，让 Codex检查：
+- Docker 方案是否明确
+- 8081 是否冲突
+- Nginx 是否指向 127.0.0.1:8081
+- 日志和回滚步骤是否齐全
+- 需要哪些环境变量  
+然后按 [predeploy-report-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/predeploy-report-template.md) 生成 `docs/project/predeploy-report.md`。
+
+8. 手工部署上线。  
+你按项目里的 `deployment.md` 和 `deployment-checklist.md` 执行。  
+例如把项目部署到 `/srv/apps/bookmark-box/`，容器内部服务监听 `8080`，宿主机内部映射 `127.0.0.1:8081`，公网只走 `80/443`，由 Nginx 反代。
+
+9. 发布后记录 release record（发布记录）。  
+按 [release-record-template.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/templates/release-record-template.md) 在项目里生成 `docs/project/release-record.md`，记录：
+- 版本号
+- 镜像 tag
+- 部署时间
+- 验证结果
+- 是否观察到异常
+- 是否回滚
+
+10. 最后回到这个 infra 文件夹更新服务器台账。  
+在 [server-service-registry.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/registry/server-service-registry.md) 增加一条 `bookmark-box` 服务记录。  
+在 [server-port-registry.md](D:/Workspace/infra-registry/servers/vm-0-7-ubuntu/registry/server-port-registry.md) 登记：
+- 80/443 由 host nginx 使用
+- 8081 为 bookmark-box 内部服务端口
+- 无额外公网端口暴露
+
+**下一步动作**
+如果你愿意，我下一轮可以直接按这个“BookmarkBox”例子，给你写一版真实的：
+- `requirements-summary.md`
+- `mvp-boundary.md`
+- `technical-decision.md`
+- `deployment.md`
+- `deployment-checklist.md`
+
+也就是把这个示例从“讲流程”变成“完整样板”。

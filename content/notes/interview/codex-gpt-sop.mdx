@@ -1,0 +1,294 @@
+---
+title: "Codex+GPT二核驱动SOP工作流"
+slug: "codex-gpt-sop"
+summary: "这套 workflow 用于把一个新项目从「想法」推进到「可部署、可回滚、可追踪」的状态。"
+category: "interview"
+tags:
+  - "workflow"
+topicSlugs:
+  - "interview-preparation"
+publishedAt: "2026-03-21"
+updatedAt: "2026-03-21"
+isOriginal: true
+status: "published"
+---
+
+# AI Engineering Workflow v2
+
+## 目标
+
+这套 workflow 用于把一个新项目从「想法」推进到「可部署、可回滚、可追踪」的状态。
+
+默认场景：
+
+- 单仓库或单项目协作
+- 单机或单台主服务器交付
+- 使用 Codex 持续推进实现
+- 正式部署只允许 `Docker` 或 `systemd`
+
+这套 workflow 追求的是单机交付场景下的高可用基线，不等于多机房、多副本、多可用区级别的真正基础设施高可用。
+
+## 核心原则
+
+- 先做边界确认，再做实现。
+- 先定交付约束，再定目录和实现方式。
+- 一轮只推进一个模块，避免范围失控。
+- 每个阶段都必须有明确输入、输出、检查项、退出条件。
+- 正式部署禁止使用 `nohup`、临时脚本、隐藏环境假设。
+- 对外 Web 服务默认由 `Nginx` 承接，公网入口尽量只使用 `80/443`。
+- 数据、端口、环境变量、日志、回滚方式必须显式落盘，不依赖聊天记录和人工记忆。
+
+## 统一产物目录
+
+建议每个项目至少沉淀以下文件：
+
+- `docs/project/requirements-summary.md`
+- `docs/project/mvp-boundary.md`
+- `docs/project/technical-decision.md`
+- `docs/project/quality-report.md`
+- `docs/project/predeploy-report.md`
+- `docs/project/release-record.md`
+- `deploy/`
+- `deployment.md`
+- `deployment-checklist.md`
+
+如果项目很小，也不能省略需求摘要、技术决策、部署说明、上线前检查四类核心产物。
+
+## 阶段总览
+
+| 阶段 | 目标 | 核心产物 | 退出条件 |
+| --- | --- | --- | --- |
+| 1. Requirement Contract | 把需求边界定清 | `requirements-summary.md`, `mvp-boundary.md` | 目标、用户、MVP、out of scope、项目类型清晰 |
+| 2. Delivery Decision | 把技术和交付约束定清 | `technical-decision.md` | 项目类型、技术栈、本地运行、部署倾向、依赖边界清晰 |
+| 3. Bootstrap | 生成可开发骨架 | README, `.env.example`, `scripts/`, `.runtime/` | 本地可运行，目录和脚本清晰 |
+| 4. Module Delivery | 按模块交付 MVP | 代码、测试、模块说明 | 当前模块通过本地验证 |
+| 5. Quality Gate | 统一做质量闸门 | `quality-report.md` | lint / test / build / smoke 结果明确 |
+| 6. Deployment Package | 生成部署骨架 | `deploy/`, `deployment.md`, `deployment-checklist.md` | 部署方式、端口、日志、回滚文件齐全 |
+| 7. Predeploy Review | 上线前审查 | `predeploy-report.md` | 风险、缺失项、阻塞项明确 |
+| 8. Release and Observe | 手工发布并观察 | `release-record.md`, registry 更新 | 发布记录、观察结果、回滚结论清晰 |
+
+## Stage 1: Requirement Contract
+
+### 目标
+
+把“项目想法”收敛成后续可以直接执行的需求契约。
+
+### 必须确认
+
+- 项目一句话定义
+- 目标用户
+- 核心问题
+- MVP 必做功能
+- Out of scope
+- 输入 / 输出
+- 核心业务流
+- 项目类型：`Type A` 或 `Type C`
+
+### 必须产出
+
+- `docs/project/requirements-summary.md`
+- `docs/project/mvp-boundary.md`
+
+### Gate
+
+只有当以下条件成立才能进入下一阶段：
+
+- 需求不是一句抽象口号，而是可描述成业务流
+- MVP 和后续能力已经分开
+- 未决问题数量可控，且不会阻塞骨架搭建
+
+## Stage 2: Delivery Decision
+
+### 目标
+
+在动手实现前，把影响交付的关键决策先落盘。
+
+### 必须确认
+
+- 前端 / 后端 / 数据库是否需要
+- 是否真的需要 Redis、文件上传、搜索、权限、管理后台、异步任务
+- 单体还是多服务
+- 本地开发模式：`Hybrid Dev` / `Full Docker` / `Process Only`
+- 部署倾向：`Docker` / `systemd`
+- 初步端口规划
+- 外部依赖和第三方服务边界
+
+### 必须产出
+
+- `docs/project/technical-decision.md`
+
+### Gate
+
+以下项没有明确结论，不能进入实现阶段：
+
+- 部署倾向不清
+- 数据存储方案不清
+- 是否拆服务不清
+- 端口和公网入口策略不清
+
+## Stage 3: Bootstrap
+
+### 目标
+
+生成最小可开发骨架，让项目进入稳定的工程化起点。
+
+### 必须产出
+
+- 项目目录结构
+- `README.md`
+- `.env.example`
+- `scripts/`
+- `.runtime/`
+- 本地运行命令
+
+### 验收标准
+
+- 新人拉下代码可以按文档启动
+- 常见命令有入口，例如 `dev`、`test`、`build`
+- 配置项不依赖隐藏本地环境
+
+## Stage 4: Module Delivery
+
+### 目标
+
+围绕 MVP 按模块连续交付，而不是一次性做完所有功能。
+
+### 执行规则
+
+- 一轮只交付一个模块
+- 先核心链路，后次要能力
+- 每个模块都要补最基本验证
+- 新需求如果影响架构、部署或范围，先回到 Stage 2 重新定界
+
+### 每轮至少回答
+
+- 当前模块解决什么问题
+- 输入输出是什么
+- 如何手工验证
+- 有哪些已知限制
+
+## Stage 5: Quality Gate
+
+### 目标
+
+在生成部署文件前，先确认项目本身达到可交付质量。
+
+### 必须检查
+
+- `lint`
+- `test`
+- `build`
+- 核心业务 smoke test
+- 配置文件自检
+- 数据迁移或初始化步骤是否明确
+- 异常处理、日志、参数校验是否达到最小工程标准
+
+### 必须产出
+
+- `docs/project/quality-report.md`
+
+### Gate
+
+以下任何一项不明确，禁止进入部署阶段：
+
+- 构建不能稳定通过
+- 核心路径没有验证方法
+- 依赖初始化步骤不明确
+- 出错后看不到日志或状态
+
+## Stage 6: Deployment Package
+
+### 目标
+
+生成真正可维护、可更新、可回滚的部署骨架。
+
+### 必须产出
+
+- `deploy/`
+- `deployment.md`
+- `deployment-checklist.md`
+- `systemd service` 或 `docker-compose.yml`
+- `app.env` 或 `.env`
+- `Nginx` 配置（如果项目对外提供 Web/API）
+
+### 必须明确
+
+- 部署目录
+- 内部端口
+- 公网入口
+- 健康检查方式
+- 启停命令
+- 日志查看命令
+- 更新步骤
+- 回滚步骤
+- 数据备份要求
+
+## Stage 7: Predeploy Review
+
+### 目标
+
+上线前做一次显式审查，而不是直接把部署当作默认可行。
+
+### 必须产出
+
+- `docs/project/predeploy-report.md`
+
+### 必须检查
+
+- 是否已经明确选择 `Docker` 或 `systemd`
+- 端口是否已预留，且不会冲突
+- 环境变量是否齐全
+- 数据库、Redis、对象存储等依赖是否已声明
+- 发布、回滚、日志、状态命令是否写进文档
+- 是否仍依赖 `nohup`、手工跑脚本、隐藏目录、临时账号
+
+### Gate
+
+只要存在阻塞项，就必须先修复再上线，不能带着“上线时再看”进入发布。
+
+## Stage 8: Release and Observe
+
+### 目标
+
+手工完成部署、验证、观察、回滚决策和台账更新。
+
+### 发布后必须完成
+
+- 上传代码或构建产物
+- 启动或切换新版本
+- 检查状态和日志
+- 运行 smoke test
+- 观察 15 到 30 分钟
+- 明确是否需要回滚
+- 更新 `server-service-registry.md`
+- 更新 `server-port-registry.md`
+- 更新 `docs/project/release-record.md`
+
+### 回滚触发示例
+
+- 服务无法启动
+- 健康检查连续失败
+- 核心接口失败率明显上升
+- 数据迁移异常
+- 关键日志持续报错
+
+## 高可用基线
+
+单机交付场景下，至少满足以下条件才算“高可用基线”：
+
+- 服务重启方式明确，支持进程异常后自动恢复
+- 版本可追踪，禁止 `latest` 和不可追溯构建产物
+- 对外入口统一，避免散落暴露多个公网端口
+- 上线前有备份或回滚材料
+- 上线后有固定观察窗口和回滚判断条件
+- 服务、端口、部署文档和发布记录保持同步
+
+## 不在默认范围内
+
+以下能力不属于这套 workflow 的默认交付范围，需要单独立项：
+
+- 多机部署
+- 自动弹性扩缩容
+- 跨可用区容灾
+- 蓝绿 / 金丝雀平台化发布
+- 全链路监控平台建设
