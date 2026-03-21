@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PageContainer } from "./PageContainer";
-import { siteLinks, siteProfile } from "../../lib/site-config";
+import { complianceInfo, siteLinks, siteProfile } from "../../lib/site-config";
 
 const primaryLinks = [
   { href: "/projects", label: "Projects" },
@@ -18,6 +18,8 @@ const complianceLinks = [
 ];
 
 export function SiteFooter() {
+  const hasPublicSecurityNumber = complianceInfo.publicSecurityNumber.trim().length > 0;
+
   return (
     <footer className="site-footer">
       <PageContainer>
@@ -29,7 +31,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <div className="footer-links" aria-label="主链接">
+          <div className="footer-links" aria-label="主导航链接">
             {primaryLinks.map((item) => (
               <Link key={item.href} href={item.href} className="footer-link">
                 {item.label}
@@ -49,8 +51,28 @@ export function SiteFooter() {
           </div>
 
           <div className="site-footer__meta">
-            <div>ICP 备案号：待补充</div>
-            <div>Copyright {new Date().getFullYear()} {siteProfile.siteTitle}. All rights reserved.</div>
+            <div>
+              ICP 备案号：
+              <a className="footer-link footer-link--inline" href={complianceInfo.icpUrl} target="_blank" rel="noreferrer">
+                {complianceInfo.icpNumber}
+              </a>
+            </div>
+            {hasPublicSecurityNumber ? (
+              <div>
+                公安网备：
+                <a
+                  className="footer-link footer-link--inline"
+                  href={complianceInfo.publicSecurityUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {complianceInfo.publicSecurityNumber}
+                </a>
+              </div>
+            ) : null}
+            <div>
+              Copyright {new Date().getFullYear()} {siteProfile.siteTitle}. All rights reserved.
+            </div>
           </div>
         </div>
       </PageContainer>

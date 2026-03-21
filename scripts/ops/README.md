@@ -1,28 +1,46 @@
-# 运维脚本说明
+# Ops Scripts
 
-## 目标
+## Goal
 
-在不改动现有宿主机端口策略的前提下，把 `Personal Knowledge Hub` 固化为统一目录和固定部署流程。
+Keep deployment reproducible with the existing host port strategy:
+- Main site via Nginx (`yoruming.cn`, `www.yoruming.cn`)
+- Music subdomain via Nginx (`music.yoruming.cn`)
 
-## 统一目录
+## Default directories
 
-默认目录（可通过环境变量覆盖）：
+- `/srv/sites/personal-knowledge-hub/app`: source code and build output
+- `/srv/sites/personal-knowledge-hub/logs`: runtime logs
+- `/srv/sites/personal-knowledge-hub/backups`: rollback markers
 
-- `/srv/sites/personal-knowledge-hub/app`：项目代码与构建产物
-- `/srv/sites/personal-knowledge-hub/logs`：运行日志
-- `/srv/sites/personal-knowledge-hub/backups`：回滚标记
+## Scripts
 
-## 脚本列表
+- `bootstrap-ubuntu-22.04.sh`: install Node.js 20 / PM2 and initialize directories
+- `deploy.sh`: sync code, build, reload PM2, and run health check
+- `rollback.sh <commit-sha>`: rollback to a commit and restart
+- `healthcheck.sh [domain]`: local and public endpoint checks
+- `nginx-site.conf.example`: main site Nginx example (`yoruming.cn`)
+- `nginx-music-site.conf.example`: music site Nginx example (`music.yoruming.cn`)
 
-- `bootstrap-ubuntu-22.04.sh`：安装 Node.js 20 / PM2，并初始化目录
-- `deploy.sh`：拉取代码、构建、PM2 启动/重载、健康检查
-- `rollback.sh <commit-sha>`：回滚到指定提交并重载
-- `healthcheck.sh [domain]`：本地端口与公网域名探活
-- `nginx-site.conf.example`：Nginx 站点示例配置
+## Recommended flow
 
-## 推荐执行顺序
+```bash
+bash scripts/ops/bootstrap-ubuntu-22.04.sh
+bash scripts/ops/deploy.sh
+# configure nginx and reload
+bash scripts/ops/healthcheck.sh yoruming.cn
+```
 
-1. `bash scripts/ops/bootstrap-ubuntu-22.04.sh`
-2. `bash scripts/ops/deploy.sh`
-3. 配置 Nginx（参考 `nginx-site.conf.example`）并 reload
-4. `bash scripts/ops/healthcheck.sh yoruming.cn`
+## Emergency deploy (network restricted)
+
+If the server cannot reach GitHub/NPM but local code is already the target version:
+
+```bash
+cd /srv/sites/personal-knowledge-hub/app
+SKIP_GIT_SYNC=1 SKIP_NPM_CI=1 bash scripts/ops/deploy.sh
+```
+
+If GitHub is unreachable but NPM is reachable:
+
+```bash
+SKIP_GIT_SYNC=1 bash scripts/ops/deploy.sh
+```

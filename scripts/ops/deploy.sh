@@ -10,21 +10,35 @@ REPO_URL="${REPO_URL:-https://github.com/Yorushikamimimi/Personal-Knowledge-Hub.
 BRANCH="${BRANCH:-main}"
 HEALTH_PATH="${HEALTH_PATH:-/}"
 INTERNAL_PORT="${INTERNAL_PORT:-3001}"
+SKIP_GIT_SYNC="${SKIP_GIT_SYNC:-0}"
+SKIP_NPM_CI="${SKIP_NPM_CI:-0}"
 
 echo "[1/6] Ensure base directories"
 sudo mkdir -p "${APP_DIR}" "${LOG_DIR}" "${BACKUP_DIR}"
 
 echo "[2/6] Clone or update repository"
-if [[ -d "${APP_DIR}/.git" ]]; then
-  git -C "${APP_DIR}" fetch origin "${BRANCH}"
-  git -C "${APP_DIR}" checkout "${BRANCH}"
-  git -C "${APP_DIR}" pull --ff-only origin "${BRANCH}"
-else
-  if [[ -n "$(ls -A "${APP_DIR}" 2>/dev/null)" ]]; then
-    echo "Error: ${APP_DIR} exists and is not empty, but not a git repository."
+if [[ "${SKIP_GIT_SYNC}" == "1" ]]; then
+  if [[ ! -d "${APP_DIR}/.git" ]]; then
+    echo "Error: SKIP_GIT_SYNC=1 requires an existing git repository at ${APP_DIR}."
     exit 1
   fi
-  git clone -b "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
+  echo "Skip git sync (SKIP_GIT_SYNC=1). Use existing local code in ${APP_DIR}."
+else
+  if [[ -d "${APP_DIR}/.git" ]]; then
+    if ! git -C "${APP_DIR}" fetch origin "${BRANCH}"; then
+      echo "Error: git fetch failed."
+      echo "Hint: If current code is already usable, run with SKIP_GIT_SYNC=1."
+      exit 1
+    fi
+    git -C "${APP_DIR}" checkout "${BRANCH}"
+    git -C "${APP_DIR}" pull --ff-only origin "${BRANCH}"
+  else
+    if [[ -n "$(ls -A "${APP_DIR}" 2>/dev/null)" ]]; then
+      echo "Error: ${APP_DIR} exists and is not empty, but not a git repository."
+      exit 1
+    fi
+    git clone -b "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
+  fi
 fi
 
 echo "[3/6] Save rollback marker"
@@ -35,7 +49,11 @@ fi
 
 echo "[4/6] Install dependencies and build"
 cd "${APP_DIR}"
-npm ci
+if [[ "${SKIP_NPM_CI}" == "1" ]]; then
+  echo "Skip npm ci (SKIP_NPM_CI=1)."
+else
+  npm ci
+fi
 npm run build
 
 echo "[5/6] Start or reload PM2 process"

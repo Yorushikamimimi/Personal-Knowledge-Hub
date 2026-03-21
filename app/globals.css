@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --bg: #f5f1e8;
   --surface: #fffdf8;
   --surface-muted: #f1eadc;
@@ -267,6 +267,10 @@ img {
 
 .footer-link {
   color: var(--text-soft);
+}
+
+.footer-link--inline {
+  margin-left: 4px;
 }
 
 .footer-link:hover,
@@ -2619,6 +2623,7 @@ body {
     gap: 22px;
   }
 }
+
 
 
 
