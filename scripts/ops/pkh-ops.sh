@@ -18,10 +18,7 @@ Commands:
   status                Show PM2 process status
   logs                  Show recent PM2 logs
   verify                Verify main and music domains
-  deploy-notes-online   Publish notes (git online mode)
-  deploy-notes-offline  Publish notes (offline mode)
-  deploy-feature-online Deploy feature update (standard)
-  deploy-feature-offline Deploy feature update (offline fallback)
+  deploy-bundle         Deploy from local git bundle (single stable path)
 
 Optional env:
   APP_DIR=/srv/sites/personal-knowledge-hub/app
@@ -66,19 +63,34 @@ case "${COMMAND}" in
     curl -I "https://music.${DOMAIN#www.}"
     curl -I "http://127.0.0.1:3001"
     ;;
+  deploy-bundle)
+    BUNDLE_FILE="${2:-}"
+    BRANCH="${3:-main}"
+    if [[ -z "${BUNDLE_FILE}" ]]; then
+      echo "Usage: bash scripts/ops/pkh-ops.sh deploy-bundle <bundle-file> [branch]"
+      exit 1
+    fi
+    bash scripts/ops/deploy-bundle.sh "${BUNDLE_FILE}" "${BRANCH}"
+    ;;
   deploy-notes-online)
-    bash scripts/ops/deploy-notes.sh online
+    echo "Deprecated: use deploy-bundle only."
+    echo "Run: bash scripts/ops/pkh-ops.sh deploy-bundle <bundle-file> [branch]"
+    exit 1
     ;;
   deploy-notes-offline)
-    bash scripts/ops/deploy-notes.sh offline
+    echo "Deprecated: use deploy-bundle only."
+    echo "Run: bash scripts/ops/pkh-ops.sh deploy-bundle <bundle-file> [branch]"
+    exit 1
     ;;
   deploy-feature-online)
-    bash scripts/ops/deploy.sh
-    bash scripts/ops/healthcheck.sh "${DOMAIN}"
+    echo "Deprecated: use deploy-bundle only."
+    echo "Run: bash scripts/ops/pkh-ops.sh deploy-bundle <bundle-file> [branch]"
+    exit 1
     ;;
   deploy-feature-offline)
-    SKIP_GIT_SYNC=1 bash scripts/ops/deploy.sh
-    bash scripts/ops/healthcheck.sh "${DOMAIN}"
+    echo "Deprecated: use deploy-bundle only."
+    echo "Run: bash scripts/ops/pkh-ops.sh deploy-bundle <bundle-file> [branch]"
+    exit 1
     ;;
   *)
     usage

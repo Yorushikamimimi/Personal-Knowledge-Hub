@@ -1,70 +1,41 @@
-# Ops Scripts
+# Ops Scripts（固定上线路径）
 
-## Goal
+## 唯一上线方法（Single Path）
 
-Keep deployment reproducible with the existing host port strategy:
-- Main site via Nginx (`yoruming.cn`, `www.yoruming.cn`)
-- Music subdomain via Nginx (`music.yoruming.cn`)
+从 2026-03-24 起，主站与笔记统一使用 **Bundle 离线发布**，不再使用服务器 `git pull/fetch origin`。
 
-## Default directories
+原因：
+- 服务器到 GitHub 网络不稳定，容易超时。
+- 服务器历史上存在手工改动与 untracked 文件，容易阻塞 `pull --ff-only`。
+- 固定单一路径后，发布可重复、可回放、可排错。
 
-- `/srv/sites/personal-knowledge-hub/app`: source code and build output
-- `/srv/sites/personal-knowledge-hub/logs`: runtime logs
-- `/srv/sites/personal-knowledge-hub/backups`: rollback markers
+## 固定流程
 
-## Scripts
-
-- `bootstrap-ubuntu-22.04.sh`: install Node.js 20 / PM2 and initialize directories
-- `deploy.sh`: sync code, build, reload PM2, and run health check
-- `rollback.sh <commit-sha>`: rollback to a commit and restart
-- `healthcheck.sh [domain]`: local and public endpoint checks
-- `deploy-notes.sh [online|offline]`: note content publish helper
-- `pkh-ops.sh <command>`: unified ops wrapper (start/stop/restart/deploy/verify)
-- `nginx-site.conf.example`: main site Nginx example (`yoruming.cn`)
-- `nginx-music-site.conf.example`: music site Nginx example (`music.yoruming.cn`)
-
-## Recommended flow
+1. 本地打包并上传：
 
 ```bash
-bash scripts/ops/bootstrap-ubuntu-22.04.sh
-bash scripts/ops/deploy.sh
-# configure nginx and reload
-bash scripts/ops/healthcheck.sh yoruming.cn
+cd "D:/Workspace/Personal Knowledge Hub"
+git bundle create pkh-main-$(Get-Date -Format yyyyMMdd-HHmmss).bundle main
+scp "pkh-main-<timestamp>.bundle" root@81.68.72.245:/srv/sites/personal-knowledge-hub/app/
 ```
 
-## Emergency deploy (network restricted)
-
-If the server cannot reach GitHub/NPM but local code is already the target version:
+2. 服务器部署（唯一入口）：
 
 ```bash
 cd /srv/sites/personal-knowledge-hub/app
-SKIP_GIT_SYNC=1 SKIP_NPM_CI=1 bash scripts/ops/deploy.sh
+bash scripts/ops/deploy-bundle.sh ./pkh-main-<timestamp>.bundle main
 ```
 
-If GitHub is unreachable but NPM is reachable:
+## 脚本说明
 
-```bash
-SKIP_GIT_SYNC=1 bash scripts/ops/deploy.sh
-```
+- `deploy-bundle.sh`: **唯一推荐** 的上线脚本（Bundle 导入 -> reset -> clean -> build -> PM2 重启 -> 健康检查）
+- `pkh-ops.sh deploy-bundle`: `deploy-bundle.sh` 的统一入口封装
 
-## Notes publish quick start
+## 禁用项（不再作为发布方法）
 
-```bash
-cd /srv/sites/personal-knowledge-hub/app
-bash scripts/ops/deploy-notes.sh online
-```
+- `git pull --ff-only origin main`
+- `git fetch origin main`
+- 服务器手工 `scp` 单文件后直接 build
+- 运行中删除 `.next` 后不重启 PM2
 
-## Unified ops wrapper
-
-```bash
-cd /srv/sites/personal-knowledge-hub/app
-bash scripts/ops/pkh-ops.sh status
-bash scripts/ops/pkh-ops.sh deploy-notes-online
-bash scripts/ops/pkh-ops.sh deploy-feature-online
-```
-
-## Docs
-
-- `06_部署运维/运维命令手册.md`
-- `06_部署运维/笔记更新发布流程.md`
-- `06_部署运维/项目进度更新（2026-03-21 二次）.md`
+以上操作不是绝对禁止执行，但不再作为 SOP（标准操作流程），避免再次引入不一致状态。
