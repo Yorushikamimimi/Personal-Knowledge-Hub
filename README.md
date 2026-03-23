@@ -70,7 +70,7 @@ npm run start
 - `Projects / Notes / Resume / GitHub / About` 主导航收口
 - `Projects` 列表页与统一详情页模板
 - 3 个真实项目条目接入：`rag-nexus`、`nautilus-media-cloud`、`nautilus-clinic`
-- 首页 `Featured Projects` / `Latest Notes` 联动展示
+- 首页 `Projects-first` 展示：`Featured Projects` + `Project Notes`（技术优先）
 - 项目详情页截图预览、缩略图切换、边界说明与面试追问区
 - `Notes / Downloads / Topics` 内容闭环
 - 本地 Markdown 导入与 draft 管理能力
