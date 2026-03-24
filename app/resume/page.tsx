@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { PageContainer } from "../../components/layout/PageContainer";
 import { getFeaturedProjects } from "../../lib/projects";
@@ -24,6 +24,7 @@ const deliveryStyle = [
 
 export default function ResumePage() {
   const projects = getFeaturedProjects(3);
+  const resumePdfUrl = "/files/resume/yang-mingtian-resume.pdf";
 
   return (
     <PageContainer>
@@ -32,8 +33,16 @@ export default function ResumePage() {
           <span className="section-kicker">Resume</span>
           <h1 className="page-title">网页简历摘要</h1>
           <p className="page-lead">
-            这页用于快速说明我的方向定位、技术栈、代表项目和工程关注点。当前 PDF 简历尚未挂载，但网页信息已经足够支持初步浏览。
+            这页用于快速说明我的方向定位、技术栈、代表项目和工程关注点。PDF 简历已经挂载，可直接打开或下载。
           </p>
+          <div className="project-link-row">
+            <a href={resumePdfUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
+              打开 PDF 简历
+            </a>
+            <a href={resumePdfUrl} download className="project-inline-link">
+              下载 PDF 简历
+            </a>
+          </div>
         </section>
 
         <section className="content-panel glass-panel glass-panel--section">
@@ -133,7 +142,7 @@ export default function ResumePage() {
               About →
             </Link>
           </div>
-          <p className="resume-note">当前版本还没有挂载 PDF 简历，后续会替换成正式下载或外部简历链接。</p>
+          <p className="resume-note">PDF 简历路径：<span className="inline-code">{resumePdfUrl}</span></p>
         </section>
       </div>
     </PageContainer>

@@ -1,0 +1,70 @@
+﻿---
+title: "My Knowledge Base | AI知识库问答平台"
+slug: "my-knowledge-base"
+summary: "面向文档问答场景的 AI 知识库平台，支持上传、入库、检索问答。"
+role: "独立完成（AI 辅助）"
+techStack:
+  - "Spring Boot"
+  - "React / Vite"
+  - "Dify"
+  - "Docker"
+  - "OCR"
+  - "RAG"
+  - "PostgreSQL"
+  - "SSE"
+highlights:
+  - "把 upload -> ingestion -> QA 串成完整闭环，覆盖上传、入库编排和问答输出，不是只停留在单一问答界面。"
+  - "支持 OCR 识别图片和扫描件，并与 Dify 的知识检索 / 问答链路联动，适合做内部文档问答验证。"
+  - "问答结果带 Sources（来源引用），方便追溯答案依据，也更适合作品集展示。"
+goals:
+  - "把内部文档转换成可问可答的知识库，验证知识接入、检索和问答链路。"
+  - "沉淀一个适合本地演示和作品集展示的 AI 知识库平台案例。"
+responsibilities:
+  - "负责后端接口、文档上传、入库编排、问答链路联调。"
+  - "负责本地部署、验收截图、README 和项目说明整理。"
+  - "负责把上传、识别、检索、问答和来源引用收口为可展示的工程闭环。"
+boundaries:
+  - "不做复杂知识图谱。"
+  - "不做多租户 SaaS 权限体系。"
+  - "不做大模型训练，只做知识库接入与应用层编排。"
+metrics:
+  - value: "1 条"
+    label: "文档闭环"
+    note: "上传、入库、检索、问答四个环节已经连成一条链路，可以直接验证功能完整性。"
+  - value: "2 类"
+    label: "识别能力"
+    note: "普通文档与图片 / 扫描件 OCR 都能进入同一套知识处理链路。"
+  - value: "Sources"
+    label: "引用追溯"
+    note: "答案带来源引用，便于校验问答依据，也更适合作品集展示。"
+screenshotNote: "保留能说明上传、检索和答案引用的截图即可，避免把图片墙做成页面堆叠。"
+screenshots:
+  - src: "TBD"
+    alt: "My Knowledge Base 首页截图"
+    caption: "这里保留首页或知识库入口截图，用于说明产品定位和上传入口。"
+  - src: "TBD"
+    alt: "My Knowledge Base 问答截图"
+    caption: "这里保留问答结果截图，重点展示来源引用和知识检索链路。"
+githubUrl: "https://github.com/Yorushikamimimi/My-Knowledge-Base.git"
+readmeUrl: ""
+demoUrl: ""
+featured: true
+sortOrder: 1.5
+status: "published"
+---
+
+## 为什么这个项目值得看
+这个项目适合展示“知识接入 + 检索问答 + 来源追溯”这条链路的工程化实现。它不是简单的聊天界面，而是把上传、入库、OCR 识别、问答和引用收口成一个可演示的平台。
+
+## 面试里适合继续追问的点
+
+- 上传后的入库编排是如何组织的
+- OCR 识别和文档问答怎样接到同一条链路里
+- 为什么要保留 Sources 来源引用
+- Dify、Spring Boot 和前端是如何分工的
+
+## 如果继续迭代
+
+- 增加更细的文档解析与分段策略
+- 补充知识库权限和多人协作能力
+- 加强问答质量评估与失败案例收集
