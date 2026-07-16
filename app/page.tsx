@@ -52,64 +52,8 @@ const projectCopy: Record<string, { elevator: string; highlight: string }> = {
   },
 };
 
-const technicalKeywords = [
-  "postgresql",
-  "pgvector",
-  "skip locked",
-  "spring",
-  "docker",
-  "rag",
-  "sse",
-  "concurrency",
-  "thread",
-  "backend",
-  "transaction",
-  "consistency",
-  "调度",
-  "检索",
-  "部署",
-  "架构",
-  "并发",
-];
-
-const deprioritizedKeywords = ["workflow", "prompt", "sop", "自我介绍", "面试话术", "template"];
-
-function getTechnicalNoteScore(note: NoteListItem): number {
-  const normalized = `${note.title} ${note.summary} ${note.category} ${note.tags.join(" ")}`.toLowerCase();
-
-  let score = 0;
-
-  if (note.category.includes("java") || note.category.includes("backend")) {
-    score += 4;
-  }
-
-  for (const keyword of technicalKeywords) {
-    if (normalized.includes(keyword)) {
-      score += 2;
-    }
-  }
-
-  for (const keyword of deprioritizedKeywords) {
-    if (normalized.includes(keyword)) {
-      score -= 3;
-    }
-  }
-
-  return score;
-}
-
 function getHomeNotes(): NoteListItem[] {
-  return getAllPublishedNotes()
-    .map((note) => ({ note, score: getTechnicalNoteScore(note) }))
-    .sort((a, b) => {
-      if (b.score !== a.score) {
-        return b.score - a.score;
-      }
-
-      return new Date(b.note.updatedAt).getTime() - new Date(a.note.updatedAt).getTime();
-    })
-    .map((entry) => entry.note)
-    .slice(0, 3);
+  return getAllPublishedNotes().slice(0, 3);
 }
 
 export default function HomePage() {
@@ -128,7 +72,7 @@ export default function HomePage() {
             </h2>
             <p className="hero-description">
               这里优先展示 4 个主打项目的工程实现与取舍过程，覆盖 RAG 检索链路、知识库问答、异步任务调度和门诊业务系统。
-              Notes 仅作为项目技术支撑材料，不与项目主线竞争首页注意力。
+              Notes 作为工程方法与长期积累的补充材料，不与项目主线竞争首页注意力。
             </p>
           </div>
 
@@ -137,7 +81,7 @@ export default function HomePage() {
               查看主打 Projects
             </Link>
             <Link href="/notes" className="button-link button-link--secondary">
-              查看技术型 Notes
+              查看全部 Notes
             </Link>
           </div>
 
@@ -225,9 +169,9 @@ export default function HomePage() {
         <section className="page-stack">
           <div className="section-header">
             <div>
-              <span className="section-kicker">Project Notes</span>
-              <h2>技术支撑笔记（弱化展示）</h2>
-              <p className="muted-text">首页仅展示与主打项目相关度更高的技术型内容，减少 workflow/prompt 类干扰。</p>
+              <span className="section-kicker">Recent Notes</span>
+              <h2>近期笔记（补充阅读）</h2>
+              <p className="muted-text">当前已发布内容以工程工作流与实践方法为主，作为项目页之外的补充材料。</p>
             </div>
             <Link href="/notes" className="section-header__link">
               查看全部 Notes
@@ -306,4 +250,3 @@ export default function HomePage() {
     </PageContainer>
   );
 }
-

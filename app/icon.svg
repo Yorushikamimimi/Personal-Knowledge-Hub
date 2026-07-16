@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Yoruming">
+  <rect width="64" height="64" rx="14" fill="#0f172a" />
+  <path d="M17 16 32 31 47 16M32 31v18" fill="none" stroke="#f8fafc" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="49" cy="47" r="5" fill="#2dd4bf" />
+</svg>
