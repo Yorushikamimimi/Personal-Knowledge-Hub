@@ -10,9 +10,9 @@ import {
 } from "../../../lib/notes";
 
 type DraftNoteDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -23,14 +23,15 @@ export function generateStaticParams() {
   return getDraftNoteSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: DraftNoteDetailPageProps): Metadata {
+export async function generateMetadata({ params }: DraftNoteDetailPageProps): Promise<Metadata> {
   if (process.env.NODE_ENV !== "development") {
     return {
       title: "Draft Note",
     };
   }
 
-  const note = getDraftNoteMetaBySlug(params.slug);
+  const { slug } = await params;
+  const note = getDraftNoteMetaBySlug(slug);
 
   if (!note) {
     return {
@@ -49,7 +50,8 @@ export default async function DraftNoteDetailPage({ params }: DraftNoteDetailPag
     notFound();
   }
 
-  const note = await getDraftNoteBySlug(params.slug);
+  const { slug } = await params;
+  const note = await getDraftNoteBySlug(slug);
 
   if (!note) {
     notFound();

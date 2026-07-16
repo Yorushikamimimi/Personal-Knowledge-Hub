@@ -10,17 +10,18 @@ import {
 } from "../../../lib/notes";
 
 type NoteDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
   return getPublishedNoteSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: NoteDetailPageProps): Metadata {
-  const note = getPublishedNoteMetaBySlug(params.slug);
+export async function generateMetadata({ params }: NoteDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const note = getPublishedNoteMetaBySlug(slug);
 
   if (!note) {
     return {
@@ -35,7 +36,8 @@ export function generateMetadata({ params }: NoteDetailPageProps): Metadata {
 }
 
 export default async function NoteDetailPage({ params }: NoteDetailPageProps) {
-  const note = await getPublishedNoteBySlug(params.slug);
+  const { slug } = await params;
+  const note = await getPublishedNoteBySlug(slug);
 
   if (!note) {
     notFound();

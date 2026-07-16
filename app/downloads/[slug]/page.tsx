@@ -10,17 +10,18 @@ import {
 } from "../../../lib/downloads";
 
 type DownloadDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
   return getPublishedDownloadSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: DownloadDetailPageProps): Metadata {
-  const download = getPublishedDownloadMetaBySlug(params.slug);
+export async function generateMetadata({ params }: DownloadDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const download = getPublishedDownloadMetaBySlug(slug);
 
   if (!download) {
     return {
@@ -35,7 +36,8 @@ export function generateMetadata({ params }: DownloadDetailPageProps): Metadata 
 }
 
 export default async function DownloadDetailPage({ params }: DownloadDetailPageProps) {
-  const download = await getPublishedDownloadBySlug(params.slug);
+  const { slug } = await params;
+  const download = await getPublishedDownloadBySlug(slug);
 
   if (!download) {
     notFound();

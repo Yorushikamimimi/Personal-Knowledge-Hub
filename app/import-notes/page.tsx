@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 };
 
 type ImportNotesPageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     draft?: string;
-  };
+  }>;
 };
 
-export default function ImportNotesPage({ searchParams }: ImportNotesPageProps) {
+export default async function ImportNotesPage({ searchParams }: ImportNotesPageProps) {
   const topicOptions = getAllPublishedTopics().map((topic) => ({
     slug: topic.slug,
     title: topic.title,
@@ -24,7 +24,8 @@ export default function ImportNotesPage({ searchParams }: ImportNotesPageProps) 
   }));
 
   const importEnabled = process.env.NODE_ENV === "development";
-  const draftSlug = searchParams?.draft?.trim() || "";
+  const resolvedSearchParams = await searchParams;
+  const draftSlug = resolvedSearchParams?.draft?.trim() || "";
   const initialDraft = importEnabled && draftSlug ? getDraftNoteImportDataBySlug(draftSlug) : null;
 
   return (

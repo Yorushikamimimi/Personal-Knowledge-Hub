@@ -14,17 +14,18 @@ export function generateStaticParams() {
 }
 
 type ProjectDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 function stripHash(url: string) {
   return url.replace(/#.*$/, "");
 }
 
-export function generateMetadata({ params }: ProjectDetailPageProps): Metadata {
-  const project = getPublishedProjectMetaBySlug(params.slug);
+export async function generateMetadata({ params }: ProjectDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getPublishedProjectMetaBySlug(slug);
 
   if (!project) {
     return {
@@ -39,7 +40,8 @@ export function generateMetadata({ params }: ProjectDetailPageProps): Metadata {
 }
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
-  const project = await getPublishedProjectBySlug(params.slug);
+  const { slug } = await params;
+  const project = await getPublishedProjectBySlug(slug);
 
   if (!project) {
     notFound();
