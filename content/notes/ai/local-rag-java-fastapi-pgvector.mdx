@@ -1,0 +1,84 @@
+---
+title: "本地 RAG 不是接个模型：Java、FastAPI、pgvector 的职责边界"
+slug: "local-rag-java-fastapi-pgvector"
+summary: "把知识库问答做成工程系统，需要同时处理业务权限、异步入库、向量检索、拒答、来源展示和失败状态。"
+category: "RAG 工程"
+tags:
+  - "RAG"
+  - "FastAPI"
+  - "pgvector"
+  - "Sources"
+topicSlugs:
+  - "java-backend"
+publishedAt: "2026-07-16"
+updatedAt: "2026-07-16"
+isOriginal: true
+status: "published"
+---
+
+## 先说结论
+
+一个知识库问答项目和“把问题转发给模型”的区别，不在聊天框长什么样，而在文档如何进入系统、答案如何找到依据、失败如何被观察，以及用户有没有权限访问这些资料。
+
+My Knowledge Base 的本地 RAG 方案把职责分成三层：
+
+- React / Vite 负责上传、任务状态、提问、答案与 Sources 展示。
+- Spring Boot 负责用户、JWT、知识库权限、文件、任务状态和统一业务 API。
+- FastAPI 负责解析、切片、Embedding、pgvector 检索、prompt 组装与模型调用。
+
+这个拆分不是因为 Python 或 Java 谁更“高级”，而是让业务系统和 AI 能力各自承担更适合的职责。
+
+## 文档入库链路
+
+一份文档进入知识库，大致经历下面这些阶段：
+
+1. 用户登录并选择有权限的知识库。
+2. Spring Boot 接收文件并先保存原始文件。
+3. 创建异步任务，记录当前阶段、成功或失败状态。
+4. FastAPI 解析 txt、md、PDF、docx 等内容；扫描 PDF 需要额外 OCR。
+5. 文本按 chunk size 与 overlap 切分，避免整篇文档直接塞进模型。
+6. 每个 chunk 生成 embedding，并写入 PostgreSQL / pgvector。
+7. 文档与任务状态更新，前端展示处理结果。
+
+先保存原文件、再生成向量，是因为向量属于派生数据。解析或模型调用失败后，系统仍可以基于原文件重试，而不是要求用户重新上传。
+
+## 查询链路为什么需要拒答和 Sources
+
+提问时，系统先把 query 转成向量，然后限定在当前知识库里检索 TopK 片段。检索结果不是越多越好：太多会增加 token 和噪声，太少又可能缺上下文。
+
+两个工程约束尤其重要：
+
+- score threshold：相关性低于门槛时拒答，避免模型在没有依据时猜测。
+- Sources：返回文档名、chunk、分数和片段预览，让答案能够被检查。
+
+RAG 只能降低幻觉，不能消灭幻觉。原文没有答案、解析失败、chunk 切坏、检索错误或模型过度发挥，都可能让最终回答出错。
+
+## 为什么选择 PostgreSQL + pgvector
+
+对中小规模项目而言，PostgreSQL 可以同时保存业务表和向量数据，部署与维护成本比较低。检索时还能直接按知识库 ID、文档 ID 等业务条件过滤。
+
+这并不意味着 pgvector 永远优于专用向量数据库。数据规模、索引方式、查询吞吐和多租户隔离要求上升后，仍然需要重新评估。当前选择是为了在能力与复杂度之间取得平衡。
+
+换 Embedding 模型时也要谨慎：向量维度和语义空间可能发生变化。旧 chunk 用模型 A 生成，新 query 用模型 B 生成，会让检索结果失真，通常需要重建全部向量。
+
+## 回答错误时按哪条链排查
+
+推荐从输入往输出查，而不是先怀疑大模型：
+
+1. 原文是否包含答案。
+2. 文件是否被正确解析。
+3. chunk 是否在关键语义处被切断。
+4. embedding 是否一致，知识库过滤是否正确。
+5. TopK 和 threshold 是否召回了可靠片段。
+6. prompt 是否要求模型只根据检索内容回答。
+7. 前端是否展示了正确的 Sources 与任务状态。
+
+这条顺序能把“AI 答错了”拆成可以定位的工程问题。
+
+## 项目演进与当前边界
+
+项目早期使用 Dify 快速打通知识库和问答闭环，后来演进为 Spring Boot + FastAPI + PostgreSQL/pgvector + Ollama 的本地 RAG 方案，以便控制解析、切片、检索、拒答和来源展示。
+
+当前本地 RAG 核心代码已经形成链路，但真实 Ollama 连通、全部服务联调和 Linux 宿主机部署仍待独立验收；公开 GitHub main 仍是早期 Dify 版本。现阶段不能把旧截图当成本地 RAG 新链路的验证证据。
+
+[查看对应项目页](/projects/my-knowledge-base)

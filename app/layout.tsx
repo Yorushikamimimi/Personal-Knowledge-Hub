@@ -5,35 +5,40 @@ import { SiteFooter } from "../components/layout/SiteFooter";
 import { SiteHeader } from "../components/layout/SiteHeader";
 
 const siteDescription =
-  "一个面向求职展示的个人静态站点，集中呈现主打项目、后端 / 全栈方向定位，以及长期积累的知识笔记与工程总结。";
+  "面向求职展示的 AI 应用 / Java 全栈作品集，集中呈现智能标书解析、知识库 RAG 与门诊处方库存系统的工程实践。";
+
+const siteTitle = "Personal Knowledge Hub | AI Engineering / Java Full-stack Portfolio";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yoruming.cn"),
   title: {
-    default: "Personal Knowledge Hub | Backend / Full-stack Portfolio + Notes",
+    default: siteTitle,
     template: "%s | Personal Knowledge Hub",
   },
   description: siteDescription,
   applicationName: "Personal Knowledge Hub",
   keywords: [
-    "Backend Portfolio",
-    "Full-stack Portfolio",
+    "AI Engineering Portfolio",
+    "Java Full-stack Portfolio",
     "Java",
     "Spring Boot",
-    "Vue",
+    "Python",
+    "FastAPI",
+    "LLM",
+    "OCR",
+    "RAG",
     "PostgreSQL",
-    "Personal Notes",
   ],
   openGraph: {
     type: "website",
     locale: "zh_CN",
     siteName: "Personal Knowledge Hub",
-    title: "Personal Knowledge Hub | Backend / Full-stack Portfolio + Notes",
+    title: siteTitle,
     description: siteDescription,
   },
   twitter: {
     card: "summary",
-    title: "Personal Knowledge Hub | Backend / Full-stack Portfolio + Notes",
+    title: siteTitle,
     description: siteDescription,
   },
 };

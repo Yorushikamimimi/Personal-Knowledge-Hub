@@ -187,7 +187,7 @@ function parseProjectFile(filePath: string) {
     metrics: assertMetricArray(data.metrics, "metrics", filePath),
     screenshotNote: assertString(data.screenshotNote, "screenshotNote", filePath),
     screenshots: assertScreenshotArray(data.screenshots, "screenshots", filePath),
-    githubUrl: assertString(data.githubUrl, "githubUrl", filePath),
+    githubUrl: assertOptionalString(data.githubUrl, "githubUrl", filePath),
     readmeUrl: assertOptionalString(data.readmeUrl, "readmeUrl", filePath),
     demoUrl: assertOptionalString(data.demoUrl, "demoUrl", filePath),
     featured: assertBoolean(data.featured, "featured", filePath),

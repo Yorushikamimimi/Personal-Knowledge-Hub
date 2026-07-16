@@ -26,9 +26,7 @@ export function SiteFooter() {
         <div className="site-footer__inner">
           <div>
             <strong>{siteProfile.siteTitle}</strong>
-            <p className="site-footer__meta">
-              这是一个以 Projects 为主入口、以 Notes 为长期积累栏目的个人静态站点。Topics 和 Downloads 作为二级内容入口继续保留。
-            </p>
+            <p className="site-footer__meta">{siteProfile.intro}</p>
           </div>
 
           <div className="footer-links" aria-label="主导航链接">

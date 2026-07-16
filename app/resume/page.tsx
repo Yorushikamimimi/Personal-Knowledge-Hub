@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 };
 
 const focusAreas = [
-  "后端系统设计与实现",
-  "全栈项目收口与交付",
-  "工程结构、边界和可解释性",
-  "基于真实项目的长期复盘与沉淀",
+  "AI 应用开发与文档智能",
+  "Java 后端业务开发与全栈联调",
+  "RAG / 知识库问答链路工程化",
+  "Docker、Nginx 与 Linux 部署排障",
 ];
 
 const deliveryStyle = [
@@ -33,7 +33,7 @@ export default function ResumePage() {
           <span className="section-kicker">Resume</span>
           <h1 className="page-title">网页简历摘要</h1>
           <p className="page-lead">
-            这页用于快速说明我的方向定位、技术栈、代表项目和工程关注点。PDF 简历已经挂载，可直接打开或下载。
+            当前求职方向为 AI 应用开发 / Java 全栈。网页摘要与正式 PDF 统一展示智能标书、AI 知识库和门诊业务平台 3 个代表项目。
           </p>
           <div className="project-link-row">
             <a href={resumePdfUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
@@ -109,9 +109,11 @@ export default function ResumePage() {
                   <Link href={`/projects/${project.slug}`} className="project-inline-link">
                     查看详情 →
                   </Link>
-                  <a href={project.githubUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-                    GitHub →
-                  </a>
+                  {project.githubUrl ? (
+                    <a href={project.githubUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
+                      GitHub →
+                    </a>
+                  ) : null}
                 </div>
               </article>
             ))}

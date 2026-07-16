@@ -5,7 +5,7 @@ import { formatNoteDate, getAllPublishedNotes } from "../../lib/notes";
 
 export const metadata: Metadata = {
   title: "知识笔记",
-  description: "查看已发布的知识笔记，内容聚焦 Java 后端、面试知识与项目复盘等主题。",
+  description: "从真实项目中提炼文档智能、RAG 工程化与 Java 业务一致性的技术笔记。",
 };
 
 export default function NotesPage() {
@@ -18,13 +18,13 @@ export default function NotesPage() {
           <span className="section-kicker">Notes</span>
           <h1 className="page-title">知识笔记</h1>
           <p className="page-lead">
-            这里展示当前已发布的 Note 内容。页面只读取 <span className="inline-code">status=published</span> 的文章，并按更新时间倒序排列。
+            从当前三个代表项目中提炼可复用的工程判断：为什么这样拆、如何验证，以及哪些结论不能越过证据边界。
           </p>
         </section>
 
         <section className="content-panel notes-summary-panel glass-panel glass-panel--section">
           <h2>当前已发布 {notes.length} 篇文章</h2>
-          <p>内容会优先覆盖 Java 后端、面试知识和项目复盘等方向，逐步形成稳定的阅读索引。</p>
+          <p>当前专题对应文档智能、本地 RAG 和门诊业务一致性，作为项目详情页之外的技术补充。</p>
         </section>
 
         <section className="notes-grid" aria-label="知识笔记列表">

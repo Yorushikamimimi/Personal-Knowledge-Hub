@@ -1,70 +1,64 @@
-﻿---
-title: "My Knowledge Base | AI知识库问答平台"
+---
+title: "My Knowledge Base｜AI 知识库问答平台"
 slug: "my-knowledge-base"
-summary: "面向文档问答场景的 AI 知识库平台，支持上传、入库、检索问答。"
+summary: "基于 Spring Boot、FastAPI、React/Vite、PostgreSQL/pgvector 与 Ollama 的 AI 知识库平台，覆盖文档上传、异步入库、向量检索、RAG 问答和 Sources 展示。"
 role: "独立完成（AI 辅助）"
 techStack:
   - "Spring Boot"
+  - "FastAPI"
   - "React / Vite"
-  - "Dify"
-  - "Docker"
+  - "PostgreSQL / pgvector"
+  - "Ollama"
   - "OCR"
-  - "RAG"
-  - "PostgreSQL"
-  - "SSE"
+  - "Docker"
 highlights:
-  - "把 upload -> ingestion -> QA 串成完整闭环，覆盖上传、入库编排和问答输出，不是只停留在单一问答界面。"
-  - "支持 OCR 识别图片和扫描件，并与 Dify 的知识检索 / 问答链路联动，适合做内部文档问答验证。"
-  - "问答结果带 Sources（来源引用），方便追溯答案依据，也更适合作品集展示。"
+  - "把登录、知识库创建、文档上传、异步入库、切片与向量化、检索问答和 Sources 展示组织为一条完整的本地 RAG 工程链路。"
+  - "按职责拆分 Java 业务后端与 Python RAG 服务：Java 承接用户权限、文件存储和任务状态，FastAPI 承接解析、切片、Embedding、检索与生成。"
+  - "在检索层保留 score threshold、无命中拒答和来源片段，避免把模型生成包装成不可追溯的黑箱回答。"
 goals:
-  - "把内部文档转换成可问可答的知识库，验证知识接入、检索和问答链路。"
-  - "沉淀一个适合本地演示和作品集展示的 AI 知识库平台案例。"
+  - "构建一套可本地运行的私域文档问答平台，验证业务系统与 RAG 服务协同的完整工程链路。"
+  - "从早期 Dify 集成方案继续演进到可控制解析、切片、Embedding、pgvector 检索和回答边界的本地 RAG 方案。"
 responsibilities:
-  - "负责后端接口、文档上传、入库编排、问答链路联调。"
-  - "负责本地部署、验收截图、README 和项目说明整理。"
-  - "负责把上传、识别、检索、问答和来源引用收口为可展示的工程闭环。"
+  - "负责 Spring Boot 业务后端、React/Vite 问答工作台与 FastAPI RAG 服务之间的接口和职责划分。"
+  - "负责文档上传、任务状态、解析切片、向量入库、TopK 检索、生成回答与 Sources 返回链路。"
+  - "负责本地运行方式、项目文档、失败边界和后续验收入口整理。"
 boundaries:
-  - "不做复杂知识图谱。"
-  - "不做多租户 SaaS 权限体系。"
-  - "不做大模型训练，只做知识库接入与应用层编排。"
+  - "当前本地 RAG 核心代码已经落地，但真实 Ollama 模型连通、全服务联调和 Linux 宿主机部署仍待独立验收。"
+  - "公开 GitHub main 仍保留早期 Dify 版本；本地 RAG 改造分支尚未同步到远程，因此链接只作为项目演进起点。"
+  - "现有公开截图来自早期 Dify 阶段，不能充当本地 RAG 新链路证据；新截图需要在真实联调后补充。"
 metrics:
+  - value: "3 层"
+    label: "职责拆分"
+    note: "React 工作台、Spring Boot 业务后端和 FastAPI RAG 服务职责明确，便于解释跨语言服务边界。"
   - value: "1 条"
-    label: "文档闭环"
-    note: "上传、入库、检索、问答四个环节已经连成一条链路，可以直接验证功能完整性。"
-  - value: "2 类"
-    label: "识别能力"
-    note: "普通文档与图片 / 扫描件 OCR 都能进入同一套知识处理链路。"
+    label: "RAG 代码链路"
+    note: "解析、切片、Embedding、pgvector 检索、生成和 Sources 返回已在当前代码中形成闭环。"
   - value: "Sources"
-    label: "引用追溯"
-    note: "答案带来源引用，便于校验问答依据，也更适合作品集展示。"
-screenshotNote: "保留能说明上传、检索和答案引用的截图即可，避免把图片墙做成页面堆叠。"
-screenshots:
-  - src: "TBD"
-    alt: "My Knowledge Base 首页截图"
-    caption: "这里保留首页或知识库入口截图，用于说明产品定位和上传入口。"
-  - src: "TBD"
-    alt: "My Knowledge Base 问答截图"
-    caption: "这里保留问答结果截图，重点展示来源引用和知识检索链路。"
-githubUrl: "https://github.com/Yorushikamimimi/My-Knowledge-Base.git"
+    label: "回答追溯"
+    note: "问答结果保留来源片段与检索信息，便于校验答案依据并展示拒答边界。"
+screenshotNote: "本地 RAG 新链路尚未完成真实联调截图，本页不复用早期 Dify 截图冒充新版本证据。"
+screenshots: []
+githubUrl: "https://github.com/Yorushikamimimi/My-Knowledge-Base"
 readmeUrl: ""
 demoUrl: ""
 featured: true
-sortOrder: 1.5
+sortOrder: 2
 status: "published"
 ---
 
 ## 为什么这个项目值得看
-这个项目适合展示“知识接入 + 检索问答 + 来源追溯”这条链路的工程化实现。它不是简单的聊天界面，而是把上传、入库、OCR 识别、问答和引用收口成一个可演示的平台。
+
+这个项目用于展示 AI 应用工程不只是调用模型 API。业务后端负责认证、权限、文件和任务状态，RAG 服务负责解析、切片、向量检索和生成，前端则把答案、来源和处理状态组织成可使用的工作台。
 
 ## 面试里适合继续追问的点
 
-- 上传后的入库编排是如何组织的
-- OCR 识别和文档问答怎样接到同一条链路里
-- 为什么要保留 Sources 来源引用
-- Dify、Spring Boot 和前端是如何分工的
+- 为什么把 Java 业务后端和 Python RAG 服务拆开
+- 文档从上传到 pgvector 入库经历了哪些阶段
+- score threshold、无命中拒答和 Sources 分别解决什么问题
+- 为什么从 Dify 方案演进到本地 RAG，以及当前还缺哪些真实验收
 
 ## 如果继续迭代
 
-- 增加更细的文档解析与分段策略
-- 补充知识库权限和多人协作能力
-- 加强问答质量评估与失败案例收集
+- 跑通真实 Ollama、FastAPI、Spring Boot 与 React 全服务联调
+- 更新本地 RAG 问答截图和真实失败样本
+- 补充召回评估、复杂文档解析和生产级可观测性

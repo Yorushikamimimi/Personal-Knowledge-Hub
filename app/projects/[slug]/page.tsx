@@ -48,7 +48,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   }
 
   const hasDemo = Boolean(project.demoUrl);
-  const hasDistinctReadme = Boolean(project.readmeUrl) && stripHash(project.readmeUrl) !== stripHash(project.githubUrl);
+  const hasGithub = Boolean(project.githubUrl);
+  const hasDistinctReadme = Boolean(project.readmeUrl) && (!hasGithub || stripHash(project.readmeUrl) !== stripHash(project.githubUrl));
+  const hasExternalLinks = hasGithub || hasDemo || hasDistinctReadme;
+  const hasScreenshots = project.screenshots.length > 0;
   const topHighlights = project.highlights.slice(0, 3);
   const techStackPreview = project.techStack.slice(0, 5);
   const extraTechCount = Math.max(project.techStack.length - techStackPreview.length, 0);
@@ -69,21 +72,25 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <h1 className="page-title project-page-title">{project.title}</h1>
             <p className="page-lead project-overview-main__lead">{project.summary}</p>
 
-            <div className="project-link-row project-link-row--top">
-              <a href={project.githubUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-                GitHub →
-              </a>
-              {hasDemo ? (
-                <a href={project.demoUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-                  Demo →
-                </a>
-              ) : null}
-              {hasDistinctReadme ? (
-                <a href={project.readmeUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-                  README →
-                </a>
-              ) : null}
-            </div>
+            {hasExternalLinks ? (
+              <div className="project-link-row project-link-row--top">
+                {hasGithub ? (
+                  <a href={project.githubUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
+                    GitHub →
+                  </a>
+                ) : null}
+                {hasDemo ? (
+                  <a href={project.demoUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
+                    Demo →
+                  </a>
+                ) : null}
+                {hasDistinctReadme ? (
+                  <a href={project.readmeUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
+                    README →
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
 
             <div className="project-highlight-grid">
               {topHighlights.map((item, index) => (
@@ -129,7 +136,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <div>
               <span className="section-kicker">Verified Outcomes</span>
               <h2>可验证结果</h2>
-              <p>这里不写虚高的性能数字，只收束当前仓库和页面里可以直接验证的工程结果。</p>
+              <p>这里不写虚高的性能数字，只保留公开简历、项目材料和页面中可以核验且边界清楚的结果。</p>
             </div>
           </div>
 
@@ -166,17 +173,19 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </article>
         </section>
 
-        <section className="content-panel content-panel--visual glass-panel glass-panel--section">
-          <div className="section-header">
-            <div>
-              <span className="section-kicker">Evidence</span>
-              <h2>关键页面与交付证据</h2>
-              <p>{project.screenshotNote}</p>
+        {hasScreenshots ? (
+          <section className="content-panel content-panel--visual glass-panel glass-panel--section">
+            <div className="section-header">
+              <div>
+                <span className="section-kicker">Evidence</span>
+                <h2>关键页面与交付证据</h2>
+                <p>{project.screenshotNote}</p>
+              </div>
             </div>
-          </div>
 
-          <ProjectGallery title={project.title} screenshots={project.screenshots} />
-        </section>
+            <ProjectGallery title={project.title} screenshots={project.screenshots} />
+          </section>
+        ) : null}
 
         <section className="project-detail-grid project-detail-grid--tail">
           <article className="detail-panel project-section project-section--notes glass-panel glass-panel--section">

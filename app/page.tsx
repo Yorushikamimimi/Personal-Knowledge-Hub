@@ -34,21 +34,17 @@ const externalEntries = [
 
 
 const projectCopy: Record<string, { elevator: string; highlight: string }> = {
-  "rag-nexus": {
-    elevator: "面向知识库问答场景的 RAG 项目，支持多源内容注入与可追踪检索链路。",
-    highlight: "基于 pgvector 构建召回链路，并用 SSE 实现流式回答输出。",
+  "ai-zhaobiao": {
+    elevator: "面向政府采购招投标文件的智能解析系统，覆盖多格式文档解析、评审锚点抽取与证据定位。",
+    highlight: "参与 LLM-first 信息抽取链路、OCR / PageIndex 证据定位、评测体系与真实客户交付收口。",
   },
   "my-knowledge-base": {
-    elevator: "面向文档问答场景的 AI 知识库平台，支持上传、入库、检索问答。",
-    highlight: "把 upload -> ingestion -> QA 串成完整闭环，并与 OCR / Dify 联动。",
-  },
-  "nautilus-media-cloud": {
-    elevator: "面向媒体处理场景的异步任务系统，覆盖任务创建、调度与执行回传。",
-    highlight: "采用 Worker 消费模型与 SKIP LOCKED 机制提升并发吞吐和任务一致性。",
+    elevator: "面向私域文档问答的 AI 知识库平台，覆盖上传、异步入库、向量检索、RAG 问答与来源展示。",
+    highlight: "以 Spring Boot 承接业务后端、FastAPI 承接本地 RAG，并用 PostgreSQL / pgvector 完成检索链路。",
   },
   "nautilus-clinic": {
-    elevator: "门诊业务系统原型，覆盖患者、就诊、处方与库存协同的核心流程。",
-    highlight: "围绕 RBAC 与库存一致性约束实现私有化可落地的后端方案。",
+    elevator: "后端主导的门诊业务管理平台，覆盖患者、处方发药、药房库存与收费结算。",
+    highlight: "用 PostgreSQL JSONB + GIN、原子写入、Redis 锁与事务回滚处理检索和一致性问题。",
   },
 };
 
@@ -57,7 +53,7 @@ function getHomeNotes(): NoteListItem[] {
 }
 
 export default function HomePage() {
-  const featuredProjects = getFeaturedProjects(4);
+  const featuredProjects = getFeaturedProjects(3);
   const latestNotes = getHomeNotes();
 
   return (
@@ -65,13 +61,13 @@ export default function HomePage() {
       <div className="page-stack">
         <section className="hero-panel hero-panel--portfolio hero-panel--portfolio-refined">
           <div className="page-stack page-stack--compact">
-            <span className="hero-kicker">Backend / Full-stack Portfolio</span>
-            <h1 className="hero-title">后端 / 全栈项目作品集入口</h1>
+            <span className="hero-kicker">AI Engineering / Java Full-stack Portfolio</span>
+            <h1 className="hero-title">AI 应用 / Java 全栈项目作品集</h1>
             <h2 className="page-title" style={{ fontSize: "clamp(1.4rem, 2.4vw, 2rem)", marginTop: 0 }}>
-              聚焦业务系统交付、数据一致性与可上线运维
+              聚焦文档智能、RAG 工程化与业务一致性
             </h2>
             <p className="hero-description">
-              这里优先展示 4 个主打项目的工程实现与取舍过程，覆盖 RAG 检索链路、知识库问答、异步任务调度和门诊业务系统。
+              这里优先展示当前简历中的 3 个代表项目：智能标书锚点解析系统、My Knowledge Base 与门诊患者-处方-库存管理平台。
               Notes 作为工程方法与长期积累的补充材料，不与项目主线竞争首页注意力。
             </p>
           </div>
@@ -149,15 +145,17 @@ export default function HomePage() {
                         查看详情
                         <span aria-hidden="true"> →</span>
                       </Link>
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="project-inline-link project-inline-link--external"
-                      >
-                        GitHub
-                        <span aria-hidden="true"> →</span>
-                      </a>
+                      {project.githubUrl ? (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="project-inline-link project-inline-link--external"
+                        >
+                          GitHub
+                          <span aria-hidden="true"> →</span>
+                        </a>
+                      ) : null}
                     </div>
                   </article>
                 );
@@ -170,8 +168,8 @@ export default function HomePage() {
           <div className="section-header">
             <div>
               <span className="section-kicker">Recent Notes</span>
-              <h2>近期笔记（补充阅读）</h2>
-              <p className="muted-text">当前已发布内容以工程工作流与实践方法为主，作为项目页之外的补充材料。</p>
+              <h2>项目技术笔记（补充阅读）</h2>
+              <p className="muted-text">从三个代表项目中拆出架构取舍、验证口径与失败边界，避免重复项目页的功能介绍。</p>
             </div>
             <Link href="/notes" className="section-header__link">
               查看全部 Notes

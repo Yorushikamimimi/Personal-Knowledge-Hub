@@ -1,11 +1,11 @@
 export const siteProfile = {
   siteTitle: "Personal Knowledge Hub",
-  siteSubtitle: "Portfolio + Notes",
+  siteSubtitle: "AI Engineering Portfolio + Notes",
   ownerLabel: "Yorushikamimimi",
-  tagline: "作品集主站 + 知识栏目",
-  roleHeadline: "后端 / 全栈方向，关注工程实现、项目交付、系统边界和可解释性。",
+  tagline: "AI 应用 / Java 全栈作品集 + 知识栏目",
+  roleHeadline: "AI 应用开发 / Java 全栈方向，关注文档智能、RAG 工程化、业务一致性与可验证交付。",
   intro:
-    "这是一个以 Projects 为主入口、以 Notes 为长期积累栏目的个人静态站点。Topics 和 Downloads 作为二级内容入口继续保留。",
+    "当前作品集以正式简历中的 3 个代表项目为主线，Notes、Topics 和 Downloads 作为工程方法与长期积累的补充入口。",
 } as const;
 
 export const siteLinks = {
@@ -20,4 +20,4 @@ export const complianceInfo = {
   publicSecurityUrl: "https://beian.mps.gov.cn/#/query/webSearch",
 } as const;
 
-export const heroKeywords = ["Java", "Spring Boot", "Vue", "TypeScript", "PostgreSQL", "Next.js"] as const;
+export const heroKeywords = ["Java", "Spring Boot", "Python", "FastAPI", "LLM / OCR", "PostgreSQL"] as const;

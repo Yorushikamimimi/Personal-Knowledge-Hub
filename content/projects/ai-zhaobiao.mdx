@@ -1,0 +1,63 @@
+---
+title: "智能标书锚点解析系统"
+slug: "ai-zhaobiao"
+summary: "面向政府采购招投标文件的智能解析系统，支持 PDF / DOC / DOCX 解析，并提取资格审查、符合性审查、评分办法和废标条款等评审锚点。"
+role: "邮莱特实习核心项目｜参与研发"
+techStack:
+  - "Python / FastAPI"
+  - "LLM API"
+  - "OCR"
+  - "PageIndex"
+  - "React / Vue"
+  - "Redis / Kafka"
+  - "MySQL"
+highlights:
+  - "参与 LLM-first 信息抽取 pipeline，结合 OCR、PageIndex、规则 fallback 与多模型调用处理多格式文档差异。"
+  - "建立 precision / recall 评估体系和 gold standard 基准集；锚点解析口径下精准率约 94.9%、覆盖率约 98.6%。"
+  - "围绕真实招投标样本参与 AI 解析链路、锚点抽取、评审证据定位、页面验证与真实客户仓交付收口。"
+goals:
+  - "把招投标文档中的评审要求转换为结构化锚点，为后续评审、证据复核和风险提示提供可追溯输入。"
+  - "在多格式文档、扫描件和 LLM 输出不稳定的现实条件下，建立可评测、可回归、可人工复核的解析链路。"
+responsibilities:
+  - "参与 AI 解析链路、锚点抽取、评审证据定位和多服务联调问题修复。"
+  - "参与 precision / recall 评测体系、gold standard 基准集和真实样本回归。"
+  - "负责页面验证、问题复现、文档收口，并配合完成真实客户仓隔离交付。"
+boundaries:
+  - "这是实习期间参与研发的团队项目，不表述为个人独立完成；PageIndex 也不是本人独立开发。"
+  - "94.9% / 98.6% 仅对应锚点解析的 precision / recall 口径，不代表整个评标系统或专家判定准确率。"
+  - "客户仓、原始标书、内部页面与源代码不公开，本页只展示正式简历已经公开的脱敏口径。"
+metrics:
+  - value: "94.9%"
+    label: "锚点精准率"
+    note: "在锚点解析评测口径下衡量误抽情况，不外推为整个评审系统准确率。"
+  - value: "98.6%"
+    label: "锚点覆盖率"
+    note: "在 gold standard 中衡量应抽锚点的召回情况，不代表后续评审结论正确率。"
+  - value: "4 类"
+    label: "核心锚点"
+    note: "资格审查、符合性审查、评分办法与废标条款进入统一解析和页面复核链路。"
+screenshotNote: "客户仓、原始标书和内部页面不公开，因此本页不展示内部截图。"
+screenshots: []
+githubUrl: ""
+readmeUrl: ""
+demoUrl: ""
+featured: true
+sortOrder: 1
+status: "published"
+---
+
+## 为什么这个项目值得看
+
+这个项目最能体现我在真实业务里的 AI 应用工程经历：不仅要调用模型，还要处理 PDF / DOC / DOCX 和扫描件差异，建立评测口径，定位证据页，并把结果放回业务页面接受人工复核。
+
+## 面试里适合继续追问的点
+
+- 为什么从纯关键词规则演进到 LLM-first + fallback 链路
+- OCR 与 PageIndex 在证据定位中分别承担什么职责
+- precision / recall 与 gold standard 如何约束模型优化
+- 多模型调用、规则兜底和人工复核如何共同控制风险
+- 真实客户仓隔离交付时怎样处理数据和代码边界
+
+## 公开说明
+
+本页只使用正式简历中已经公开的项目定位、个人职责和锚点解析指标。客户材料、内部地址、真实标书内容和未脱敏界面均不在作品集公开范围内。
