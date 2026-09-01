@@ -22,9 +22,25 @@ const deliveryStyle = [
   "可以借助 AI 辅助，但最终目标是把方案、取舍和实现逻辑讲清楚。",
 ];
 
+const resumeVariants = [
+  {
+    label: "AI 应用版",
+    role: "AI 应用开发 / LLM 应用研发",
+    description: "适用于 AI、LLM、RAG 与 Agent 相关岗位。",
+    href: "/files/resume/羊鸣天_重邮_AI应用.pdf",
+    fileName: "羊鸣天_重邮_AI应用.pdf",
+  },
+  {
+    label: "Java 后端版",
+    role: "Java 后端开发 / 应用研发",
+    description: "适用于 Java 后端、应用研发、金融科技与传统软件岗位。",
+    href: "/files/resume/羊鸣天_重邮_Java后端.pdf",
+    fileName: "羊鸣天_重邮_Java后端.pdf",
+  },
+] as const;
+
 export default function ResumePage() {
   const projects = getFeaturedProjects(3);
-  const resumePdfUrl = "/files/resume/yang-mingtian-resume.pdf";
 
   return (
     <PageContainer>
@@ -33,15 +49,25 @@ export default function ResumePage() {
           <span className="section-kicker">Resume</span>
           <h1 className="page-title">网页简历摘要</h1>
           <p className="page-lead">
-            当前求职方向为 AI 应用开发 / Java 全栈。网页摘要与正式 PDF 统一展示智能标书、AI 知识库和门诊业务平台 3 个代表项目。
+            当前求职方向为 AI 应用开发 / Java 后端。网页摘要与两份正式 PDF 统一展示智能标书、AI 知识库和门诊业务平台 3 个代表项目。
           </p>
-          <div className="project-link-row">
-            <a href={resumePdfUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-              打开 PDF 简历
-            </a>
-            <a href={resumePdfUrl} download className="project-inline-link">
-              下载 PDF 简历
-            </a>
+          <div className="info-grid info-grid--two" aria-label="正式 PDF 简历版本">
+            {resumeVariants.map((variant) => (
+              <article key={variant.href} className="placeholder-card glass-panel glass-panel--subtle">
+                <span className="section-kicker">PDF Resume</span>
+                <h2>{variant.label}</h2>
+                <p>{variant.role}</p>
+                <p>{variant.description}</p>
+                <div className="project-link-row">
+                  <a href={variant.href} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
+                    打开 {variant.label} PDF
+                  </a>
+                  <a href={variant.href} download={variant.fileName} className="project-inline-link">
+                    下载 {variant.label} PDF
+                  </a>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -144,7 +170,7 @@ export default function ResumePage() {
               About →
             </Link>
           </div>
-          <p className="resume-note">PDF 简历路径：<span className="inline-code">{resumePdfUrl}</span></p>
+          <p className="resume-note">正式 PDF 简历提供 AI 应用版与 Java 后端版，请按目标岗位选择对应版本。</p>
         </section>
       </div>
     </PageContainer>
