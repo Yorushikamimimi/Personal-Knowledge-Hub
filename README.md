@@ -1,83 +1,68 @@
 # Personal Knowledge Hub
 
-## 当前定位
+一个以 MDX 内容为源、由 Next.js 构建的个人工程知识站点。它公开项目说明、技术笔记和可下载的模板；不依赖数据库、CMS、登录或运行时内容写入。
 
-Personal Knowledge Hub 当前已经从“个人知识总结静态网站”升级为“作品集主站 + 知识总结栏目”的个人静态网站。
+线上入口：<https://yoruming.cn/>
+当前仓库版本：`0.1.0`（`package.json` 是唯一版本来源）
 
-站点目标：
-- 用 `Projects` 集中展示主打项目
-- 用 `Notes` 保留长期积累的知识总结 / 学习笔记
-- 用 `About / Resume / GitHub` 快速建立求职展示入口
-- 保持全站静态化，不引入数据库、后台 CMS、登录、评论或搜索
+## 站点做什么
 
-## 当前版本
+- **Projects**：用项目页面说明目标、技术取舍、可验证结果与明确边界。
+- **Notes**：把可公开的工程经验整理为带 frontmatter 的 MDX 笔记。
+- **Topics / Downloads**：提供专题入口和版本化的静态资源。
+- **Resume / About**：只提供公开资料的导航，不承担帐号、招聘流程或数据收集功能。
 
-- 当前版本：`V0.5-beta`
-- 当前状态：可本地运行、可构建、可作为个人作品集主站预览
-- 当前重点：作品集主站信息架构已完成，Projects 详情页和首页已按招聘视角收口
+内容从 `content/**` 的 MDX 文件进入读取层（`lib/**`），再由 App Router 页面渲染。公开路由只读取 `published` 内容；`draft` 内容和导入工具只用于开发维护。
 
-## 当前站点结构
+## 架构与内容流
 
-### 主导航
-- `Projects`
-- `Notes`
-- `Resume`
-- `GitHub`
-- `About`
+```text
+content/**/*.mdx + public/files
+            │
+            ▼
+     lib/{projects,notes,downloads,topics}.ts
+            │  frontmatter 校验、published 过滤、排序
+            ▼
+       app/** 页面与静态路由
+            │
+            ▼
+      Next.js build → production server
+```
 
-### 二级入口
-- `Topics`
-- `Downloads`
-- `Privacy`
-- `Copyright`
-- `Disclaimer`
+`/import-notes` 与 `/draft-notes` 是本地内容维护入口，生产构建不应暴露它们。公开资料的真实性边界、历史版本和运维操作见 [`docs/`](./docs/README.md)。
 
-### 本地维护入口
-- `/import-notes`：本地 Markdown 导入页，仅开发环境使用
-- `/draft-notes`：本地 draft 笔记列表页，仅开发环境使用
+## 本地运行
 
-## 技术栈
-
-- `Next.js App Router`：Next.js 的 App 路由体系
-- `TypeScript`：类型安全的 JavaScript 超集
-- `MDX`：可带 frontmatter 的 Markdown 内容格式
-- `public` 静态资源目录：用于下载文件和截图等静态资源
-
-## 内容目录
-
-- `content/notes`：知识笔记
-- `content/downloads`：下载资源元数据
-- `content/topics`：专题聚合元数据
-- `content/projects`：项目作品内容
-
-## 运行方式
+需要 Node.js 20 LTS 或更高版本，以及 npm。
 
 ```bash
 npm install
 npm run dev
 ```
 
-生产构建验证：
+打开 <http://localhost:3000>。若 3000 已被占用，可自行添加 `-- --port <port>`。
+
+## 验证
 
 ```bash
-npm run build
-npm run start
+npm run lint
+npm run typecheck
+npm run content:check
+npm run check
 ```
 
-## 当前已完成的关键能力
+它们分别执行 Next.js / TypeScript ESLint 规则、严格类型检查、MDX frontmatter 与站内内容链接检查，以及上述检查加构建。`npm run build && npm run start` 用于生产构建的本地验收。CI 会在推送和 pull request 时运行相同的质量检查与构建。
 
-- 作品集主站化信息架构
-- `Projects / Notes / Resume / GitHub / About` 主导航收口
-- `Projects` 列表页与统一详情页模板
-- 3 个真实项目条目接入：`rag-nexus`、`nautilus-media-cloud`、`nautilus-clinic`
-- 首页 `Projects-first` 展示：`Featured Projects` + `Project Notes`（技术优先）
-- 项目详情页截图预览、缩略图切换、边界说明与面试追问区
-- `Notes / Downloads / Topics` 内容闭环
-- 本地 Markdown 导入与 draft 管理能力
+## 部署
 
-## 下一步建议
+生产服务使用 Next.js 构建产物，由 PM2 运行并经 Nginx 反向代理。部署步骤、健康检查和回滚约束在 [`docs/operations/`](./docs/operations/)；它们是面向现有服务器的操作说明，不表示任何分支会自动部署。
 
-- 补项目量化结果：把“做了什么”进一步补成“带来了什么”
-- 按目标岗位维护 AI 应用版与 Java 后端版 PDF 简历
-- 继续做上线前验收与内容校对
-- 视求职目标继续微调首页与项目详情页表达重点
+## 真实边界
+
+- 这是静态内容站，不是项目源代码、在线 RAG 服务或生产业务系统的镜像。
+- 项目页只陈述能够公开和核对的范围；没有公开证据的指标、客户数据与内部链接不会放入站点。
+- 本仓库暂未附带开源许可证。代码复用、再分发或贡献前，请先由维护者选择许可证；常见的后续选项是 MIT（宽松复用）或 Apache-2.0（附带专利授权条款）。
+
+## 文档
+
+开发、内容、质量和运维资料已归并到 [`docs/`](./docs/README.md)。`docs/archive/` 中的 2026-03 文档仅保留历史决策和执行证据，不能替代当前代码、脚本或线上运行状态。
