@@ -1,11 +1,11 @@
 export const siteProfile = {
   siteTitle: "Personal Knowledge Hub",
-  siteSubtitle: "AI Engineering Portfolio + Notes",
+  siteSubtitle: "AI Engineering Projects + Notes",
   ownerLabel: "Yorushikamimimi",
-  tagline: "AI 应用 / Java 全栈作品集 + 知识栏目",
-  roleHeadline: "AI 应用开发 / Java 后端方向，关注文档智能、RAG 工程化、业务一致性与可验证交付。",
+  tagline: "AI 应用 / Java 工程实践 + 知识栏目",
+  roleHeadline: "关注文档智能、RAG 工程化、业务一致性与可验证交付的 AI 应用与 Java 工程实践。",
   intro:
-    "当前作品集以正式简历中的 3 个代表项目为主线，Notes、Topics 和 Downloads 作为工程方法与长期积累的补充入口。",
+    "站点以代表项目为主线，Notes、Topics 和 Downloads 作为工程方法与长期积累的补充入口。",
 } as const;
 
 export const siteLinks = {

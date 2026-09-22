@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { PageContainer } from "../../components/layout/PageContainer";
 import { formatNoteDate, getAllDraftNotes } from "../../lib/notes";
 import { DraftNoteActions } from "./DraftNoteActions";
@@ -10,8 +11,11 @@ export const metadata: Metadata = {
 };
 
 export default function DraftNotesPage() {
+  if (process.env.NODE_ENV !== "development") {
+    notFound();
+  }
+
   const draftNotes = getAllDraftNotes();
-  const importEnabled = process.env.NODE_ENV === "development";
 
   return (
     <PageContainer>
@@ -24,13 +28,7 @@ export default function DraftNotesPage() {
           </p>
         </section>
 
-        {!importEnabled ? (
-          <section className="content-panel">
-            <h2>当前环境不可用</h2>
-            <p>草稿页只在本地开发环境开放，避免生产环境暴露未发布内容。</p>
-          </section>
-        ) : (
-          <>
+        <>
             <section className="content-panel">
               <div className="section-header">
                 <div>
@@ -86,8 +84,7 @@ export default function DraftNotesPage() {
                 ))
               )}
             </section>
-          </>
-        )}
+        </>
       </div>
     </PageContainer>
   );

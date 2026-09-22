@@ -33,21 +33,6 @@ const externalEntries = [
 ] as const;
 
 
-const projectCopy: Record<string, { elevator: string; highlight: string }> = {
-  "ai-zhaobiao": {
-    elevator: "面向政府采购招投标文件的智能解析系统，覆盖多格式文档解析、评审锚点抽取与证据定位。",
-    highlight: "参与 LLM-first 信息抽取链路、OCR / PageIndex 证据定位、评测体系与真实客户交付收口。",
-  },
-  "my-knowledge-base": {
-    elevator: "面向私域文档问答的 AI 知识库平台，覆盖上传、异步入库、向量检索、RAG 问答与来源展示。",
-    highlight: "以 Spring Boot 承接业务后端、FastAPI 承接本地 RAG，并用 PostgreSQL / pgvector 完成检索链路。",
-  },
-  "nautilus-clinic": {
-    elevator: "后端主导的门诊业务管理平台，覆盖患者、处方发药、药房库存与收费结算。",
-    highlight: "用 PostgreSQL JSONB + GIN、原子写入、Redis 锁与事务回滚处理检索和一致性问题。",
-  },
-};
-
 function getHomeNotes(): NoteListItem[] {
   return getAllPublishedNotes().slice(0, 3);
 }
@@ -67,8 +52,8 @@ export default function HomePage() {
               聚焦文档智能、RAG 工程化与业务一致性
             </h2>
             <p className="hero-description">
-              这里优先展示当前简历中的 3 个代表项目：智能标书锚点解析系统、My Knowledge Base 与门诊患者-处方-库存管理平台。
-              Notes 作为工程方法与长期积累的补充材料，不与项目主线竞争首页注意力。
+              这里以智能标书锚点解析、My Knowledge Base 与门诊患者-处方-库存管理等项目为例，记录从需求边界到实现验证的工程过程。
+              Notes 作为方法、复盘和长期积累的补充材料，与项目页面共同构成可持续维护的公开资料。
             </p>
           </div>
 
@@ -100,12 +85,39 @@ export default function HomePage() {
 
         </section>
 
+        <section className="page-stack site-flow-section" aria-labelledby="site-flow-title">
+          <div className="section-header">
+            <div>
+              <span className="section-kicker">How the Site Works</span>
+              <h2 id="site-flow-title">从内容到公开页面的最小链路</h2>
+              <p className="muted-text">站点没有后台 CMS：内容、校验规则和页面渲染都留在可追溯的仓库结构中。</p>
+            </div>
+          </div>
+          <ol className="site-flow" aria-label="站点内容流程">
+            <li className="site-flow__step">
+              <span className="site-flow__index">01</span>
+              <h3>MDX 内容与静态资源</h3>
+              <p><span className="inline-code">content/**</span> 保存项目、笔记、专题和下载项；<span className="inline-code">public/files</span> 保存公开附件。</p>
+            </li>
+            <li className="site-flow__step">
+              <span className="site-flow__index">02</span>
+              <h3>读取层与内容校验</h3>
+              <p><span className="inline-code">lib/**</span> 解析 frontmatter、过滤 published 内容；构建前检查 slug、资源和站内链接。</p>
+            </li>
+            <li className="site-flow__step">
+              <span className="site-flow__index">03</span>
+              <h3>Next.js 页面与部署</h3>
+              <p>App Router 生成公开路由；生产服务由构建产物、PM2 与 Nginx 承接，维护工具不对外暴露。</p>
+            </li>
+          </ol>
+        </section>
+
         <section className="page-stack project-home-section">
           <div className="section-header">
             <div>
               <span className="section-kicker">Featured Projects</span>
               <h2>先看代表项目，再进入细节证据</h2>
-              <p className="muted-text">首页只保留招聘视角所需信息：项目定位、核心亮点和跳转入口。</p>
+              <p className="muted-text">每个项目卡片保留定位、核心亮点和进入完整技术说明的入口。</p>
             </div>
             <Link href="/projects" className="section-header__link">
               查看全部 Projects
@@ -116,11 +128,6 @@ export default function HomePage() {
           {featuredProjects.length ? (
             <div className="project-home-grid" aria-label="首页项目预览">
               {featuredProjects.map((project) => {
-                const copy = projectCopy[project.slug] ?? {
-                  elevator: project.summary,
-                  highlight: project.highlights[0],
-                };
-
                 return (
                   <article key={project.slug} className="project-compact-card project-compact-card--minimal project-compact-card--uniform">
                     <div className="project-compact-card__head">
@@ -128,10 +135,10 @@ export default function HomePage() {
                       <span className="project-meta-inline">{project.role}</span>
                     </div>
                     <h3 className="project-card__title">{project.title}</h3>
-                    <p className="project-card__summary">{copy.elevator}</p>
+                    <p className="project-card__summary">{project.summary}</p>
                     <p className="project-compact-card__reason">
                       <strong>核心亮点：</strong>
-                      {copy.highlight}
+                      {project.highlights[0]}
                     </p>
                     <div className="tag-list tag-list--compact" aria-label={`${project.title} 技术栈预览`}>
                       {project.techStack.slice(0, 3).map((item) => (

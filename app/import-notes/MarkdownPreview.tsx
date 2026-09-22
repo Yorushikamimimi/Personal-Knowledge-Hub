@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 
 type MarkdownPreviewProps = {
   source: string;

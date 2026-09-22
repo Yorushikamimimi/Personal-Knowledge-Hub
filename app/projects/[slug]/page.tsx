@@ -104,8 +104,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
           <aside className="detail-panel project-overview-side project-overview-side--compact glass-panel glass-panel--aside">
             <span className="section-kicker">Quick Facts</span>
-            <h2>一分钟判断</h2>
-            <p className="project-overview-side__intro">先判断这个项目值不值得继续深聊，再往下看完整实现。</p>
+            <h2>项目概览</h2>
+            <p className="project-overview-side__intro">快速了解项目角色、核心实现与技术边界，再进入完整说明。</p>
 
             <div className="project-fact-list project-fact-list--compact">
               <div className="project-fact-item project-fact-item--compact">
@@ -113,7 +113,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 <strong>{project.role}</strong>
               </div>
               <div className="project-fact-item project-fact-item--compact">
-                <span>推荐追问</span>
+                <span>关键实现</span>
                 <p>{project.highlights[0]}</p>
               </div>
               <div className="project-fact-item project-fact-item--compact">
@@ -136,7 +136,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <div>
               <span className="section-kicker">Verified Outcomes</span>
               <h2>可验证结果</h2>
-              <p>这里不写虚高的性能数字，只保留公开简历、项目材料和页面中可以核验且边界清楚的结果。</p>
+              <p>这里不写虚高的性能数字，只保留公开项目材料和页面中可以核验且边界清楚的结果。</p>
             </div>
           </div>
 
@@ -189,10 +189,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
         <section className="project-detail-grid project-detail-grid--tail">
           <article className="detail-panel project-section project-section--notes glass-panel glass-panel--section">
-            <span className="section-kicker">Interview Notes</span>
-            <h2>面试可继续展开</h2>
+            <span className="section-kicker">Engineering Notes</span>
+            <h2>工程实现与后续方向</h2>
             <p className="project-section__intro">
-              这部分不重复上面的总览结论，只保留适合继续追问的判断、取舍和后续迭代方向。
+              这部分不重复上面的总览结论，只保留值得继续讨论的工程判断、技术取舍和后续迭代方向。
             </p>
             <div className="project-detail-prose">{project.content}</div>
           </article>

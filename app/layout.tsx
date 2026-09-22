@@ -5,9 +5,9 @@ import { SiteFooter } from "../components/layout/SiteFooter";
 import { SiteHeader } from "../components/layout/SiteHeader";
 
 const siteDescription =
-  "面向求职展示的 AI 应用 / Java 全栈作品集，集中呈现智能标书解析、知识库 RAG 与门诊处方库存系统的工程实践。";
+  "一个记录 AI 应用与 Java 工程实践的公开站点，集中呈现项目边界、技术取舍与可复用的知识笔记。";
 
-const siteTitle = "Personal Knowledge Hub | AI Engineering / Java Full-stack Portfolio";
+const siteTitle = "Personal Knowledge Hub | AI Engineering / Java Projects";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yoruming.cn"),

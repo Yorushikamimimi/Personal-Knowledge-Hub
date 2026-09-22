@@ -85,7 +85,7 @@ function findExistingNotePathBySlug(slug: string) {
 
 export async function POST(request: Request) {
   if (importFeatureDisabled()) {
-    return NextResponse.json({ error: "导入保存仅在本地开发环境开放。" }, { status: 403 });
+    return new NextResponse(null, { status: 404 });
   }
 
   try {

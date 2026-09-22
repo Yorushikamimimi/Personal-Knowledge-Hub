@@ -5,7 +5,7 @@ import { heroKeywords, siteLinks, siteProfile } from "../../lib/site-config";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "了解当前求职方向、技术栈、工程关注点以及这个站点的内容定位。",
+  description: "了解站点的工程关注点、内容边界和长期维护方式。",
 };
 
 export default function AboutPage() {
@@ -16,7 +16,7 @@ export default function AboutPage() {
           <span className="section-kicker">About</span>
           <h1 className="page-title">关于我</h1>
           <p className="page-lead">
-            当前定位是 {siteProfile.roleHeadline}。这个站点既承载 Projects 展示，也承载 Notes 的长期积累，目标是让访问者在短时间内看懂我做过什么、擅长什么、如何思考工程实现。
+            {siteProfile.roleHeadline}。这个站点同时承载 Projects 与 Notes，帮助访问者理解项目如何设计、如何验证，以及哪些结论仍受明确边界约束。
           </p>
         </section>
 
@@ -24,15 +24,15 @@ export default function AboutPage() {
           <span className="section-kicker">Background</span>
           <h2>背景简介</h2>
           <p>
-            我更关注能够稳定落地的工程实现，而不是只停留在技术名词层面。相比单点技巧，我更重视项目交付、系统边界、结构清晰和后续维护成本。这个站点就是把这些内容沉淀下来，既服务于求职展示，也服务于长期复盘。
+            我更关注能够稳定落地的工程实现，而不是只停留在技术名词层面。相比单点技巧，我更重视项目交付、系统边界、结构清晰和后续维护成本。这个站点把这些内容沉淀为可阅读、可核对、可持续补充的公开资料。
           </p>
         </section>
 
         <section className="info-grid info-grid--two">
           <article className="placeholder-card glass-panel glass-panel--subtle">
             <span className="section-kicker">Focus</span>
-            <h3>求职方向</h3>
-            <p>以后端开发为主，兼顾具备工程约束的全栈实现。重点展示 Java / Spring Boot 为核心的工程能力，以及必要的前台页面承载能力。</p>
+            <h3>工程范围</h3>
+            <p>以 Java / Spring Boot 为核心，结合必要的前端与 AI 应用能力，关注在真实约束下如何实现、验证和维护系统。</p>
           </article>
           <article className="placeholder-card glass-panel glass-panel--subtle">
             <span className="section-kicker">Stack</span>

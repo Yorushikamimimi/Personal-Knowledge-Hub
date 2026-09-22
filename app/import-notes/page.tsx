@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 import { PageContainer } from "../../components/layout/PageContainer";
 import { getDraftNoteImportDataBySlug } from "../../lib/notes";
 import { getAllPublishedTopics } from "../../lib/topics";
@@ -17,16 +17,19 @@ type ImportNotesPageProps = {
 };
 
 export default async function ImportNotesPage({ searchParams }: ImportNotesPageProps) {
+  if (process.env.NODE_ENV !== "development") {
+    notFound();
+  }
+
   const topicOptions = getAllPublishedTopics().map((topic) => ({
     slug: topic.slug,
     title: topic.title,
     summary: topic.summary,
   }));
 
-  const importEnabled = process.env.NODE_ENV === "development";
   const resolvedSearchParams = await searchParams;
   const draftSlug = resolvedSearchParams?.draft?.trim() || "";
-  const initialDraft = importEnabled && draftSlug ? getDraftNoteImportDataBySlug(draftSlug) : null;
+  const initialDraft = draftSlug ? getDraftNoteImportDataBySlug(draftSlug) : null;
 
   return (
     <PageContainer>
@@ -39,21 +42,7 @@ export default async function ImportNotesPage({ searchParams }: ImportNotesPageP
           </p>
         </section>
 
-        {!importEnabled ? (
-          <section className="content-panel">
-            <h2>当前环境不可用</h2>
-            <p>
-              导入功能默认只在 <span className="inline-code">npm run dev</span> 的开发环境下开放，避免公开站点暴露文件写入入口。
-            </p>
-            <p>你可以在本地开发环境访问此页面，完成导入后再执行构建和上线流程。</p>
-            <Link href="/notes" className="entry-link">
-              返回知识笔记
-              <span aria-hidden="true">→</span>
-            </Link>
-          </section>
-        ) : (
-          <NoteImportForm topicOptions={topicOptions} initialDraft={initialDraft} />
-        )}
+        <NoteImportForm topicOptions={topicOptions} initialDraft={initialDraft} />
       </div>
     </PageContainer>
   );

@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import type { ProjectScreenshot } from "../../lib/projects";
 
@@ -121,7 +122,14 @@ export function ProjectGallery({ title, screenshots }: ProjectGalleryProps) {
               </div>
 
               <div className="gallery-lightbox__content">
-                <img src={activeScreenshot.src} alt={activeScreenshot.alt} className="gallery-lightbox__image" />
+                <Image
+                  src={activeScreenshot.src}
+                  alt={activeScreenshot.alt}
+                  className="gallery-lightbox__image"
+                  width={1920}
+                  height={1200}
+                  sizes="(max-width: 800px) 100vw, 80vw"
+                />
               </div>
 
               <p className="gallery-lightbox__description">{activeScreenshot.caption}</p>
@@ -142,7 +150,14 @@ export function ProjectGallery({ title, screenshots }: ProjectGalleryProps) {
                         onClick={() => setActiveIndex(index)}
                         aria-label={`切换到：${screenshot.alt}`}
                       >
-                        <img src={screenshot.src} alt="" className="gallery-lightbox__thumb-image" loading="lazy" />
+                        <Image
+                          src={screenshot.src}
+                          alt=""
+                          className="gallery-lightbox__thumb-image"
+                          width={320}
+                          height={200}
+                          sizes="(max-width: 800px) 50vw, 160px"
+                        />
                         <span className="gallery-lightbox__thumb-label">{screenshot.alt}</span>
                       </button>
                     );
@@ -166,7 +181,14 @@ export function ProjectGallery({ title, screenshots }: ProjectGalleryProps) {
             onClick={() => setActiveIndex(index)}
             aria-label={`查看大图：${screenshot.alt}`}
           >
-            <img src={screenshot.src} alt={screenshot.alt} className="project-shot-card__image" loading="lazy" />
+            <Image
+              src={screenshot.src}
+              alt={screenshot.alt}
+              className="project-shot-card__image"
+              width={960}
+              height={600}
+              sizes="(max-width: 800px) 100vw, 50vw"
+            />
             <span className="project-shot-card__hint">点击查看大图</span>
             <span className="project-shot-card__caption">
               <strong>{screenshot.alt}</strong>

@@ -5,7 +5,7 @@ import { getAllPublishedProjects } from "../../lib/projects";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "集中展示当前简历代表项目与补充项目的技术栈、职责边界和工程亮点。",
+  description: "集中展示工程项目的技术栈、职责边界、验证结果与长期维护线索。",
 };
 
 export default function ProjectsPage() {
@@ -18,7 +18,7 @@ export default function ProjectsPage() {
           <span className="section-kicker">Projects</span>
           <h1 className="page-title">项目作品集</h1>
           <p className="page-lead">
-            前 3 项与当前正式简历保持一致，分别体现文档智能、RAG 工程化和 Java 业务系统能力；其余项目作为后端工程实践补充。
+            从文档智能、RAG 工程化到 Java 业务系统，这里保留技术取舍、职责范围和可核对的结果；补充项目用于展示不同工程约束下的实现方式。
           </p>
         </section>
 
@@ -29,7 +29,7 @@ export default function ProjectsPage() {
               className="project-compact-card project-compact-card--minimal project-compact-card--uniform glass-panel glass-panel--project-card"
             >
               <div className="project-compact-card__head">
-                <span className="project-badge">{project.featured ? "Resume Project" : "Supporting Project"}</span>
+                <span className="project-badge">{project.featured ? "Featured Project" : "Supporting Project"}</span>
                 <span className="project-meta-inline">{project.role}</span>
               </div>
 
