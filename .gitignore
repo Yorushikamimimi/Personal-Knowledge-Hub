@@ -14,4 +14,5 @@ Thumbs.db
 .codex_tmp/
 .git-ssh/
 *.bundle
-
+*.tsbuildinfo
+.playwright-cli/

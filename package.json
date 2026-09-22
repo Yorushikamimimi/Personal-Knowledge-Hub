@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "node -e \"console.log('Lint is not configured yet.')\""
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit --incremental false",
+    "content:check": "node scripts/check-content.mjs",
+    "check": "npm run lint && npm run typecheck && npm run content:check && npm run build"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -19,6 +22,8 @@
     "@types/node": "^20.11.0",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.20",
     "typescript": "^5.4.0"
   },
   "overrides": {
