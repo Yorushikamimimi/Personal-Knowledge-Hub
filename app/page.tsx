@@ -4,6 +4,12 @@ import { formatNoteDate, getAllPublishedNotes, type NoteListItem } from "../lib/
 import { getFeaturedProjects } from "../lib/projects";
 import { siteLinks } from "../lib/site-config";
 
+const toolEntries = [
+  { slug: "docdoc", title: "修改已有 Word 的一小处", description: "先定位目标，在副本上修改，再检查其他内容是否受到影响。", name: "docdoc" },
+  { slug: "codex-thread-handoff", title: "让新 Agent 接着旧项目做", description: "从项目资料和必要增量恢复进度，确认接续正确后再正式交接。", name: "Codex Thread Handoff" },
+  { slug: "ai-context-vault", title: "搭建 AI 上下文目录", description: "用 Markdown 模板整理当前进度、任务记忆和读取边界。", name: "AI Context Vault" },
+];
+
 const secondaryEntries = [
   {
     title: "Topics",
@@ -83,6 +89,25 @@ export default function HomePage() {
           </div>
 
 
+        </section>
+
+        <section className="page-stack" aria-labelledby="tool-entry-title">
+          <div className="section-header">
+            <div>
+              <span className="section-kicker">Practical Tools</span>
+              <h2 id="tool-entry-title">你想做什么？</h2>
+              <p className="muted-text">从手头的事情出发，找到适合的工具与开始入口。</p>
+            </div>
+          </div>
+          <div className="info-grid info-grid--three">
+            {toolEntries.map((tool) => (
+              <article key={tool.slug} className="feature-card">
+                <h3>{tool.title}</h3>
+                <p>{tool.description}</p>
+                <Link href={`/projects/${tool.slug}`} className="entry-link">了解 {tool.name} →</Link>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="page-stack site-flow-section" aria-labelledby="site-flow-title">

@@ -5,6 +5,12 @@
 线上入口：<https://yoruming.cn/>
 当前仓库版本：`0.1.0`（`package.json` 是唯一版本来源）
 
+## 工具导航（2026-10-15，已上线并获本人验收）
+
+首页“你想做什么？”围绕三个用途提供入口：[Word 局部修改](https://yoruming.cn/projects/docdoc)、[让新 Agent 接续项目](https://yoruming.cn/projects/codex-thread-handoff)、[搭建 AI 上下文目录](https://yoruming.cn/projects/ai-context-vault)。三个项目页包含公开说明、使用与 GitHub 入口，沿用现有 MDX 和 UI。
+
+发布标识为 `pkh-content-20261015-99e8b1031bc4`；构建、线上链接与桌面/手机布局检查通过，Tian 已明确验收。本轮 Git 交付只覆盖工具导航与相关文档；此前未提交的站点内容仍保留，不能将本轮 Git HEAD 当作完整线上源码。当前发布、验证边界及回滚入口统一见 [内容更新记录](docs/operations/内容更新记录.md)。
+
 ## 站点做什么
 
 - **Projects**：用项目页面说明目标、技术取舍、可验证结果与明确边界。
