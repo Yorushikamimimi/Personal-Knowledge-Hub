@@ -18,7 +18,7 @@ export default function ProjectsPage() {
           <span className="section-kicker">Projects</span>
           <h1 className="page-title">项目作品集</h1>
           <p className="page-lead">
-            从文档智能、RAG 工程化到 Java 业务系统，这里保留技术取舍、职责范围和可核对的结果；补充项目用于展示不同工程约束下的实现方式。
+            主线包括本地 RAG、门诊业务一致性与 Pull 型调度原型，另保留文档智能实习和 RAG Nexus 的工程说明。各页按当前仓库区分已实现机制、真实验证与仍待验收的范围。
           </p>
         </section>
 

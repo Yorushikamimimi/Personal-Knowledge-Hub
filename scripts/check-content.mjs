@@ -5,7 +5,7 @@ import matter from "gray-matter";
 const contentRoot = path.join(process.cwd(), "content");
 const publicRoot = path.join(process.cwd(), "public");
 const contentKinds = ["projects", "notes", "downloads", "topics"];
-const staticRoutes = new Set(["/", "/about", "/copyright", "/disclaimer", "/downloads", "/notes", "/privacy", "/projects", "/resume", "/topics"]);
+const staticRoutes = new Set(["/", "/about", "/copyright", "/disclaimer", "/downloads", "/notes", "/privacy", "/projects", "/resume", "/skills", "/topics"]);
 
 function findMdxFiles(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {

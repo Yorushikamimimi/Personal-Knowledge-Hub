@@ -19,6 +19,7 @@ type ExternalNavItem = {
 const primaryNavItems: InternalNavItem[] = [
   { href: "/projects", label: "Projects" },
   { href: "/notes", label: "Notes" },
+  { href: "/skills", label: "Skills" },
 ];
 
 const utilityNavItems: Array<InternalNavItem | ExternalNavItem> = [

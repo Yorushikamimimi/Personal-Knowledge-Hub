@@ -55,11 +55,11 @@ export default function HomePage() {
             <span className="hero-kicker">AI Engineering / Java Full-stack Portfolio</span>
             <h1 className="hero-title">AI 应用 / Java 全栈项目作品集</h1>
             <h2 className="page-title" style={{ fontSize: "clamp(1.4rem, 2.4vw, 2rem)", marginTop: 0 }}>
-              聚焦文档智能、RAG 工程化与业务一致性
+              聚焦本地 RAG、业务一致性与任务调度
             </h2>
             <p className="hero-description">
-              这里以智能标书锚点解析、My Knowledge Base 与门诊患者-处方-库存管理等项目为例，记录从需求边界到实现验证的工程过程。
-              Notes 作为方法、复盘和长期积累的补充材料，与项目页面共同构成可持续维护的公开资料。
+              这里以 My Knowledge Base、门诊患者-处方-库存管理与 Pull 型调度原型为主线，记录实现、联调和验证范围。
+              同时公开长任务交接与 Word 局部编辑 Skills，沉淀可复用的 AI 工具工作流。
             </p>
           </div>
 
@@ -70,6 +70,7 @@ export default function HomePage() {
             <Link href="/notes" className="button-link button-link--secondary">
               查看全部 Notes
             </Link>
+            <Link href="/skills" className="button-link button-link--secondary">查看开源 Skills</Link>
           </div>
 
           <div className="hero-link-row" aria-label="辅助入口">
@@ -201,7 +202,7 @@ export default function HomePage() {
             <div>
               <span className="section-kicker">Recent Notes</span>
               <h2>项目技术笔记（补充阅读）</h2>
-              <p className="muted-text">从三个代表项目中拆出架构取舍、验证口径与失败边界，避免重复项目页的功能介绍。</p>
+              <p className="muted-text">从项目实践中拆出架构取舍、验证口径与失败边界。</p>
             </div>
             <Link href="/notes" className="section-header__link">
               查看全部 Notes

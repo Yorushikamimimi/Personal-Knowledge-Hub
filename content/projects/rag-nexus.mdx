@@ -1,7 +1,7 @@
 ---
 title: "rag-nexus"
 slug: "rag-nexus"
-summary: "一个面向知识库问答场景的全栈 RAG 项目，基于 Spring AI、pgvector、Vue 3、Python 爬虫服务与 DashScope，支持文档 / 文本 / URL 注入和流式问答。"
+summary: "一个用于本地验证基础 RAG 链路的全栈原型，基于 Spring AI、pgvector 与 Vue 3，支持文本和文件录入、来源返回及 SSE 流式问答。"
 role: "独立完成（AI 辅助）"
 techStack:
   - "Java"
@@ -10,61 +10,57 @@ techStack:
   - "PostgreSQL"
   - "pgvector"
   - "Vue 3"
-  - "Python"
   - "Docker Compose"
 highlights:
-  - "把知识注入、向量检索、同步问答、SSE 流式问答和前台交互收成了一条完整的全栈 RAG 闭环，而不是停留在单一聊天页面。"
-  - "同时支持文本、文件和 URL 注入，后端负责知识库接入、查询与会话处理，前端负责问答交互和资料管理，链路完整。"
-  - "补齐失败模式文档、Swagger 接口、基础测试和已知边界说明，让项目更接近可解释、可复盘、可继续迭代的工程项目。"
+  - "实现文本与文件入库、pgvector 相似度检索、同步问答、SSE 输出和 Vue 前台交互；当前没有配置相似度阈值，低相关结果仍可能进入模型上下文。"
+  - "保留回答来源，并提供已入库切片预览，便于检查输入与检索上下文；预览不是原始文件查看器，也不能还原可靠顺序。"
+  - "补充 Swagger 接口、失败模式与边界说明；README 记录 15 项后端测试，但这不等于真实数据库、模型服务或完整前后端端到端验收。"
 goals:
-  - "构建一个可运行的个人 RAG 知识库系统，验证从语料注入到问答交付的完整链路。"
-  - "在静态项目展示之外，沉淀一个能体现后端主导、前后端联动和 AI 集成能力的代表项目。"
+  - "验证后端、前端、向量存储和模型接口如何组成基础 RAG 原型，并记录其适用范围与尚未解决的问题。"
+  - "通过本地合成资料试跑和后端测试展示核心工程结构，不把原型验证扩大为生产系统能力。"
 responsibilities:
-  - "负责整体方案设计与落地，包括 Spring Boot 后端、Vue 3 前端、Python 爬虫服务和 pgvector 存储链路。"
-  - "负责知识注入、问答接口、流式输出、会话处理、基础配置、项目文档和本地启动方式整理。"
+  - "负责 Spring Boot + Spring AI 后端、Vue 3 前端、文本/文件录入与 pgvector 向量存储链路。"
+  - "负责同步问答、SSE 输出、内存会话处理、接口文档、失败边界和本地启动说明。"
   - "负责 README、失败模式说明、接口文档、截图整理和本地运行闭环收口。"
 boundaries:
-  - "当前公开版本以本地运行和仓库展示为主，暂不提供公网 Demo。"
-  - "扫描件 PDF、持久化会话、精细权限控制和更完整的召回评估仍在后续优化范围内。"
-  - "当前项目强调工程闭环与结构清晰，不刻意包装成生产级商业产品。"
+  - "项目 README 记录 15 项后端测试，以及一次本地 Ollama + 临时 pgvector 的合成 TXT/MD 浏览器试跑；本轮未重跑测试。"
+  - "完整 Docker Compose、干净机器首次启动、生产部署、真实用户数据和扫描件 OCR 均未验收；当前没有 API 鉴权，仅适合本地或可信网络。"
+  - "检索没有相似度阈值，低相关内容可能进入模型上下文；会话只保存在服务端内存，重启即清空。该项目是本地原型，不包装成生产级服务。"
 metrics:
-  - value: "3 类"
-    label: "知识注入入口"
-    note: "文本、文件、URL 三类输入都已进入同一条知识处理链路，不是只支持单一数据源。"
+  - value: "15 项"
+    label: "后端测试"
+    note: "仓库 README 记录的本地 Maven 测试计数；未在本轮重跑，也不代表真实数据库、模型服务或端到端验收。"
   - value: "2 种"
     label: "问答输出模式"
-    note: "同步回答和 SSE 流式问答都已打通，能直接验证交互链路不是停留在后端接口层。"
-  - value: "4 个"
-    label: "核心交付面"
-    note: "后端 API、前端交互、爬虫注入、向量存储四个面都已落地，说明项目是系统级闭环。"
-screenshotNote: "保留两张最能证明产品入口和回答链路的截图，避免截图区变成只说明“有哪些页面”的贴图墙。"
+    note: "提供同步回答和 SSE 流式接口；已有合成资料浏览器试跑记录，但不扩大为完整 Compose 或生产验收。"
+  - value: "合成资料"
+    label: "本地试跑范围"
+    note: "README 记录的一次 Ollama + 临时 pgvector 浏览器试跑使用 TXT/MD 资料，不覆盖真实用户内容或所有支持格式。"
+screenshotNote: "公开首页截图展示界面状态，不作为真实服务完整端到端验收记录。"
 screenshots:
-  - src: "https://raw.githubusercontent.com/Yorushikamimimi/rag-nexus/main/docs/screenshots/homepage.png"
+  - src: "/images/projects/rag-nexus/homepage.png"
     alt: "rag-nexus 首页截图"
     caption: "值得看的不是页面样式，而是它已经把问答入口、知识库场景和产品壳组织成一个完整页面，不是只展示接口调试结果。"
-  - src: "https://raw.githubusercontent.com/Yorushikamimimi/rag-nexus/main/docs/screenshots/streaming-chat.png"
-    alt: "rag-nexus 流式问答截图"
-    caption: "这张图的价值在于证明 SSE 流式输出和前端反馈链路已经打通，项目不是停留在普通同步返回文本的最小 demo。"
 githubUrl: "https://github.com/Yorushikamimimi/rag-nexus"
 readmeUrl: "https://github.com/Yorushikamimimi/rag-nexus#readme"
 demoUrl: ""
 featured: false
-sortOrder: 4
+sortOrder: 5
 status: "published"
 ---
 
 ## 为什么这个项目值得看
-这个项目的价值不在于“接了一个大模型”，而在于把知识注入、检索、问答、流式输出和前台交互这条链路真正收成了一个能运行的系统。它更适合用来说明我如何把一个前后端协同、带 AI 集成属性的项目做成结构清晰的工程闭环。
+这个项目的价值在于本地 RAG 原型中的职责划分和边界记录：后端处理文本或文件、向量检索、同步与流式问答，前端提供问答和切片预览。已有 15 项后端测试记录和一次合成 TXT/MD 浏览器试跑，但尚未验收生产配置或完整部署链路。
 
 ## 值得继续讨论的工程问题
 
 - Spring AI 与 pgvector 的集成方式是如何组织的
-- 文档 / 文本 / URL 注入链路为什么要统一抽象
+- 文本与文件入库如何组织，以及当前输入能力有哪些明确边界
 - 流式问答与普通问答在后端输出和前端交互上的差异
 - 为什么要把已知问题和失败模式明确写进项目边界，而不是回避
 
 ## 如果继续迭代
 
-- 补充更完整的召回评估与答案质量验证
+- 增加有标注语料的召回评估与答案质量验证
 - 引入持久化会话和更细的权限控制
 - 增加 Docker 启动日志、流程图和架构图，补强交付证据

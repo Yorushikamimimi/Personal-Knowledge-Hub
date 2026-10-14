@@ -18,7 +18,7 @@ export default function NotesPage() {
           <span className="section-kicker">Notes</span>
           <h1 className="page-title">知识笔记</h1>
           <p className="page-lead">
-            从当前三个代表项目中提炼可复用的工程判断：为什么这样拆、如何验证，以及哪些结论不能越过证据边界。
+            从项目实践中提炼可复用的工程判断：为什么这样拆、如何验证，以及哪些结论不能越过证据边界。
           </p>
         </section>
 

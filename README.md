@@ -9,7 +9,7 @@
 
 首页“你想做什么？”围绕三个用途提供入口：[Word 局部修改](https://yoruming.cn/projects/docdoc)、[让新 Agent 接续项目](https://yoruming.cn/projects/codex-thread-handoff)、[搭建 AI 上下文目录](https://yoruming.cn/projects/ai-context-vault)。三个项目页包含公开说明、使用与 GitHub 入口，沿用现有 MDX 和 UI。
 
-发布标识为 `pkh-content-20261015-99e8b1031bc4`；构建、线上链接与桌面/手机布局检查通过，Tian 已明确验收。本轮 Git 交付只覆盖工具导航与相关文档；此前未提交的站点内容仍保留，不能将本轮 Git HEAD 当作完整线上源码。当前发布、验证边界及回滚入口统一见 [内容更新记录](docs/operations/内容更新记录.md)。
+发布标识为 `pkh-content-20261015-99e8b1031bc4`；构建、线上链接与桌面/手机布局检查通过，Tian 已明确验收。2026-10-15 随后核对上一批剩余内容，90 项运行源码、构建配置和公开资源与服务器一致，并纳入完整源码对齐提交；当前 Git 内容覆盖完整线上发布源码。服务器历史 Git 指针不代表运行版本，实际版本仍用发布标识与构建 ID 定位。当前发布、验证边界及回滚入口统一见 [内容更新记录](docs/operations/内容更新记录.md)。
 
 ## 站点做什么
 
@@ -17,6 +17,13 @@
 - **Notes**：把可公开的工程经验整理为带 frontmatter 的 MDX 笔记。
 - **Topics / Downloads**：提供专题入口和版本化的静态资源。
 - **Resume / About**：只提供公开资料的导航，不承担帐号、招聘流程或数据收集功能。
+- **Skills**：展示 Codex Thread Handoff 和 Word Enhanced / docdoc 的用途、能力边界及公开安装入口。
+
+## 公开内容更新（2026-10-02，已发布）
+
+两份 PDF 简历同步自 2026-09-15 正式终稿，网页项目主线为 My Knowledge Base、门诊业务平台和 Pull 型异步任务调度原型。项目页按当前仓库更新验证范围，实习职责与团队实现分开描述。正式附件保留对应日期的原文；后续代码演进不反推修改历史终稿。
+
+本批已发布至线上，包含新 Skills 页面、更新后的项目说明、两份正式 PDF 与站点自托管的公开截图。当时发布标识为 `pkh-content-20261002-6748e703d4a2`，以 `dff23c6` 为 Git 基线且使用未提交源码发布。2026-10-15 已现场核对并将本批内容纳入完整源码对齐提交；线上当前版本包含后续工具导航更新。本次来源、验证与回滚入口见 [内容更新记录](docs/operations/内容更新记录.md)。
 
 内容从 `content/**` 的 MDX 文件进入读取层（`lib/**`），再由 App Router 页面渲染。公开路由只读取 `published` 内容；`draft` 内容和导入工具只用于开发维护。
 

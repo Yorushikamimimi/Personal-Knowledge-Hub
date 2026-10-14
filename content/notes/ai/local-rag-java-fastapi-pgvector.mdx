@@ -11,7 +11,7 @@ tags:
 topicSlugs:
   - "java-backend"
 publishedAt: "2026-07-16"
-updatedAt: "2026-07-16"
+updatedAt: "2026-10-02"
 isOriginal: true
 status: "published"
 ---
@@ -75,10 +75,18 @@ RAG 只能降低幻觉，不能消灭幻觉。原文没有答案、解析失败�
 
 这条顺序能把“AI 答错了”拆成可以定位的工程问题。
 
+## 评测与可观测性证据
+
+项目 Phase 2 用 12 篇笔记和 30 条 Gold cases 做检索实验。chunk size 200、overlap 40 经 DEV 集选择后，在 10 条 held-out TEST 用例上得到 SectionMRR 0.70。它只描述这组小样本中相关章节的排序表现，不是整体问答准确率，也不能代表生产语料效果。
+
+DEV 上选出的 score threshold 0.625 没有泛化到 fresh holdout，因此没有应用，配置继续保留 `min_score=0.35`。Langfuse query trace 用合成数据验证了 trace 结构；真实材料联调时关闭 tracing，没有向 Langfuse Cloud 发送真实材料 trace。
+
 ## 项目演进与当前边界
 
 项目早期使用 Dify 快速打通知识库和问答闭环，后来演进为 Spring Boot + FastAPI + PostgreSQL/pgvector + Ollama 的本地 RAG 方案，以便控制解析、切片、检索、拒答和来源展示。
 
-当前本地 RAG 核心代码已经形成链路，但真实 Ollama 连通、全部服务联调和 Linux 宿主机部署仍待独立验收；公开 GitHub main 仍是早期 Dify 版本。现阶段不能把旧截图当成本地 RAG 新链路的验证证据。
+2026-09-23 的仓库记录已用临时 PostgreSQL/pgvector、本地 Ollama 与合成 TXT、MD、DOCX、文本层 PDF 验证 Java 上传、FastAPI 切片入库和问答来源返回。扫描件 PDF 在 OCR 关闭时没有产生切片。该记录不覆盖干净机器首次启动、完整 Docker Compose、MinIO、OCR 识别或浏览器直连真实后端；前端 Playwright 使用 mock API，也不能替代真实前端端到端验收。
+
+公开 GitHub README 已更新为本地 RAG 方案，并明确记录了这次验证范围。项目原有 Dify 截图仍是旧版本界面，不能作为当前本地 RAG 界面的证据；Linux 宿主机部署仍待验证。本轮未重跑测试或检索基准。
 
 [查看对应项目页](/projects/my-knowledge-base)

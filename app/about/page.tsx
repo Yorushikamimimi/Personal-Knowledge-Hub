@@ -24,8 +24,9 @@ export default function AboutPage() {
           <span className="section-kicker">Background</span>
           <h2>背景简介</h2>
           <p>
-            我更关注能够稳定落地的工程实现，而不是只停留在技术名词层面。相比单点技巧，我更重视项目交付、系统边界、结构清晰和后续维护成本。这个站点把这些内容沉淀为可阅读、可核对、可持续补充的公开资料。
+            我是 2027 届重庆邮电大学计算机专业本科生，方向为 AI 应用开发与 Java 后端。2026 年 4 月至 7 月在邮莱特参与智能标书锚点解析的概念验证、消费侧联调、回归与交付收口。个人项目围绕本地 RAG、门诊业务一致性与 Pull 型任务调度展开。
           </p>
+          <p>近期将长任务交接经验整理为 Codex Thread Handoff，将已有 Word 的局部修改与验证流程整理为 Word Enhanced / docdoc。两项工具均有公开仓库和安装说明，能力与验证边界见 <Link href="/skills">Skills</Link>。</p>
         </section>
 
         <section className="info-grid info-grid--two">
@@ -76,6 +77,7 @@ export default function AboutPage() {
           <ul className="list-clean">
             <li>如果你想快速了解项目能力，先看 Projects。</li>
             <li>如果你想了解技术积累和表达方式，继续看 Notes。</li>
+            <li>如果你想使用长任务交接或 Word 修改工具，查看 Skills 中的公开安装入口。</li>
             <li>Topics 和 Downloads 作为二级入口，用于补充内容结构和资料资产。</li>
           </ul>
         </section>

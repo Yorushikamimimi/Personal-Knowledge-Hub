@@ -5,6 +5,7 @@ import { complianceInfo, siteLinks, siteProfile } from "../../lib/site-config";
 const primaryLinks = [
   { href: "/projects", label: "Projects" },
   { href: "/notes", label: "Notes" },
+  { href: "/skills", label: "Skills" },
   { href: "/topics", label: "Topics" },
   { href: "/downloads", label: "Downloads" },
   { href: "/about", label: "About" },

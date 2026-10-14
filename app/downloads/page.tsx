@@ -18,14 +18,17 @@ export default function DownloadsPage() {
           <span className="section-kicker">Downloads</span>
           <h1 className="page-title">下载资源</h1>
           <p className="page-lead">
-            这里展示当前已发布的 DownloadResource。列表页只展示 <span className="inline-code">status=published</span>
-            的资源，并引导用户先查看详情，再执行下载。
+            这里提供工程清单与项目复盘模板。先查看资源说明，再选择下载；正式简历和开源 Skill 安装入口分别有独立页面。
           </p>
         </section>
 
         <section className="content-panel downloads-summary-panel glass-panel glass-panel--section">
           <h2>当前已发布 {downloads.length} 份资源</h2>
           <p>资源以轻量、可验证和可复用为优先，适合作为阅读配套材料或项目整理辅助。</p>
+          <div className="project-link-row">
+            <Link href="/resume" className="project-inline-link">两份正式 PDF 简历 →</Link>
+            <Link href="/skills" className="project-inline-link">开源 Skills 与安装说明 →</Link>
+          </div>
         </section>
 
         <section className="notes-grid" aria-label="下载资源列表">

@@ -1,7 +1,7 @@
 ---
 title: "门诊患者-处方-库存管理平台"
 slug: "nautilus-clinic"
-summary: "后端主导开发的门诊业务管理平台，覆盖患者管理、处方发药、药房库存与收费结算，并围绕检索和关键流程一致性完成工程收口。"
+summary: "基于 RuoYi 二次开发的门诊业务管理平台，覆盖患者、接诊处方、药房库存、候诊与模拟结算，并以状态条件更新和数据库事务保障结算发药一致性。"
 role: "独立完成（AI 辅助）"
 techStack:
   - "Java"
@@ -13,62 +13,64 @@ techStack:
   - "Nginx / systemd"
 highlights:
   - "负责患者管理、处方发药、药房库存和收费结算等核心模块，打通患者、就诊、库存与结算业务链路。"
-  - "采用 PostgreSQL JSONB + GIN 支持动态病历检索，并用 UPSERT 原子写入、Redis 分布式锁与事务回滚处理关键流程一致性。"
-  - "完成 Vue 2 + Element UI 前后端联调，以及 JAR + Nginx + systemd 私有化部署闭环。"
+  - "使用 PostgreSQL JSONB + GIN 支持动态病历检索；模拟结算通过就诊状态条件更新防止重复确认，并在同一事务内联动库存扣减，发药失败时回滚。"
+  - "Vue 2 + Element UI 页面覆盖接诊、库存和角色权限，与 Spring Boot 门诊业务模块配套展示。"
 goals:
   - "面向中小门诊场景，把患者建档、接诊、处方、库存扣减和收费结算组织成一套可维护的业务系统。"
   - "用单体架构优先解决真实业务流程、数据建模和一致性问题，避免为展示而过度设计。"
 responsibilities:
   - "负责患者、接诊、处方发药、药品库存和收费结算等核心业务模块开发。"
-  - "负责 PostgreSQL 动态字段建模、检索索引与库存 / 结算链路的一致性控制。"
-  - "负责 Vue 2 + Element UI 前后端联调，以及 JAR、Nginx、systemd 私有化部署。"
+  - "负责 PostgreSQL 动态字段建模与检索索引，并在结算发药流程实现条件状态更新、事务内库存处理和失败回滚。"
+  - "使用 Redis 维护候诊队列和若依基础缓存，结算防重由数据库状态条件更新承担。"
 boundaries:
   - "项目基于 RuoYi 开源生态进行业务化二次开发，不把底层通用权限和系统管理能力包装为个人原创。"
-  - "当前没有公网 Demo；页面证据来自公开仓库中的演示截图。"
-  - "项目定位是门诊业务系统与一致性方案展示，不包装成已经达到成熟医疗 SaaS 或生产合规要求。"
+  - "模拟结算不接真实支付或医保；当前没有公网 Demo，公开截图只展示本地演示页面。"
+  - "仓库 README 记录 7 项自动化测试（4 项 PostgreSQL 16 集成测试、3 项输入单元测试），以及 2026-09-23 隔离启动探测；本轮未重跑，启动探测不代表浏览器交互或完整业务流程验收。"
+  - "项目用于展示门诊业务建模和一致性处理，不代表成熟医疗 SaaS、生产部署或医疗合规验收。"
 metrics:
   - value: "4 类"
     label: "核心业务域"
     note: "患者、处方发药、药房库存和收费结算进入同一业务链路，能够说明流程闭环而非单页 CRUD。"
-  - value: "3 组"
-    label: "一致性措施"
-    note: "原子写入、Redis 分布式锁与事务回滚分别处理并发写入、防重复和部分成功问题。"
-  - value: "1 套"
-    label: "私有化部署"
-    note: "JAR、Nginx 与 systemd 形成可复现的部署组合，覆盖从开发联调到服务运行的交付闭环。"
-screenshotNote: "保留登录、首页、接诊、库存和 RBAC 五类公开截图，用于证明系统确实承载了业务流程与后台权限结构。"
+  - value: "4 项"
+    label: "PostgreSQL 集成测试"
+    note: "仓库 README 记录的 PostgreSQL 16 测试覆盖并发确认、重复确认、失败回滚和按就诊单结算；未在本轮重跑。"
+  - value: "同一事务"
+    label: "结算与发药"
+    note: "就诊单状态条件更新决定并发确认是否生效，库存与结算状态在事务内联动。"
+screenshotNote: "公开截图用于展示登录、首页、接诊、库存和角色权限等页面；它们是界面证据，不是完整业务流程或部署验收。"
 screenshots:
-  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/01-login.png"
+  - src: "/images/projects/nautilus-clinic/01-login.png"
     alt: "门诊平台登录页"
     caption: "统一登录入口说明项目是一套完整后台业务系统，而不是孤立功能页。"
-  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/02-home.png"
+  - src: "/images/projects/nautilus-clinic/02-home.png"
     alt: "门诊平台首页"
     caption: "首页集中呈现门诊业务、药品库存与系统管理模块的承载结构。"
-  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/04-consultation.png"
+  - src: "/images/projects/nautilus-clinic/04-consultation.png"
     alt: "接诊与处方页面"
     caption: "接诊页面直接对应患者、处方与后续发药流程，是核心业务链路的页面证据。"
-  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/05-inventory.png"
+  - src: "/images/projects/nautilus-clinic/05-inventory.png"
     alt: "药品库存页面"
     caption: "库存页用于承载药品数量、批次与效期等管理信息，并连接处方发药流程。"
-  - src: "https://raw.githubusercontent.com/Yorushikamimimi/nautilus-clinic/main/docs/images/06-rbac-role.png"
+  - src: "/images/projects/nautilus-clinic/06-rbac-role.png"
     alt: "RBAC 角色权限页面"
     caption: "角色与菜单页面证明权限控制已经落到管理端结构中，而不是只写在说明文档里。"
 githubUrl: "https://github.com/Yorushikamimimi/nautilus-clinic"
 readmeUrl: "https://github.com/Yorushikamimimi/nautilus-clinic#readme"
 demoUrl: ""
 featured: true
-sortOrder: 3
+sortOrder: 2
 status: "published"
 ---
 
 ## 为什么这个项目值得看
 
-这个项目更适合展示 Java 业务系统能力：如何围绕真实门诊流程组织模块、数据和权限，以及如何在库存与结算链路里处理并发一致性和异常回滚。
+这个项目适合展示 Java 业务系统能力：如何围绕门诊流程组织模块、数据和权限，以及如何用就诊状态条件更新与事务处理并发确认、库存扣减和异常回滚。Redis 在此项目中用于候诊队列和基础缓存，不是结算锁。
 
 ## 值得继续讨论的工程问题
 
 - 为什么动态病历使用 JSONB + GIN，而不是继续扩宽关系表
-- UPSERT、Redis 分布式锁和数据库事务分别解决什么问题
+- 就诊状态条件更新如何防止重复结算，数据库事务如何保证库存与发药状态一起提交或回滚
+- Redis 候诊队列与数据库结算一致性分别承担什么职责
 - 患者、处方、库存和结算状态如何串成闭环
 - 在 RuoYi 基础上做业务化二次开发时，个人实现与框架能力怎样划分
 

@@ -1,7 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { PageContainer } from "../../components/layout/PageContainer";
-import { getFeaturedProjects } from "../../lib/projects";
+import { getAllPublishedProjects } from "../../lib/projects";
 import { heroKeywords, siteLinks, siteProfile } from "../../lib/site-config";
 
 export const metadata: Metadata = {
@@ -27,20 +27,21 @@ const resumeVariants = [
     label: "AI 应用版",
     role: "AI 应用开发 / LLM 应用研发",
     description: "适用于 AI、LLM、RAG 与 Agent 相关岗位。",
-    href: "/files/resume/羊鸣天_重邮_AI应用.pdf",
+    href: "/files/resume/羊鸣天_重邮_AI应用.pdf?v=20260915-bddbe73e5918",
     fileName: "羊鸣天_重邮_AI应用.pdf",
   },
   {
     label: "Java 后端版",
     role: "Java 后端开发 / 应用研发",
     description: "适用于 Java 后端、应用研发、金融科技与传统软件岗位。",
-    href: "/files/resume/羊鸣天_重邮_Java后端.pdf",
+    href: "/files/resume/羊鸣天_重邮_Java后端.pdf?v=20260915-2e1592f01ebb",
     fileName: "羊鸣天_重邮_Java后端.pdf",
   },
 ] as const;
 
 export default function ResumePage() {
-  const projects = getFeaturedProjects(3);
+  const projectSlugs = ["my-knowledge-base", "nautilus-clinic", "nautilus-media-cloud"];
+  const projects = projectSlugs.flatMap((slug) => getAllPublishedProjects().filter((project) => project.slug === slug));
 
   return (
     <PageContainer>
@@ -49,8 +50,9 @@ export default function ResumePage() {
           <span className="section-kicker">Resume</span>
           <h1 className="page-title">网页简历摘要</h1>
           <p className="page-lead">
-            当前求职方向为 AI 应用开发 / Java 后端。网页摘要与两份正式 PDF 统一展示智能标书、AI 知识库和门诊业务平台 3 个代表项目。
+            当前方向为 AI 应用开发 / Java 后端。两份正式 PDF 均为 2026 年 9 月 15 日终稿，项目经历包括本地 RAG 知识库、门诊业务平台与 Pull 型任务调度原型；智能标书经历归入实习。
           </p>
+          <p className="resume-note">附件保留终稿原文。项目页按 2026 年 10 月 2 日公开仓库核对当前进度，后续实现调整以对应项目说明为准。</p>
           <div className="info-grid info-grid--two" aria-label="正式 PDF 简历版本">
             {resumeVariants.map((variant) => (
               <article key={variant.href} className="placeholder-card glass-panel glass-panel--subtle">
@@ -107,7 +109,7 @@ export default function ResumePage() {
             <div>
               <span className="section-kicker">Selected Projects</span>
               <h2>代表项目</h2>
-              <p>下面这 3 个项目基本覆盖了我当前最想展示的技术方向和工程实践。</p>
+              <p>与正式简历对应的三个项目：本地 RAG、门诊业务一致性与数据库任务认领。</p>
             </div>
             <Link href="/projects" className="section-header__link">
               查看完整 Projects
