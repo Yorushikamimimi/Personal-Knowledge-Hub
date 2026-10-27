@@ -16,7 +16,7 @@ export default function AboutPage() {
           <span className="section-kicker">About</span>
           <h1 className="page-title">关于我</h1>
           <p className="page-lead">
-            {siteProfile.roleHeadline}。这个站点同时承载 Projects 与 Notes，帮助访问者理解项目如何设计、如何验证，以及哪些结论仍受明确边界约束。
+            {siteProfile.roleHeadline}这个站点同时承载 Projects 与 Notes，帮助访问者理解项目如何设计、如何验证，以及哪些结论仍受明确边界约束。
           </p>
         </section>
 
@@ -24,7 +24,10 @@ export default function AboutPage() {
           <span className="section-kicker">Background</span>
           <h2>背景简介</h2>
           <p>
-            我是 2027 届重庆邮电大学计算机专业本科生，方向为 AI 应用开发与 Java 后端。2026 年 4 月至 7 月在邮莱特参与智能标书锚点解析的概念验证、消费侧联调、回归与交付收口。个人项目围绕本地 RAG、门诊业务一致性与 Pull 型任务调度展开。
+            我是 2027 届重庆邮电大学计算机科学与技术专业本科生，方向为 Java 后端与 AI 应用开发。2026 年 4 月至 7 月在重庆市移动互联网数据应用技术工程中心（邮莱特）任 AI 应用开发实习生：主要参与智能标书分析系统的标书解析、页面联调与回归检查，也维护过电信政企 ECP 合约系统的审批与受理流程，并负责舆情采集数据的 Python 清洗模块。2026 年 2 月在中国移动四川（德阳经开区分公司）网络部实习，参与路测、干扰排查与传输网跟进。
+          </p>
+          <p>
+            个人项目以 SlotFlow（限量预约下单、异步履约与 AI 工具调用）和门诊患者-处方-库存管理平台为主；更早的本地 RAG 知识库与 Pull 型任务调度原型仍保留在项目页。
           </p>
           <p>近期将长任务交接经验整理为 Codex Thread Handoff，将已有 Word 的局部修改与验证流程整理为 Word Enhanced / docdoc。两项工具均有公开仓库和安装说明，能力与验证边界见 <Link href="/skills">Skills</Link>。</p>
         </section>

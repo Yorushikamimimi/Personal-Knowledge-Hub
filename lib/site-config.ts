@@ -3,7 +3,7 @@ export const siteProfile = {
   siteSubtitle: "AI Engineering Projects + Notes",
   ownerLabel: "Yorushikamimimi",
   tagline: "AI 应用 / Java 工程实践 + 开源 Skills",
-  roleHeadline: "2027 届重庆邮电大学计算机专业本科生，关注本地 RAG、Java 业务一致性、任务调度与 AI 工具交付。",
+  roleHeadline: "2027 届重庆邮电大学计算机专业本科生，方向为 Java 后端与 AI 应用开发，关注订单与库存一致性、异步消息、LLM 工具调用与文档解析。",
   intro:
     "站点展示项目、工程笔记与开源 Skills；正式简历和公开仓库分别保留对应版本的证据与边界。",
 } as const;
@@ -20,7 +20,7 @@ export const complianceInfo = {
   publicSecurityUrl: "https://beian.mps.gov.cn/#/query/webSearch",
 } as const;
 
-export const heroKeywords = ["Java", "Spring Boot", "Python / FastAPI", "RAG / pgvector", "PostgreSQL", "Codex Skills"] as const;
+export const heroKeywords = ["Java", "Spring Boot / MyBatis", "MySQL / PostgreSQL", "Redis / RabbitMQ", "Spring AI / LLM API", "Python", "Codex Skills"] as const;
 
 export const publicSkills = [
   {

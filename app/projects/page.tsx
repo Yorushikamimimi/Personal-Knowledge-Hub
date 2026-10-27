@@ -18,7 +18,7 @@ export default function ProjectsPage() {
           <span className="section-kicker">Projects</span>
           <h1 className="page-title">项目作品集</h1>
           <p className="page-lead">
-            主线包括本地 RAG、门诊业务一致性与 Pull 型调度原型，另保留文档智能实习和 RAG Nexus 的工程说明。各页按当前仓库区分已实现机制、真实验证与仍待验收的范围。
+            主线包括 SlotFlow 订单事务与 AI 工具调用、门诊业务一致性，以及邮莱特实习中的智能标书解析；本地 RAG 知识库、Pull 型调度原型和 RAG Nexus 作为更早的项目保留说明。各页按当前仓库区分已实现机制、真实验证与仍待验收的范围。
           </p>
         </section>
 
