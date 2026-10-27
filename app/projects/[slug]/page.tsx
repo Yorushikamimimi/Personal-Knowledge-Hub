@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SectionToc } from "../../../components/c2/SectionToc";
 import { ProjectGallery } from "../../../components/projects/ProjectGallery";
 import { PageContainer } from "../../../components/layout/PageContainer";
 import {
+  getAllPublishedProjects,
   getPublishedProjectBySlug,
   getPublishedProjectMetaBySlug,
   getPublishedProjectSlugs,
@@ -50,163 +52,152 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const hasDemo = Boolean(project.demoUrl);
   const hasGithub = Boolean(project.githubUrl);
   const hasDistinctReadme = Boolean(project.readmeUrl) && (!hasGithub || stripHash(project.readmeUrl) !== stripHash(project.githubUrl));
-  const hasExternalLinks = hasGithub || hasDemo || hasDistinctReadme;
   const hasScreenshots = project.screenshots.length > 0;
   const topHighlights = project.highlights.slice(0, 3);
-  const techStackPreview = project.techStack.slice(0, 5);
-  const extraTechCount = Math.max(project.techStack.length - techStackPreview.length, 0);
+
+  const allProjects = getAllPublishedProjects();
+  const index = allProjects.findIndex((item) => item.slug === project.slug);
+  const previous = index > 0 ? allProjects[index - 1] : null;
+  const next = index >= 0 && index < allProjects.length - 1 ? allProjects[index + 1] : null;
+
+  const sections = [
+    project.metrics.length ? { id: "results", label: "可验证结果" } : null,
+    project.goals.length ? { id: "context", label: "背景与目标" } : null,
+    project.responsibilities.length ? { id: "ownership", label: "我的职责" } : null,
+    hasScreenshots ? { id: "evidence", label: "页面与证据" } : null,
+    { id: "engineering", label: "工程实现与后续" },
+    project.boundaries.length ? { id: "boundary", label: "项目边界" } : null,
+  ].filter((item): item is { id: string; label: string } => item !== null);
 
   return (
     <PageContainer>
-      <div className="page-stack page-stack--project-detail">
-        <div>
-          <Link href="/projects" className="back-link">
-            <span aria-hidden="true">←</span>
-            返回项目列表
-          </Link>
-        </div>
+      <Link href="/projects" className="c2-back">
+        ← 全部项目
+      </Link>
 
-        <section className="project-overview-shell project-overview-shell--refined">
-          <article className="detail-panel project-overview-main glass-panel glass-panel--hero">
-            <span className="section-kicker">Project Overview</span>
-            <h1 className="page-title project-page-title">{project.title}</h1>
-            <p className="page-lead project-overview-main__lead">{project.summary}</p>
-
-            {hasExternalLinks ? (
-              <div className="project-link-row project-link-row--top">
-                {hasGithub ? (
-                  <a href={project.githubUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-                    GitHub →
-                  </a>
-                ) : null}
-                {hasDemo ? (
-                  <a href={project.demoUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-                    Demo →
-                  </a>
-                ) : null}
-                {hasDistinctReadme ? (
-                  <a href={project.readmeUrl} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
-                    README →
-                  </a>
-                ) : null}
-              </div>
+      <section className="c2-stage c2-stage--project">
+        <span className="c2-eyebrow">Project</span>
+        <h1>{project.title}</h1>
+        <p>{project.summary}</p>
+        <div className="c2-project-meta">
+          <span className="c2-chip c2-chip--solid">{project.role}</span>
+          {project.techStack.map((item) => (
+            <span key={item} className="c2-chip">{item}</span>
+          ))}
+          <div className="c2-actions">
+            {hasGithub ? (
+              <a href={project.githubUrl} target="_blank" rel="noreferrer" className="c2-btn c2-btn--primary">
+                GitHub ↗
+              </a>
             ) : null}
+            {hasDemo ? (
+              <a href={project.demoUrl} target="_blank" rel="noreferrer" className="c2-btn">
+                Demo ↗
+              </a>
+            ) : null}
+            {hasDistinctReadme ? (
+              <a href={project.readmeUrl} target="_blank" rel="noreferrer" className="c2-btn">
+                README ↗
+              </a>
+            ) : null}
+          </div>
+        </div>
+      </section>
 
-            <div className="project-highlight-grid">
-              {topHighlights.map((item, index) => (
-                <article key={item} className="project-highlight-card glass-chip-panel">
-                  <span className="project-highlight-card__index">0{index + 1}</span>
-                  <p>{item}</p>
-                </article>
-              ))}
+      {topHighlights.length ? (
+        <div className="c2-three">
+          {topHighlights.map((item, highlightIndex) => (
+            <div key={item} className="c2-card">
+              <span>0{highlightIndex + 1}</span>
+              <p>{item}</p>
             </div>
-          </article>
+          ))}
+        </div>
+      ) : null}
 
-          <aside className="detail-panel project-overview-side project-overview-side--compact glass-panel glass-panel--aside">
-            <span className="section-kicker">Quick Facts</span>
-            <h2>项目概览</h2>
-            <p className="project-overview-side__intro">快速了解项目角色、核心实现与技术边界，再进入完整说明。</p>
+      <div className="c2-body">
+        <SectionToc items={sections} />
 
-            <div className="project-fact-list project-fact-list--compact">
-              <div className="project-fact-item project-fact-item--compact">
-                <span>角色</span>
-                <strong>{project.role}</strong>
-              </div>
-              <div className="project-fact-item project-fact-item--compact">
-                <span>关键实现</span>
-                <p>{project.highlights[0]}</p>
-              </div>
-              <div className="project-fact-item project-fact-item--compact">
-                <span>核心技术</span>
-                <div className="tag-list tag-list--compact" aria-label={`${project.title} 技术栈预览`}>
-                  {techStackPreview.map((item) => (
-                    <span key={item} className="tag-chip">
-                      {item}
-                    </span>
-                  ))}
-                  {extraTechCount > 0 ? <span className="tag-chip tag-chip--muted">+{extraTechCount}</span> : null}
-                </div>
-              </div>
-            </div>
-          </aside>
-        </section>
-
-        <section className="content-panel project-metric-shell glass-panel glass-panel--section">
-          <div className="section-header">
-            <div>
-              <span className="section-kicker">Verified Outcomes</span>
-              <h2>可验证结果</h2>
+        <article className="c2-article">
+          {project.metrics.length ? (
+            <section id="results">
+              <h2><small>Results</small>可验证结果</h2>
               <p>这里不写虚高的性能数字，只保留公开项目材料和页面中可以核验且边界清楚的结果。</p>
-            </div>
-          </div>
-
-          <div className="project-metric-grid" aria-label={`${project.title} 可验证结果`}>
-            {project.metrics.map((metric) => (
-              <article key={`${metric.value}-${metric.label}`} className="project-metric-card glass-chip-panel">
-                <span className="project-metric-card__value">{metric.value}</span>
-                <h3 className="project-metric-card__label">{metric.label}</h3>
-                <p className="project-metric-card__note">{metric.note}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="project-detail-grid project-detail-grid--weighted">
-          <article className="detail-panel project-section project-section--primary glass-panel glass-panel--section">
-            <span className="section-kicker">Context</span>
-            <h2>项目背景 / 目标</h2>
-            <ul className="list-clean">
-              {project.goals.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
-
-          <article className="detail-panel project-section glass-panel glass-panel--section">
-            <span className="section-kicker">Ownership</span>
-            <h2>我的职责</h2>
-            <ul className="list-clean">
-              {project.responsibilities.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
-        </section>
-
-        {hasScreenshots ? (
-          <section className="content-panel content-panel--visual glass-panel glass-panel--section">
-            <div className="section-header">
-              <div>
-                <span className="section-kicker">Evidence</span>
-                <h2>关键页面与交付证据</h2>
-                <p>{project.screenshotNote}</p>
+              <div className="c2-metrics">
+                {project.metrics.map((metric) => (
+                  <div key={`${metric.value}-${metric.label}`} className="c2-card">
+                    <strong>{metric.value}</strong>
+                    <h3>{metric.label}</h3>
+                    <p>{metric.note}</p>
+                  </div>
+                ))}
               </div>
-            </div>
+            </section>
+          ) : null}
 
-            <ProjectGallery title={project.title} screenshots={project.screenshots} />
+          {project.goals.length ? (
+            <section id="context">
+              <h2><small>Context</small>背景与目标</h2>
+              <ul>
+                {project.goals.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {project.responsibilities.length ? (
+            <section id="ownership">
+              <h2><small>Ownership</small>我的职责</h2>
+              <ul>
+                {project.responsibilities.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {hasScreenshots ? (
+            <section id="evidence">
+              <h2><small>Evidence</small>关键页面与交付证据</h2>
+              <p>{project.screenshotNote}</p>
+              <ProjectGallery title={project.title} screenshots={project.screenshots} />
+            </section>
+          ) : null}
+
+          <section id="engineering">
+            <h2><small>Engineering Notes</small>工程实现与后续方向</h2>
+            <div className="project-detail-prose c2-prose">{project.content}</div>
           </section>
-        ) : null}
 
-        <section className="project-detail-grid project-detail-grid--tail">
-          <article className="detail-panel project-section project-section--notes glass-panel glass-panel--section">
-            <span className="section-kicker">Engineering Notes</span>
-            <h2>工程实现与后续方向</h2>
-            <p className="project-section__intro">
-              这部分不重复上面的总览结论，只保留值得继续讨论的工程判断、技术取舍和后续迭代方向。
-            </p>
-            <div className="project-detail-prose">{project.content}</div>
-          </article>
+          {project.boundaries.length ? (
+            <section id="boundary" className="c2-boundary">
+              <h2>项目边界说明</h2>
+              <ul>
+                {project.boundaries.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-          <article className="detail-panel project-section project-section--boundary glass-panel glass-panel--subtle">
-            <span className="section-kicker">Boundary</span>
-            <h2>项目边界说明</h2>
-            <ul className="list-clean">
-              {project.boundaries.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
-        </section>
+          {previous || next ? (
+            <nav className="c2-pager" aria-label="相邻项目">
+              {previous ? (
+                <Link href={`/projects/${previous.slug}`} className="c2-card">
+                  <small>← 上一个</small>
+                  <strong>{previous.title}</strong>
+                </Link>
+              ) : null}
+              {next ? (
+                <Link href={`/projects/${next.slug}`} className="c2-card c2-card--next">
+                  <small>下一个 →</small>
+                  <strong>{next.title}</strong>
+                </Link>
+              ) : null}
+            </nav>
+          ) : null}
+        </article>
       </div>
     </PageContainer>
   );
