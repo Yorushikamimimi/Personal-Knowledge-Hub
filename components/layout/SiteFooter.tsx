@@ -9,7 +9,6 @@ const primaryLinks = [
   { href: "/topics", label: "Topics" },
   { href: "/downloads", label: "Downloads" },
   { href: "/about", label: "About" },
-  { href: "/resume", label: "Resume" },
 ];
 
 const complianceLinks = [

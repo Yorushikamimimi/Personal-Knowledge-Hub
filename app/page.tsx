@@ -1,210 +1,251 @@
-﻿import Link from "next/link";
-import { PageContainer } from "../components/layout/PageContainer";
-import { formatNoteDate, getAllPublishedNotes } from "../lib/notes";
-import { getAllPublishedProjects, getFeaturedProjects, type ProjectListItem } from "../lib/projects";
-import { publicSkills, siteLinks } from "../lib/site-config";
+﻿import Image from "next/image";
+import { FileDemo } from "../components/home/FileDemo";
+import { HomeEffects } from "../components/home/HomeEffects";
+import { VaultDemo } from "../components/home/VaultDemo";
+import { siteLinks } from "../lib/site-config";
 
-const toolEntries = [
-  { slug: "docdoc", title: "修改已有 Word 的一小处", description: "先定位目标，在副本上修改，再检查其他内容是否受到影响。", name: "docdoc", label: "改文档" },
-  { slug: "codex-thread-handoff", title: "让新 Agent 接着旧项目做", description: "从项目资料和必要增量恢复进度，确认接续正确后再正式交接。", name: "Thread Handoff", label: "接项目" },
-  { slug: "ai-context-vault", title: "搭建 AI 上下文目录", description: "用 Markdown 模板整理当前进度、任务记忆和读取边界。", name: "Context Vault", label: "搭目录" },
+const gh = (repo: string) => `${siteLinks.github}/${repo}`;
+
+const vaultTree: { name: string; note?: string }[] = [
+  { name: "AI_CONTEXT.md", note: "← 每次从这开始" },
+  { name: "00-Profile/" },
+  { name: "10-Knowledge/" },
+  { name: "20-Projects/", note: "← 只读用到的" },
+  { name: "30-Career/" },
+  { name: "50-Workflow/" },
 ];
 
-// Short labels for the project deck in the hero; other projects fall back to their first two techs.
-const deckLabels: Record<string, { icon: string; line: string }> = {
-  slotflow: { icon: "MQ", line: "防超卖下单 · 异步履约 · AI 工具调用" },
-  "nautilus-clinic": { icon: "TX", line: "条件更新 + 事务保障结算发药一致" },
-  "ai-zhaobiao": { icon: "DOC", line: "邮莱特实习 · 标书锚点解析与联调" },
-  "my-knowledge-base": { icon: "RAG", line: "本地知识库问答 · 回答附来源" },
-  "nautilus-media-cloud": { icon: "Q", line: "SKIP LOCKED 的 Pull 型调度" },
-};
+const driftLines = [
+  "AI_CONTEXT.md · SYSTEM_STATUS.md · 00-Profile/identity.md · 20-Projects/index.md · 50-Workflow/SYNC_RULES.md · 50-Workflow/daily-log.md ·",
+  "10-Knowledge/backend · 30-Career/README.md · 50-Workflow/task-memory · 90-Inbox · AGENTS.md · CLAUDE.md ·",
+  "50-Workflow/decision.md · 00-Profile/goals.md · 20-Projects/index.md · AI_CONTEXT.md · 50-Workflow/AI_USAGE.md ·",
+  "SYSTEM_STATUS.md · 10-Knowledge/index.md · 50-Workflow/conversation-handoff.md · 30-Career/40-Growth ·",
+  "AI_CONTEXT.md · 20-Projects/index.md · 00-Profile/working-style.md · 50-Workflow/logs ·",
+  "50-Workflow/SYNC_RULES.md · 90-Inbox · 10-Knowledge/frontend · AGENTS.md ·",
+];
 
-const tints = ["var(--c2-blue)", "var(--c2-green)", "var(--c2-amber)"];
+const tools = [
+  {
+    name: "README 写作",
+    repo: "readme-and-project-positioning",
+    text: "让 AI 助手写出第一次来的人就看得懂的 README：用途、具体用法、从哪开始、真实限制。",
+    date: "10-24",
+    tone: "hm-tcard--readme",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true">
+        <path d="M6 3h9l4 4v14H6z" />
+        <path d="M15 3v4h4M9 12h7M9 16h5" />
+      </svg>
+    ),
+  },
+  {
+    name: "开源前检查",
+    repo: "public-release-readiness",
+    text: "仓库公开前，分开检查文件、Git 历史、截图和发布包里有没有隐私或密钥。",
+    date: "10-24",
+    tone: "hm-tcard--release",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z" />
+        <path d="M8.5 12l2.5 2.5 4.5-5" />
+      </svg>
+    ),
+  },
+];
 
-function deckLabel(project: ProjectListItem) {
-  return deckLabels[project.slug] ?? {
-    icon: project.title.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() || "P",
-    line: project.techStack.slice(0, 2).join(" · "),
-  };
+function Steps({ items }: { items: string[] }) {
+  return (
+    <ol className="hm-steps">
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ol>
+  );
 }
 
-function ProjectLinks({ project }: { project: ProjectListItem }) {
+function Meta({ items }: { items: string[] }) {
   return (
-    <div className="c2-links">
-      <Link href={`/projects/${project.slug}`}>查看详情 →</Link>
-      {project.githubUrl ? (
-        <a href={project.githubUrl} target="_blank" rel="noreferrer">
-          GitHub ↗
-        </a>
-      ) : null}
+    <div className="hm-meta">
+      {items.map((item) => (
+        <span key={item}>{item}</span>
+      ))}
     </div>
   );
 }
 
 export default function HomePage() {
-  const featuredProjects = getFeaturedProjects(3);
-  const [leadProject, ...otherFeatured] = featuredProjects;
-  const featuredSlugs = new Set(featuredProjects.map((project) => project.slug));
-  const moreProjects = getAllPublishedProjects().filter((project) => !featuredSlugs.has(project.slug));
-  const notes = getAllPublishedNotes();
-
   return (
-    <PageContainer>
-      <section className="c2-stage c2-hero">
-        <div>
-          <span className="c2-eyebrow">AI Engineering / Java Full-stack Portfolio</span>
-          <h1>
-            把 AI 应用
-            <br />
-            做成<span className="c2-mark">跑得通</span>的工程。
-          </h1>
-          <p>
-            限量预约的订单事务与 AI 工具调用、门诊业务一致性，以及邮莱特实习中的智能标书解析；每个都写清做了什么、验证到哪一步。另有{" "}
-            {publicSkills.length} 个公开的 AI 工作流 Skills。
-          </p>
-          <div className="c2-actions">
-            <Link href="#projects" className="c2-btn c2-btn--primary">看主线项目</Link>
-            <Link href="/notes" className="c2-btn">技术笔记</Link>
-            <a href={siteLinks.github} target="_blank" rel="noreferrer" className="c2-btn">
-              GitHub ↗
+    <div className="hm">
+      <HomeEffects />
+
+      <div className="hm-wrap">
+        <section className="hm-hero">
+          <div>
+            <h1>
+              自己用的东西，
+              <br />
+              <em>做完就放这儿。</em>
+            </h1>
+            <p>三个主作品，加两个给 AI 编程助手用的小工具。都开源，下面每个都写了怎么用、能不能下载。</p>
+            <div className="hm-chips">
+              <a className="hm-chip hm-chip--vault" href="#vault">
+                <i />
+                AI Context Vault<small>11-05</small>
+              </a>
+              <a className="hm-chip hm-chip--doc" href="#doc">
+                <i />
+                文件整理助手<small>11-05</small>
+              </a>
+              <a className="hm-chip hm-chip--yoru" href="#yoru">
+                <i />
+                夜鹿视觉工房<small>11-03</small>
+              </a>
+            </div>
+          </div>
+          <div className="hm-fan" aria-label="三个作品">
+            <a className="hm-fan__card hm-fan__card--vault" href="#vault">
+              <span className="hm-fan__tree" aria-hidden="true">
+                {vaultTree.map((line) => (
+                  <span key={line.name} className={line.note ? "is-key" : undefined}>
+                    {line.name}
+                    {line.note ? <u>{line.note}</u> : null}
+                  </span>
+                ))}
+              </span>
+              <span className="hm-fan__lb">AI Context Vault</span>
+            </a>
+            <a className="hm-fan__card hm-fan__card--doc" href="#doc">
+              <Image className="hm-fan__icon" src="/images/home/doc-icon.png" alt="" width={400} height={400} priority />
+              <span className="hm-fan__lb">文件整理助手</span>
+            </a>
+            <a className="hm-fan__card hm-fan__card--yoru" href="#yoru">
+              <Image src="/images/home/yoru-workbench.jpg" alt="" fill sizes="(max-width: 860px) 60vw, 360px" priority />
+              <span className="hm-fan__lb">夜鹿视觉工房</span>
             </a>
           </div>
-          <div className="c2-proof">
-            <div><strong>{featuredProjects.length}</strong>主线项目</div>
-            <div><strong>{publicSkills.length}</strong>开源 Skills</div>
-            <div><strong>{notes.length}</strong>篇技术笔记</div>
+        </section>
+      </div>
+
+      <section className="hm-stage hm-stage--vault" id="vault">
+        <div className="hm-panel">
+          <div className="hm-drift" aria-hidden="true">
+            {driftLines.map((line) => (
+              <div key={line}>
+                {line} {line}
+              </div>
+            ))}
+          </div>
+          <div className="hm-wrap hm-stage__inner">
+            <div className="hm-txt">
+              <span className="hm-kick">
+                <i />
+                Markdown 模板
+              </span>
+              <h2>AI Context Vault</h2>
+              <p className="hm-what">
+                一套档案模板。Claude Code、Codex 这些 AI 助手开新对话时，都从同一个入口文件开始，只读这次要用的那几份，不用你重新交代背景。
+              </p>
+              <Steps items={["把 vault/ 复制成你自己的私人文件夹", "只填你确实知道的内容", "在里面打开 AI 助手，让它先读 AI_CONTEXT.md"]} />
+              <Meta items={["适用 Obsidian", "公开模板，不含真人资料"]} />
+              <div className="hm-btns">
+                <a className="hm-btn hm-btn--pri" href={gh("ai-context-vault")} target="_blank" rel="noreferrer">
+                  GitHub ↗
+                </a>
+                <a className="hm-btn" href={gh("ai-context-vault/tree/main/examples/first-recovery")} target="_blank" rel="noreferrer">
+                  5 分钟试试看
+                </a>
+              </div>
+            </div>
+            <div className="hm-reveal">
+              <VaultDemo />
+            </div>
           </div>
         </div>
-
-        <ul className="c2-deck" aria-label="主线项目速览">
-          {featuredProjects.map((project, index) => {
-            const label = deckLabel(project);
-            return (
-              <li key={project.slug}>
-                <a href={`#project-${project.slug}`}>
-                  <span className="c2-icon" style={{ width: 42, height: 42, background: tints[index % tints.length] }}>
-                    {label.icon}
-                  </span>
-                  <span>
-                    <strong>{project.title.split("｜")[0]}</strong>
-                    <small>{label.line}</small>
-                  </span>
-                  <span className="c2-deck__go" aria-hidden="true">↓</span>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
       </section>
 
-      <div className="c2-section-head" id="projects">
-        <h2>主线项目</h2>
-        <Link href="/projects">全部 {featuredProjects.length + moreProjects.length} 个项目 →</Link>
-      </div>
-
-      {leadProject ? (
-        <div className="c2-bento">
-          <article className="c2-card c2-card--feature" id={`project-${leadProject.slug}`}>
-            <div className="c2-role">
-              <span>{leadProject.role} · 主打</span>
-              <span className="c2-icon" style={{ background: "#fff" }}>{deckLabel(leadProject).icon}</span>
-            </div>
-            <h3>{leadProject.title}</h3>
-            <p>{leadProject.summary}</p>
-            {leadProject.highlights[0] ? <div className="c2-highlight">{leadProject.highlights[0]}</div> : null}
-            {leadProject.highlights.length > 1 ? (
-              <ul className="c2-checks">
-                {leadProject.highlights.slice(1, 3).map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            ) : null}
-            {leadProject.metrics.length ? (
-              <>
-                <div className="c2-stats">
-                  {leadProject.metrics.slice(0, 3).map((metric) => (
-                    <div key={metric.label} title={metric.note}>
-                      <strong>{metric.value}</strong>
-                      <span>{metric.label}</span>
-                    </div>
-                  ))}
-                </div>
-                <span className="c2-footnote">每个数字的口径与边界见详情页，不是整体效果指标。</span>
-              </>
-            ) : null}
-            <div className="c2-chips">
-              {leadProject.techStack.slice(0, 5).map((item) => (
-                <span key={item} className="c2-chip">{item}</span>
-              ))}
-            </div>
-            <ProjectLinks project={leadProject} />
-          </article>
-
-          {otherFeatured.map((project, index) => (
-            <article
-              key={project.slug}
-              className="c2-card c2-card--tinted"
-              id={`project-${project.slug}`}
-              style={{ background: tints[(index + 1) % tints.length] }}
-            >
-              <div className="c2-role">
-                <span>{project.role}</span>
-                <span className="c2-icon" style={{ background: "#fff" }}>{deckLabel(project).icon}</span>
+      <section className="hm-stage hm-stage--doc" id="doc">
+        <div className="hm-panel">
+          <div className="hm-wrap hm-stage__inner">
+            <div className="hm-txt">
+              <Image className="hm-doc-ico" src="/images/home/doc-icon.png" alt="" width={56} height={56} />
+              <span className="hm-kick">
+                <i />
+                macOS App
+              </span>
+              <h2>文件整理助手</h2>
+              <p className="hm-what">下载文件夹乱了的时候用。先给你看每个文件会去哪、为什么，你点确认才真的移动；整理错了能一键撤销。</p>
+              <Steps items={["选一个文件夹", "看预览：每个文件的去处和依据", "确认移动，不满意就撤销"]} />
+              <Meta items={["Apple Silicon", "v0.2.0 预览版", "未经苹果公证"]} />
+              <div className="hm-btns">
+                <a className="hm-btn hm-btn--pri" href={gh("doc-selecter/releases/tag/v0.2.0")} target="_blank" rel="noreferrer">
+                  下载 DMG
+                </a>
+                <a className="hm-btn" href={gh("doc-selecter")} target="_blank" rel="noreferrer">
+                  GitHub ↗
+                </a>
               </div>
-              <h3>{project.title}</h3>
-              <p>{project.summary}</p>
-              <div className="c2-chips">
-                {project.techStack.slice(0, 3).map((item) => (
-                  <span key={item} className="c2-chip">{item}</span>
-                ))}
+            </div>
+            <div className="hm-reveal">
+              <FileDemo />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="hm-stage hm-stage--yoru" id="yoru">
+        <div className="hm-panel">
+          <div className="hm-glow" aria-hidden="true" />
+          <div className="hm-wrap hm-stage__inner">
+            <div className="hm-txt">
+              <span className="hm-kick">
+                <i />
+                本机网页工具
+              </span>
+              <h2>夜鹿视觉工房</h2>
+              <p className="hm-what">
+                从自己存的 ヨルシカ Live 和 MV 里挑画面，裁成电脑或手机壁纸导出。也能让 AI 助手帮忙选片、做头像和粉丝二创。
+              </p>
+              <Steps items={["告诉 AI 助手想加什么画面", "它选片、裁好，放进本机图库", "刷新网页，挑尺寸导出 PNG"]} />
+              <Meta items={["在自己电脑上运行", "没有在线演示"]} />
+              <div className="hm-btns">
+                <a className="hm-btn hm-btn--pri" href={gh("Yorushika-Lyric-Card-Bot")} target="_blank" rel="noreferrer">
+                  GitHub ↗
+                </a>
               </div>
-              <ProjectLinks project={project} />
-            </article>
-          ))}
+            </div>
+            <div className="hm-reveal">
+              <div className="hm-shot" id="hm-yshot">
+                <Image
+                  src="/images/home/yoru-workbench.jpg"
+                  alt="夜鹿视觉工房的壁纸工作台：左边是视频原帧，右边选择尺寸、取景并导出"
+                  width={1800}
+                  height={929}
+                  sizes="(max-width: 860px) 100vw, 680px"
+                />
+              </div>
+              <p className="hm-cap">壁纸工作台，截图来自项目 README。下面几个色块是从这张图里取的。</p>
+              <div className="hm-swatches" id="hm-ysw" aria-hidden="true" />
+            </div>
+          </div>
         </div>
-      ) : null}
+      </section>
 
-      {moreProjects.length ? (
-        <div className="c2-more">
-          更多项目：
-          {moreProjects.map((project) => (
-            <Link key={project.slug} href={`/projects/${project.slug}`}>
-              {project.title.split("｜")[0]}
-            </Link>
-          ))}
-        </div>
-      ) : null}
-
-      <div className="c2-section-head">
-        <h2>你想做什么？</h2>
-        <Link href="/skills">全部 Skills →</Link>
+      <div className="hm-wrap">
+        <section className="hm-tools">
+          <h2>顺手做的小工具</h2>
+          <p>给 Claude Code、Codex 这类 AI 编程助手装的 Skill。</p>
+          <div className="hm-tgrid">
+            {tools.map((tool) => (
+              <a key={tool.repo} className={`hm-tcard ${tool.tone}`} href={gh(tool.repo)} target="_blank" rel="noreferrer">
+                <b>{tool.name}</b>
+                <span>{tool.text}</span>
+                <small>{tool.date} 更新 · GitHub ↗</small>
+                {tool.icon}
+              </a>
+            ))}
+          </div>
+        </section>
       </div>
-      <div className="c2-tools">
-        {toolEntries.map((tool) => (
-          <Link key={tool.slug} href={`/projects/${tool.slug}`} className="c2-card">
-            <small>{tool.label}</small>
-            <h3>{tool.title}</h3>
-            <p>{tool.description}</p>
-            <span className="c2-go">{tool.name} →</span>
-          </Link>
-        ))}
-      </div>
-
-      <div className="c2-section-head">
-        <h2>技术笔记</h2>
-        <Link href="/notes">全部笔记 →</Link>
-      </div>
-      <ul className="c2-note-rows">
-        {notes.slice(0, 3).map((note) => (
-          <li key={note.slug}>
-            <Link href={`/notes/${note.slug}`}>
-              <time dateTime={note.updatedAt}>{formatNoteDate(note.updatedAt)}</time>
-              <strong>{note.title}</strong>
-              <span>{note.category}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </PageContainer>
+    </div>
   );
 }

@@ -2,43 +2,28 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import "./theme-c2.css";
+import "./theme-home.css";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { SiteHeader } from "../components/layout/SiteHeader";
 
 const siteDescription =
-  "一个记录 AI 应用与 Java 工程实践的公开站点，集中呈现项目边界、技术取舍与可复用的知识笔记。";
+  "Yorushikamimimi 给自己做、自己在用的开源小作品：AI 助手的 Markdown 档案模板、macOS 文件整理助手、夜鹿视觉工房，以及几篇工程笔记。";
 
-const siteTitle = "Personal Knowledge Hub | AI Engineering / Java Projects";
+const siteTitle = "Yorushikamimimi · 自己用的东西";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yoruming.cn"),
   title: {
     default: siteTitle,
-    template: "%s | Personal Knowledge Hub",
+    template: "%s | Yorushikamimimi",
   },
   description: siteDescription,
-  applicationName: "Personal Knowledge Hub",
-  keywords: [
-    "AI Engineering Portfolio",
-    "Java Full-stack Portfolio",
-    "Java",
-    "Spring Boot",
-    "Python",
-    "FastAPI",
-    "MyBatis",
-    "MySQL",
-    "Redis",
-    "RabbitMQ",
-    "Spring AI",
-    "LLM",
-    "OCR",
-    "RAG",
-    "PostgreSQL",
-  ],
+  applicationName: "Yorushikamimimi",
+  keywords: ["AI Context Vault", "文件整理助手", "夜鹿视觉工房", "Claude Code", "Codex", "Agent Skill", "Obsidian"],
   openGraph: {
     type: "website",
     locale: "zh_CN",
-    siteName: "Personal Knowledge Hub",
+    siteName: "Yorushikamimimi",
     title: siteTitle,
     description: siteDescription,
   },

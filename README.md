@@ -5,6 +5,10 @@
 线上入口：<https://yoruming.cn/>
 当前仓库版本：`0.1.0`（`package.json` 是唯一版本来源）
 
+## 首页改版（2026-11-06，本地已实现，未上线）
+
+首页改为展示本人自用的开源作品：AI Context Vault、文件整理助手、夜鹿视觉工房，以及两个 Agent Skill。简历页、简历 PDF 和六个简历项目页已下线。当前状态与验证见 [内容更新记录](docs/operations/内容更新记录.md)；下文是更早的已上线版本记录。
+
 ## 工具导航（2026-10-15，已上线并获本人验收）
 
 首页“你想做什么？”围绕三个用途提供入口：[Word 局部修改](https://yoruming.cn/projects/docdoc)、[让新 Agent 接续项目](https://yoruming.cn/projects/codex-thread-handoff)、[搭建 AI 上下文目录](https://yoruming.cn/projects/ai-context-vault)。三个项目页包含公开说明、使用与 GitHub 入口，沿用现有 MDX 和 UI。
@@ -16,7 +20,7 @@
 - **Projects**：用项目页面说明目标、技术取舍、可验证结果与明确边界。
 - **Notes**：把可公开的工程经验整理为带 frontmatter 的 MDX 笔记。
 - **Topics / Downloads**：提供专题入口和版本化的静态资源。
-- **Resume / About**：只提供公开资料的导航，不承担帐号、招聘流程或数据收集功能。
+- **About**：公开资料的导航，不承担帐号或数据收集功能。
 - **Skills**：展示 Codex Thread Handoff 和 Word Enhanced / docdoc 的用途、能力边界及公开安装入口。
 
 ## 公开内容更新（2026-10-02，已发布）

@@ -5,18 +5,9 @@ import { usePathname } from "next/navigation";
 import { PageContainer } from "./PageContainer";
 import { siteLinks, siteProfile } from "../../lib/site-config";
 
-type NavItem = {
-  href: string;
-  label: string;
-  external?: true;
-};
-
-const navItems: NavItem[] = [
-  { href: "/projects", label: "项目" },
+const navItems = [
   { href: "/notes", label: "笔记" },
-  { href: "/skills", label: "Skills" },
   { href: "/about", label: "关于" },
-  { href: siteLinks.github, label: "GitHub ↗", external: true },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -27,41 +18,24 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="site-header">
+    <header className="hm-header">
       <PageContainer>
-        <div className="site-header__inner">
-          <Link href="/" className="site-brand" aria-label={`${siteProfile.siteTitle} 首页`}>
-            <span className="site-brand__mark" aria-hidden="true">Y</span>
-            <span className="site-brand__title">{siteProfile.siteTitle}</span>
+        <div className="hm-header__inner">
+          <Link href="/" className="hm-brand" aria-label={`${siteProfile.ownerLabel} 首页`}>
+            <span className="hm-brand__mark" aria-hidden="true" />
+            <span>{siteProfile.ownerLabel}</span>
           </Link>
 
-          <nav className="c2-nav" aria-label="主导航">
-            {navItems.map((item) => {
-              if (item.external) {
-                return (
-                  <a key={item.href} href={item.href} className="c2-nav__link" target="_blank" rel="noreferrer">
-                    {item.label}
-                  </a>
-                );
-              }
-
-              const active = isActive(pathname, item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={active ? "c2-nav__link c2-nav__link--active" : "c2-nav__link"}
-                  aria-current={active ? "page" : undefined}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+          <nav className="hm-nav" aria-label="主导航">
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined}>
+                {item.label}
+              </Link>
+            ))}
+            <a href={siteLinks.github} target="_blank" rel="noreferrer">
+              GitHub ↗
+            </a>
           </nav>
-
-          <Link href={siteLinks.resume} className="c2-cv">
-            简历
-          </Link>
         </div>
       </PageContainer>
     </header>

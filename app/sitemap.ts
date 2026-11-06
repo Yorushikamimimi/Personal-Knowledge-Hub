@@ -14,7 +14,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/skills`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/topics`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/downloads`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${baseUrl}/resume`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/privacy`, changeFrequency: "yearly", priority: 0.2 },
     { url: `${baseUrl}/copyright`, changeFrequency: "yearly", priority: 0.2 },

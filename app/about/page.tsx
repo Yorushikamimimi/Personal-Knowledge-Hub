@@ -92,9 +92,6 @@ export default function AboutPage() {
             <a href={siteLinks.github} target="_blank" rel="noreferrer" className="project-inline-link project-inline-link--external">
               GitHub →
             </a>
-            <Link href={siteLinks.resume} className="project-inline-link">
-              Resume →
-            </Link>
             <Link href="/projects" className="project-inline-link project-inline-link--external">
               Projects →
             </Link>
