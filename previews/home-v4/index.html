@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>主页效果稿 v3</title>
+<style>
+:root{
+  --bg:#f5f6f8; --ink:#15161a; --mute:#646873; --faint:#9ea2ab; --line:#e2e4e8; --soft:#eceef2; --card:#fff;
+  --accent:#2f7be8; --ok:#1f8a4c; --shadow:0 1px 2px rgba(0,0,0,.05),0 18px 40px -18px rgba(20,24,40,.28);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  /* 项目色 */
+  --c-vault:#232a62; --c-doc:#2f7be8; --c-yoru:#ff7a3d; --c-readme:#f4c430; --c-rel:#2fa36b;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1013;--ink:#ececee;--mute:#9a9da6;--faint:#646872;--line:#25272d;--soft:#1a1c20;--card:#17191d;--ok:#4cc27e;--shadow:0 1px 2px rgba(0,0,0,.4),0 20px 44px -18px rgba(0,0,0,.7)}}
+:root[data-theme="dark"]{--bg:#0f1013;--ink:#ececee;--mute:#9a9da6;--faint:#646872;--line:#25272d;--soft:#1a1c20;--card:#17191d;--ok:#4cc27e;--shadow:0 1px 2px rgba(0,0,0,.4),0 20px 44px -18px rgba(0,0,0,.7)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:15px/1.65 -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-feature-settings:"tnum";-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .3s,color .3s}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+.rv{position:sticky;top:0;z-index:60;background:#1d1e21;color:#d9dadd;font-size:12.5px;display:flex;gap:14px;align-items:center;padding:7px 16px;flex-wrap:wrap}
+.rv b{color:#fff;font-weight:600}
+.rv .note{color:#8d9096}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+.head{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+.brand{font-weight:600;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{width:22px;height:22px;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:2px;overflow:hidden}
+.brand i b{display:block}
+.nav{display:flex;gap:22px;align-items:center;font-size:14px;color:var(--mute)}
+.nav a{text-decoration:none;transition:color .2s}
+.nav a:hover{color:var(--ink)}
+.theme{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--mute);transition:background .2s}
+.theme:hover{background:var(--soft);color:var(--ink)}
+
+/* ---------- 首屏 ---------- */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:48px 0 88px}
+.hero h1{font-size:clamp(34px,5.2vw,60px);line-height:1.1;font-weight:700;letter-spacing:-.025em}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--c-doc),#7a5cf0 50%,var(--c-yoru));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);margin-top:18px;max-width:470px;font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px 7px 9px;border-radius:99px;background:var(--card);border:1px solid var(--line);text-decoration:none;font-size:13.5px;transition:transform .25s var(--ease),box-shadow .25s,border-color .25s}
+.chip:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:transparent}
+.chip i{width:14px;height:14px;border-radius:50%;background:var(--c)}
+.chip small{color:var(--faint);font-size:12px}
+
+.fan{position:relative;height:380px}
+.fan a{position:absolute;width:56%;aspect-ratio:4/3;border-radius:18px;overflow:hidden;text-decoration:none;box-shadow:var(--shadow);transition:transform .6s var(--ease),z-index 0s .1s;will-change:transform}
+.fan .f1{left:0;top:34px;transform:rotate(-8deg);z-index:1;background:var(--c-vault);color:#eef0ff}
+.fan .f2{left:22%;top:0;transform:rotate(1deg);z-index:2;background:#dceafd;color:#0d2547}
+.fan .f3{left:44%;top:84px;transform:rotate(9deg);z-index:3;background:#16121d;color:#f5ede4}
+.fan:hover .f1{transform:rotate(-12deg) translate(-26px,8px)}
+.fan:hover .f3{transform:rotate(13deg) translate(26px,10px)}
+.fan a:hover{transform:rotate(0) translateY(-14px) scale(1.03)!important;z-index:5}
+.fan .lb{position:absolute;left:14px;bottom:12px;font-size:12.5px;font-weight:600;display:flex;gap:6px;align-items:center}
+.fan .lb::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.6}
+.f1 pre{font:12px/1.85 ui-monospace,SFMono-Regular,Menlo,monospace;padding:18px 18px;color:#aab1dd}
+.f1 pre b{color:#fff;font-weight:500}
+.f1 pre u{text-decoration:none;color:#9db1ff}
+.f2 img{position:absolute;width:46%;left:10%;top:6%;filter:drop-shadow(0 14px 20px rgba(20,60,140,.28));animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-2deg)}}
+.f3 img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;opacity:.92}
+.f3 .lb{text-shadow:0 1px 6px rgba(0,0,0,.5)}
+
+/* ---------- 项目舞台 ---------- */
+.stage{position:relative;padding:20px 0}
+.stage .panel{background:var(--sbg);color:var(--sink);clip-path:inset(var(--ins,0px) round var(--rad,0px));transition:clip-path .08s linear}
+.stage .inner{display:grid;grid-template-columns:340px 1fr;gap:60px;padding:96px 0}
+.stage{--ink:var(--sink);--mute:var(--smute);--faint:var(--smute);--line:var(--sline);--card:var(--scard);--soft:var(--ssoft);--accent:var(--sacc)}
+.s-vault{--sbg:#1e2350;--sink:#eef0ff;--smute:#a9b0dc;--sline:rgba(255,255,255,.12);--scard:#262d62;--ssoft:rgba(255,255,255,.08);--sacc:#9db1ff}
+.s-doc{--sbg:#dceafd;--sink:#0d2547;--smute:#48638b;--sline:rgba(13,37,71,.12);--scard:#ffffff;--ssoft:#eaf2fd;--sacc:#2f7be8}
+.s-yoru{--sbg:#16121d;--sink:#f5ede4;--smute:#b4a799;--sline:rgba(255,255,255,.1);--scard:#211b2a;--ssoft:rgba(255,255,255,.06);--sacc:#ff8a4c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .s-doc{--sbg:#11274a;--sink:#e4eeff;--smute:#93acd3;--sline:rgba(255,255,255,.1);--scard:#183259;--ssoft:rgba(255,255,255,.06);--sacc:#6ba6ff}}
+:root[data-theme="dark"] .s-doc{--sbg:#11274a;--sink:#e4eeff;--smute:#93acd3;--sline:rgba(255,255,255,.1);--scard:#183259;--ssoft:rgba(255,255,255,.06);--sacc:#6ba6ff}
+
+.txt{position:sticky;top:96px;align-self:start}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--sacc);font-weight:600;letter-spacing:.02em}
+.kick i{width:18px;height:2px;background:currentColor;border-radius:2px}
+.txt h2{font-size:34px;line-height:1.15;font-weight:700;letter-spacing:-.02em;margin-top:12px}
+.what{color:var(--smute);margin-top:14px;font-size:15.5px}
+.steps{list-style:none;margin-top:24px;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:12px;font-size:14.5px;padding:9px 0;border-top:1px solid var(--sline)}
+.steps li::before{content:counter(s);flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;background:var(--sacc);color:var(--sbg)}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.meta span{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--ssoft);color:var(--smute)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;padding:8px 14px;border-radius:9px;border:1px solid var(--sline);text-decoration:none;transition:transform .15s,background .2s,border-color .2s}
+.btn:hover{border-color:var(--sink)}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--sacc);color:var(--sbg);border-color:var(--sacc);font-weight:600}
+.s-doc .btn.pri{color:#fff}
+.vis{position:relative}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.cap{font-size:12px;color:var(--smute);margin-top:10px}
+
+/* Vault 背景里的文件名 */
+.s-vault .panel{position:relative;overflow:hidden}
+.drift{position:absolute;inset:0;pointer-events:none;font:13px/2.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(157,177,255,.07);white-space:nowrap;overflow:hidden}
+.drift div{animation:drift 60s linear infinite}
+.drift div:nth-child(2n){animation-direction:reverse;animation-duration:80s}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.s-vault .inner{position:relative}
+
+/* 文件整理：大图标 */
+.s-doc .txt .ico{display:block;width:72px;height:72px;margin-bottom:6px;filter:drop-shadow(0 10px 16px rgba(47,123,232,.3));animation:bob 5s ease-in-out infinite}
+
+/* 夜鹿：光晕 + 视差 */
+.s-yoru .panel{position:relative;overflow:hidden}
+.glow{position:absolute;width:70%;aspect-ratio:1;right:-12%;top:-10%;border-radius:50%;background:radial-gradient(circle,rgba(255,138,76,.32),rgba(122,92,240,.18) 45%,transparent 70%);filter:blur(20px);pointer-events:none;animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.08) translate(-3%,4%)}}
+.shot{border-radius:16px;overflow:hidden;border:1px solid var(--sline);box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.shot img{display:block;width:100%;transform:scale(1.06);transition:transform 1.6s var(--ease)}
+.reveal.in .shot img{transform:scale(1)}
+.yoru-sw{display:flex;gap:6px;margin-top:14px}
+.yoru-sw i{width:22px;height:22px;border-radius:6px}
+
+/* ---------- 演示组件 ---------- */
+.vd{border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden;box-shadow:0 30px 60px -28px rgba(0,0,0,.45)}
+.vd-q{display:flex;gap:8px;flex-wrap:wrap;padding:14px;border-bottom:1px solid var(--line)}
+.vd-q button{font-size:13px;padding:6px 12px;border-radius:99px;background:var(--soft);transition:background .2s,color .2s}
+.vd-q button:hover{background:var(--line)}
+.vd-q button[aria-pressed="true"]{background:var(--accent);color:#141838;font-weight:600}
+.vd-b{display:grid;grid-template-columns:250px 1fr;min-height:236px}
+.vd-tree{list-style:none;padding:12px 0;border-right:1px solid var(--line);font:12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace}
+.vd-tree li{display:flex;align-items:center;gap:8px;padding:8px 14px;color:var(--mute);transition:opacity .3s,color .3s,background .3s}
+.vd-tree li .k{width:14px;text-align:center;font-family:-apple-system,sans-serif;font-size:12px}
+.vd-tree li.ind{padding-left:30px}
+.vd-tree.run li{opacity:.3}
+.vd-tree li.read{opacity:1;color:var(--ink);background:color-mix(in srgb,var(--accent) 18%,transparent)}
+.vd-tree li.read .k{color:var(--accent)}
+.vd-tree li.now .k::before{content:"";display:inline-block;width:9px;height:9px;border:1.5px solid var(--accent);border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.vd-out{padding:16px 18px;font-size:14px}
+.vd-out .ph{color:var(--mute)}
+.vd-out .st{font-size:12px;color:var(--mute);margin-bottom:10px}
+.vd-out .ans{opacity:0;transform:translateY(4px);transition:opacity .4s,transform .4s var(--ease)}
+.vd-out .ans.on{opacity:1;transform:none}
+.vd-out .ans p+p{margin-top:6px}
+.vd-out .skip{margin-top:12px;font-size:12.5px;color:#7fe0a8}
+.vd-note{font-size:12px;color:var(--mute);padding:9px 14px;border-top:1px solid var(--line)}
+
+.fd{border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden;box-shadow:0 30px 60px -30px rgba(13,37,71,.45)}
+.fd-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.fd-h img{width:26px;height:26px}
+.fd-h .pg{flex:1;height:4px;border-radius:2px;background:var(--soft);overflow:hidden}
+.fd-h .pg i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s var(--ease)}
+.fd-l{list-style:none;font-size:13px}
+.fd-l li{display:grid;grid-template-columns:1fr 18px 1fr;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);transition:background .3s}
+.fd-l li:last-child{border-bottom:0}
+.fd-l .f{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fd-l .to{font-size:12.5px;display:flex;flex-direction:column}
+.fd-l .to b{font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.fd-l .to b::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--cc)}
+.fd-l .to small{color:var(--mute);font-size:11.5px}
+.fd-l .mv{color:var(--mute);transition:color .3s,transform .4s var(--ease)}
+.fd-l li.done{background:color-mix(in srgb,var(--cc) 12%,transparent)}
+.fd-l li.done .mv{color:var(--cc);transform:translateX(3px)}
+.fd-f{display:flex;gap:8px;justify-content:flex-end;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute)}
+.fd-f .msg{flex:1}
+.fd-f button{padding:6px 13px;border-radius:8px;border:1px solid var(--line);font-size:13px;transition:background .2s,border-color .2s}
+.fd-f button.pri{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.fd-f button:disabled{opacity:.35;cursor:default}
+
+/* ---------- 小工具 ---------- */
+.tools{padding:88px 0 32px}
+.tools h3{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.tools .sub{color:var(--mute);margin-top:6px;font-size:14px}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.tcard{position:relative;overflow:hidden;border-radius:18px;padding:24px;text-decoration:none;min-height:190px;display:flex;flex-direction:column;gap:8px;transition:transform .35s var(--ease),box-shadow .35s}
+.tcard:hover{transform:translateY(-4px) rotate(-.4deg);box-shadow:var(--shadow)}
+.tcard b{font-size:18px;font-weight:700}
+.tcard span{font-size:14px;max-width:80%;opacity:.8}
+.tcard small{margin-top:auto;font-size:12px;opacity:.6}
+.tcard svg{position:absolute;right:-10px;bottom:-14px;width:130px;height:130px;opacity:.22;transition:transform .6s var(--ease)}
+.tcard:hover svg{transform:rotate(-8deg) scale(1.06)}
+.t-readme{background:#fdf0c2;color:#4a3800}
+.t-rel{background:#d4f1e0;color:#0d3d24}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .t-readme{background:#3a3010;color:#fbe7a1}:root:not([data-theme="light"]) .t-rel{background:#123826;color:#bdecd1}}
+:root[data-theme="dark"] .t-readme{background:#3a3010;color:#fbe7a1}
+:root[data-theme="dark"] .t-rel{background:#123826;color:#bdecd1}
+.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--faint);font-size:13px;padding:48px 0}
+.foot a{text-decoration:none;color:var(--mute)}
+
+@media (max-width:860px){
+  .wrap{padding:0 16px}
+  .hero{grid-template-columns:1fr;padding:24px 0 56px;gap:28px}
+  .fan{height:250px;max-width:420px}
+  .stage .inner{grid-template-columns:1fr;gap:28px;padding:56px 0}
+  .txt{position:static}
+  .txt h2{font-size:28px}
+  .vd-b{grid-template-columns:1fr}
+  .vd-tree{border-right:0;border-bottom:1px solid var(--line)}
+  .tgrid{grid-template-columns:1fr}
+  .nav{gap:14px}.nav .hide-s{display:none}
+  .rv .note{display:none}
+  .fd-l li{grid-template-columns:1fr 14px 1fr;gap:6px}
+  .stage{padding:10px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+
+/* ===== v4 细调：降饱和、减色种、调排版 ===== */
+:root{--bg:#f7f7f6;--c-vault:#2a2f4a;--c-doc:#6f8fb8;--c-yoru:#c9825f;--ink:#17181b;--mute:#6a6d74;--line:#e4e4e1}
+body{font-family:"Inter",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;letter-spacing:.005em}
+.brand i{width:20px;height:20px;border-radius:6px;background:var(--ink);display:block;position:relative}
+.brand i b{display:none}
+.brand i::after{content:"";position:absolute;right:5px;top:5px;width:5px;height:5px;border-radius:50%;background:var(--c-yoru)}
+.hero{padding:64px 0 112px;gap:56px}
+.hero h1{font-weight:600;letter-spacing:-.03em;line-height:1.12}
+.hero h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--faint)}
+.hero p{font-size:16px;line-height:1.75}
+.chip{background:transparent;border-color:var(--line);font-size:13px}
+.chip:hover{background:var(--card)}
+.chip i{width:9px;height:9px}
+.fan{height:360px}
+.fan a{border-radius:16px;box-shadow:0 1px 1px rgba(0,0,0,.04),0 24px 48px -24px rgba(20,22,30,.35);outline:1px solid rgba(0,0,0,.05);outline-offset:-1px}
+.fan .f1{transform:rotate(-5deg);background:#1c2035}
+.fan .f2{transform:rotate(0deg);background:#e9eef5}
+.fan .f3{transform:rotate(5deg);background:#18151a}
+.fan:hover .f1{transform:rotate(-8deg) translate(-22px,6px)}
+.fan:hover .f3{transform:rotate(8deg) translate(22px,8px)}
+.f1 pre{color:#8d93ab}.f1 pre b{color:#e9ebf3}.f1 pre u{color:#c5cdf0}
+.f2 img{filter:drop-shadow(0 12px 16px rgba(40,60,100,.18))}
+.fan .lb{font-weight:500;font-size:12px}
+
+.s-vault{--sbg:#1c2035;--sink:#e9ebf3;--smute:#9ba1b8;--sline:rgba(255,255,255,.09);--scard:#232842;--ssoft:rgba(255,255,255,.06);--sacc:#c5cdf0}
+.s-doc{--sbg:#e9eef5;--sink:#13233b;--smute:#5a6a80;--sline:rgba(19,35,59,.1);--scard:#ffffff;--ssoft:#f2f5f9;--sacc:#3b6fb6}
+.s-yoru{--sbg:#18151a;--sink:#f1ebe4;--smute:#a89d92;--sline:rgba(255,255,255,.08);--scard:#211d23;--ssoft:rgba(255,255,255,.05);--sacc:#e3a07c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .s-doc{--sbg:#16202e;--sink:#e3e9f2;--smute:#8d9cb2;--sline:rgba(255,255,255,.08);--scard:#1c2839;--ssoft:rgba(255,255,255,.05);--sacc:#8fb0de}}
+:root[data-theme="dark"] .s-doc{--sbg:#16202e;--sink:#e3e9f2;--smute:#8d9cb2;--sline:rgba(255,255,255,.08);--scard:#1c2839;--ssoft:rgba(255,255,255,.05);--sacc:#8fb0de}
+.stage .inner{grid-template-columns:360px 1fr;gap:80px;padding:128px 0}
+.kick{font-weight:500;font-size:12px;letter-spacing:.06em;color:var(--smute)}
+.kick i{width:14px;height:1px;background:var(--sacc)}
+.txt h2{font-size:40px;font-weight:600;letter-spacing:-.03em;margin-top:14px}
+.what{font-size:15.5px;line-height:1.8;margin-top:16px}
+.steps{margin-top:28px}
+.steps li{padding:11px 0;gap:14px;font-size:14.5px}
+.steps li::before{width:auto;height:auto;background:none;color:var(--sacc);font-weight:500;font-size:12.5px;padding-top:2px;border-radius:0;display:block;min-width:14px}
+.meta{gap:0;margin-top:20px}
+.meta span{background:none;padding:0;font-size:12.5px;color:var(--smute)}
+.meta span+span::before{content:"·";margin:0 8px;opacity:.6}
+.btn{border-radius:10px;font-weight:500}
+.btn.pri{font-weight:500}
+.s-doc .btn.pri{color:#fff}
+.s-vault .btn.pri,.s-yoru .btn.pri{color:var(--sbg)}
+.drift{color:rgba(197,205,240,.045)}
+.s-doc .txt .ico{width:56px;height:56px;margin-bottom:14px;filter:drop-shadow(0 8px 12px rgba(40,60,100,.18))}
+.glow{background:radial-gradient(circle,rgba(227,160,124,.16),transparent 65%);filter:blur(30px)}
+.shot{border-radius:14px;box-shadow:0 40px 80px -40px rgba(0,0,0,.7)}
+.yoru-sw i{width:14px;height:14px;border-radius:4px}
+.vd,.fd{border-radius:16px;box-shadow:0 1px 1px rgba(0,0,0,.04),0 30px 60px -36px rgba(0,0,0,.45)}
+.vd-q button[aria-pressed="true"]{background:var(--sacc);color:var(--sbg);font-weight:500}
+.vd-tree li.read{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.vd-out .skip{color:var(--smute)}
+.fd-l li{--cc:var(--accent)!important}
+.fd-l li.done{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.fd-f button.pri{font-weight:500}
+.tools{padding:112px 0 32px}
+.tools h3{font-size:28px;font-weight:600;letter-spacing:-.02em}
+.tgrid{gap:14px;margin-top:28px}
+.tcard{border-radius:16px;padding:26px;min-height:200px}
+.tcard b{font-weight:600;font-size:17px}
+.tcard svg{opacity:.12;width:110px;height:110px;right:14px;bottom:10px}
+.t-readme{background:#f3eee2;color:#3f3624}
+.t-rel{background:#e5ede7;color:#22382b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .t-readme{background:#24211a;color:#e8dfc9}:root:not([data-theme="light"]) .t-rel{background:#1a241e;color:#cfe0d4}}
+:root[data-theme="dark"] .t-readme{background:#24211a;color:#e8dfc9}
+:root[data-theme="dark"] .t-rel{background:#1a241e;color:#cfe0d4}
+@media (max-width:860px){.stage .inner{grid-template-columns:1fr;gap:32px;padding:64px 0}.txt h2{font-size:30px}.hero{padding:28px 0 64px}.fan{height:250px}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="rv"><b>主页效果稿 v4</b><span>v3 细调：颜色降饱和、减色种，排版加留白</span><a href="../home-v3/index.html" style="color:#9fc0ff">对照 v3 ↗</a><span class="note">项目、截图、日期是真的；文案是草稿</span></div>
+
+<div class="wrap">
+  <header class="head">
+    <a class="brand" href="#"><i aria-hidden="true"><b style="background:var(--c-vault)"></b><b style="background:var(--c-doc)"></b><b style="background:var(--c-yoru)"></b><b style="background:var(--c-readme)"></b></i>Yorushikamimimi</a>
+    <nav class="nav">
+      <a href="#" class="hide-s">笔记</a><a href="#">关于</a>
+      <a href="https://github.com/Yorushikamimimi" target="_blank" rel="noopener">GitHub ↗</a>
+      <button class="theme" id="theme" aria-label="切换深浅色"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>自己用的东西，<br><em>做完就放这儿。</em></h1>
+      <p>三个主作品，加两个给 AI 编程助手用的小工具。都开源，下面每个都写了怎么用、能不能下载。</p>
+      <div class="chips">
+        <a class="chip" href="#s-vault" style="--c:var(--c-vault)"><i></i>AI Context Vault<small>11-05</small></a>
+        <a class="chip" href="#s-doc" style="--c:var(--c-doc)"><i></i>文件整理助手<small>11-05</small></a>
+        <a class="chip" href="#s-yoru" style="--c:var(--c-yoru)"><i></i>夜鹿视觉工房<small>11-03</small></a>
+      </div>
+    </div>
+    <div class="fan" aria-label="三个作品">
+      <a class="f1" href="#s-vault"><pre><b>AI_CONTEXT.md</b>   <u>← 每次从这开始</u>
+00-Profile/
+10-Knowledge/
+<b>20-Projects/</b>    <u>← 只读用到的</u>
+30-Career/
+50-Workflow/</pre><span class="lb">AI Context Vault</span></a>
+      <a class="f2" href="#s-doc"><img src="img/doc-icon.png" alt=""><span class="lb">文件整理助手</span></a>
+      <a class="f3" href="#s-yoru"><img src="img/yoru-workbench.png" alt=""><span class="lb">夜鹿视觉工房</span></a>
+    </div>
+  </section>
+</div>
+
+<section class="stage s-vault" id="s-vault">
+  <div class="panel">
+    <div class="drift" aria-hidden="true">
+      <div>AI_CONTEXT.md · SYSTEM_STATUS.md · 00-Profile/identity.md · 20-Projects/index.md · 50-Workflow/SYNC_RULES.md · 50-Workflow/daily-log.md · AI_CONTEXT.md · SYSTEM_STATUS.md · 00-Profile/identity.md · 20-Projects/index.md · 50-Workflow/SYNC_RULES.md · 50-Workflow/daily-log.md ·</div>
+      <div>10-Knowledge/backend · 30-Career/README.md · 50-Workflow/task-memory · 90-Inbox · AGENTS.md · CLAUDE.md · 10-Knowledge/backend · 30-Career/README.md · 50-Workflow/task-memory · 90-Inbox · AGENTS.md · CLAUDE.md ·</div>
+      <div>50-Workflow/decision.md · 00-Profile/goals.md · 20-Projects/index.md · AI_CONTEXT.md · 50-Workflow/AI_USAGE.md · 50-Workflow/decision.md · 00-Profile/goals.md · 20-Projects/index.md · AI_CONTEXT.md · 50-Workflow/AI_USAGE.md ·</div>
+      <div>SYSTEM_STATUS.md · 10-Knowledge/index.md · 50-Workflow/conversation-handoff.md · 30-Career/40-Growth · SYSTEM_STATUS.md · 10-Knowledge/index.md · 50-Workflow/conversation-handoff.md · 30-Career/40-Growth ·</div>
+      <div>AI_CONTEXT.md · 20-Projects/index.md · 00-Profile/working-style.md · 50-Workflow/logs · AI_CONTEXT.md · 20-Projects/index.md · 00-Profile/working-style.md · 50-Workflow/logs ·</div>
+      <div>50-Workflow/SYNC_RULES.md · 90-Inbox · 10-Knowledge/frontend · AGENTS.md · 50-Workflow/SYNC_RULES.md · 90-Inbox · 10-Knowledge/frontend · AGENTS.md ·</div>
+    </div>
+    <div class="wrap inner">
+      <div class="txt">
+        <span class="kick"><i></i>Markdown 模板</span>
+        <h2>AI Context Vault</h2>
+        <p class="what">一套档案模板。Claude Code、Codex 这些 AI 助手开新对话时，都从同一个入口文件开始，只读这次要用的那几份，不用你重新交代背景。</p>
+        <ol class="steps">
+          <li>把 vault/ 复制成你自己的私人文件夹</li>
+          <li>只填你确实知道的内容</li>
+          <li>在里面打开 AI 助手，让它先读 AI_CONTEXT.md</li>
+        </ol>
+        <div class="meta"><span>适用 Obsidian</span><span>公开模板，不含真人资料</span></div>
+        <div class="btns"><a class="btn pri" href="https://github.com/Yorushikamimimi/ai-context-vault" target="_blank" rel="noopener">GitHub ↗</a><a class="btn" href="https://github.com/Yorushikamimimi/ai-context-vault/tree/main/examples/first-recovery" target="_blank" rel="noopener">5 分钟试试看</a></div>
+      </div>
+      <div class="vis reveal" data-slot="vault"></div>
+    </div>
+  </div>
+</section>
+
+<section class="stage s-doc" id="s-doc">
+  <div class="panel">
+    <div class="wrap inner">
+      <div class="txt">
+        <img class="ico" src="img/doc-icon.png" alt="">
+        <span class="kick"><i></i>macOS App</span>
+        <h2>文件整理助手</h2>
+        <p class="what">下载文件夹乱了的时候用。先给你看每个文件会去哪、为什么，你点确认才真的移动；整理错了能一键撤销。</p>
+        <ol class="steps">
+          <li>选一个文件夹</li>
+          <li>看预览：每个文件的去处和依据</li>
+          <li>确认移动，不满意就撤销</li>
+        </ol>
+        <div class="meta"><span>Apple Silicon</span><span>v0.2.0 预览版</span><span>未经苹果公证</span></div>
+        <div class="btns"><a class="btn pri" href="https://github.com/Yorushikamimimi/doc-selecter/releases/tag/v0.2.0" target="_blank" rel="noopener">下载 DMG</a><a class="btn" href="https://github.com/Yorushikamimimi/doc-selecter" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </div>
+      <div class="vis reveal" data-slot="doc"></div>
+    </div>
+  </div>
+</section>
+
+<section class="stage s-yoru" id="s-yoru">
+  <div class="panel">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap inner">
+      <div class="txt">
+        <span class="kick"><i></i>本机网页工具</span>
+        <h2>夜鹿视觉工房</h2>
+        <p class="what">从自己存的 ヨルシカ Live 和 MV 里挑画面，裁成电脑或手机壁纸导出。也能让 AI 助手帮忙选片、做头像和粉丝二创。</p>
+        <ol class="steps">
+          <li>告诉 AI 助手想加什么画面</li>
+          <li>它选片、裁好，放进本机图库</li>
+          <li>刷新网页，挑尺寸导出 PNG</li>
+        </ol>
+        <div class="meta"><span>在自己电脑上运行</span><span>没有在线演示</span></div>
+        <div class="btns"><a class="btn pri" href="https://github.com/Yorushikamimimi/Yorushika-Lyric-Card-Bot" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </div>
+      <div class="vis reveal">
+        <div class="shot" id="yshot"><img src="img/yoru-workbench.png" alt="夜鹿视觉工房的壁纸工作台：左边是视频原帧，右边选择尺寸、取景并导出" loading="lazy"></div>
+        <p class="cap">壁纸工作台，截图来自项目 README。下面几个色块是从这张图里取的。</p>
+        <div class="yoru-sw" id="ysw"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="tools">
+    <h3>顺手做的小工具</h3>
+    <p class="sub">给 Claude Code、Codex 这类 AI 编程助手装的 Skill。</p>
+    <div class="tgrid">
+      <a class="tcard t-readme" href="https://github.com/Yorushikamimimi/readme-and-project-positioning" target="_blank" rel="noopener">
+        <b>README 写作</b><span>让 AI 助手写出第一次来的人就看得懂的 README：用途、具体用法、从哪开始、真实限制。</span><small>10-24 更新 · GitHub ↗</small>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/></svg>
+      </a>
+      <a class="tcard t-rel" href="https://github.com/Yorushikamimimi/public-release-readiness" target="_blank" rel="noopener">
+        <b>开源前检查</b><span>仓库公开前，分开检查文件、Git 历史、截图和发布包里有没有隐私或密钥。</span><small>10-24 更新 · GitHub ↗</small>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+      </a>
+    </div>
+  </section>
+  <footer class="foot"><span>技术笔记和旧项目页还在，入口在「笔记」</span><a href="https://github.com/Yorushikamimimi" target="_blank" rel="noopener">github.com/Yorushikamimimi</a></footer>
+</div>
+
+<template id="tpl-vault">
+  <div class="vd">
+    <div class="vd-q" role="group" aria-label="选一个请求">
+      <button data-q="0">继续图片整理项目，现在停在哪？</button>
+      <button data-q="1">为什么后来只做 PNG？</button>
+    </div>
+    <div class="vd-b">
+      <ul class="vd-tree">
+        <li data-f><span class="k">·</span>AGENTS.md</li>
+        <li data-f><span class="k">·</span>CLAUDE.md</li>
+        <li data-f="ctx"><span class="k">·</span>AI_CONTEXT.md</li>
+        <li data-f><span class="k">·</span>README.md</li>
+        <li><span class="k">▾</span>20-Projects/</li>
+        <li class="ind" data-f="proj"><span class="k">·</span>image-helper.md</li>
+        <li><span class="k">▾</span>50-Workflow/logs/</li>
+        <li class="ind" data-f="hist"><span class="k">·</span>example-history.md</li>
+      </ul>
+      <div class="vd-out" aria-live="polite"><p class="ph">选上面一个请求，看 AI 会打开哪几个文件。</p></div>
+    </div>
+    <div class="vd-note">按仓库 examples/first-recovery 的说明还原，是演示，不是实时运行。</div>
+  </div>
+</template>
+
+<template id="tpl-doc">
+  <div class="fd">
+    <div class="fd-h"><img src="img/doc-icon.png" alt=""><span>下载</span><span class="pg"><i></i></span><span class="cnt">预览 5 个文件</span></div>
+    <ul class="fd-l">
+      <li style="--cc:#e0569b"><span class="f">IMG_2048.HEIC</span><span class="mv">→</span><span class="to"><b>图片截图 / 手机照片</b><small>HEIC 格式，按名字判断是手机拍的</small></span></li>
+      <li style="--cc:#e0569b"><span class="f">微信图片_20261102.jpg</span><span class="mv">→</span><span class="to"><b>图片截图 / 微信图片</b><small>文件名以「微信图片」开头</small></span></li>
+      <li style="--cc:#7a5cf0"><span class="f">Docker.dmg</span><span class="mv">→</span><span class="to"><b>安装包 / Mac</b><small>DMG 安装包</small></span></li>
+      <li style="--cc:#2f7be8"><span class="f">数据结构期末复习.pdf</span><span class="mv">→</span><span class="to"><b>文档资料 / 学校课程</b><small>名字里有课程相关的词</small></span></li>
+      <li style="--cc:#e8a317"><span class="f">%E6%8A%A5%E5%91%8A.zip</span><span class="mv">→</span><span class="to"><b>压缩包 / ZIP</b><small>网页编码的名字，显示为「报告」，不改名</small></span></li>
+    </ul>
+    <div class="fd-f"><span class="msg">文件名是虚构的。还没动任何文件。</span><button class="undo" disabled>撤销</button><button class="pri go">确认整理</button></div>
+  </div>
+</template>
+
+<script>
+const $=s=>document.querySelector(s);
+const fast=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
+const wait=ms=>new Promise(r=>setTimeout(r,fast()?0:ms));
+
+const VQ=[
+  {read:['ctx','proj'],ans:['<b>停在：</b>导出的文件怎么命名、同名文件怎么处理。','第一版只支持 PNG，「支持多种格式」是以前的想法。','记录里写了进度，但没有代码和测试证据，还不能算确认。']},
+  {read:['ctx','proj','hist'],ans:['这次才去翻历史记录，找当初只做 PNG 的那条决定。','回答时分清哪些是现在的决定，哪些是过去的想法。']},
+];
+function mountVault(host){
+  host.appendChild($('#tpl-vault').content.cloneNode(true));
+  const tree=host.querySelector('.vd-tree'),out=host.querySelector('.vd-out'),bs=host.querySelectorAll('.vd-q button');
+  let tok=0;
+  bs.forEach(b=>b.onclick=async()=>{
+    const my=++tok,q=VQ[+b.dataset.q];
+    bs.forEach(x=>x.setAttribute('aria-pressed',x===b));
+    tree.classList.add('run');tree.querySelectorAll('li').forEach(l=>l.classList.remove('read','now'));
+    out.innerHTML='<div class="st">正在读取…</div><div class="ans"></div>';
+    const st=out.querySelector('.st');
+    for(const [i,f] of q.read.entries()){
+      const li=tree.querySelector(`[data-f="${f}"]`);li.classList.add('read','now');
+      st.textContent=`读第 ${i+1} 个文件：${li.textContent.trim()}`;
+      await wait(520);if(my!==tok)return;li.classList.remove('now');
+    }
+    const n=tree.querySelectorAll('[data-f]').length-q.read.length;
+    st.textContent=`读了 ${q.read.length} 个文件`;
+    const a=out.querySelector('.ans');a.innerHTML=q.ans.map(t=>`<p>${t}</p>`).join('')+`<p class="skip">其余 ${n} 个没打开</p>`;
+    requestAnimationFrame(()=>a.classList.add('on'));
+  });
+}
+function mountDoc(host){
+  host.appendChild($('#tpl-doc').content.cloneNode(true));
+  const lis=[...host.querySelectorAll('.fd-l li')],go=host.querySelector('.go'),un=host.querySelector('.undo'),msg=host.querySelector('.msg'),bar=host.querySelector('.pg i'),cnt=host.querySelector('.cnt');
+  go.onclick=async()=>{
+    go.disabled=true;msg.textContent='正在移动…';
+    for(const [i,li] of lis.entries()){li.classList.add('done');bar.style.width=((i+1)/lis.length*100)+'%';cnt.textContent=`已移动 ${i+1} / ${lis.length}`;await wait(260);}
+    msg.textContent='整理完了。这次的记录已保存，可以撤销。';un.disabled=false;
+  };
+  un.onclick=async()=>{
+    un.disabled=true;msg.textContent='正在放回原处…';
+    for(const [i,li] of [...lis].reverse().entries()){li.classList.remove('done');bar.style.width=((lis.length-i-1)/lis.length*100)+'%';await wait(180);}
+    cnt.textContent='预览 5 个文件';msg.textContent='已撤销，文件都回到原来的位置。';go.disabled=false;
+  };
+}
+mountVault($('[data-slot="vault"]'));
+mountDoc($('[data-slot="doc"]'));
+
+/* 进入视口淡入 */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* 色块随滚动从圆角卡片展开到满屏 */
+const panels=[...document.querySelectorAll('.stage .panel')];
+function onScroll(){
+  if(fast())return;
+  const vh=innerHeight,side=innerWidth>860?Math.min(48,innerWidth*.04):12;
+  for(const p of panels){
+    const r=p.getBoundingClientRect();
+    const t=Math.min(1,Math.max(0,(vh-r.top)/(vh*.7)));   // 进入 0→1
+    const e=1-t*t*(3-2*t);
+    p.style.setProperty('--ins',`0px ${(e*side+0).toFixed(1)}px`);
+    p.style.setProperty('--rad',`${(8+e*24).toFixed(1)}px`);
+  }
+  const y=$('#yshot');if(y){const r=y.getBoundingClientRect();y.style.transform=`translateY(${((r.top+r.height/2-vh/2)*-.06).toFixed(1)}px)`;}
+}
+addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});addEventListener('resize',onScroll);onScroll();
+
+/* 从截图里取色 */
+const im=new Image();im.src='img/yoru-workbench.png';
+im.onload=()=>{try{
+  const c=document.createElement('canvas'),w=40,h=20;c.width=w;c.height=h;const x=c.getContext('2d');
+  x.drawImage(im,im.width*.13,im.height*.38,im.width*.52,im.height*.38,0,0,w,h);
+  const d=x.getImageData(0,0,w,h).data,pts=[];
+  for(let i=0;i<d.length;i+=4){const [r,g,b]=[d[i],d[i+1],d[i+2]],mx=Math.max(r,g,b),mn=Math.min(r,g,b);if(mx-mn>60&&mx>90)pts.push([r,g,b]);}
+  pts.sort((a,b)=>Math.atan2(a[1]-a[2],a[0]-a[1])-Math.atan2(b[1]-b[2],b[0]-b[1]));
+  const sw=[];for(let k=0;k<6;k++){const p=pts[Math.floor((k+.5)/6*pts.length)];if(p)sw.push(p);}
+  $('#ysw').innerHTML=sw.map((p,i)=>`<i style="background:rgb(${p});opacity:0;transform:scale(.6);transition:all .5s ${i*.08}s"></i>`).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>$('#ysw').querySelectorAll('i').forEach(e=>{e.style.opacity=1;e.style.transform='none'})));
+}catch(e){}};
+
+$('#theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark';};
+</script>
+</body>
+</html>
