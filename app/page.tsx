@@ -223,8 +223,6 @@ export default function HomePage() {
                   sizes="(max-width: 860px) 100vw, 680px"
                 />
               </div>
-              <p className="hm-cap">壁纸工作台，截图来自项目 README。下面几个色块是从这张图里取的。</p>
-              <div className="hm-swatches" id="hm-ysw" aria-hidden="true" />
             </div>
           </div>
         </div>

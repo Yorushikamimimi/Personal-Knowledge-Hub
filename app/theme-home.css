@@ -393,12 +393,6 @@
   opacity: 1;
   transform: none;
 }
-.hm-cap {
-  margin: 10px 0 0;
-  color: var(--s-mute);
-  font-size: 12px;
-}
-
 .hm-drift {
   position: absolute;
   inset: 0;
@@ -451,24 +445,6 @@
   transition: transform 1.6s var(--hm-ease);
 }
 .hm-reveal.is-in .hm-shot img { transform: scale(1); }
-.hm-swatches {
-  display: flex;
-  gap: 6px;
-  min-height: 14px;
-  margin-top: 14px;
-}
-.hm-swatches i {
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
-  opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.5s, transform 0.5s;
-}
-.hm-swatches.is-in i {
-  opacity: 1;
-  transform: none;
-}
 
 /* ---------- 演示：Context Vault ---------- */
 .hm-vd,
