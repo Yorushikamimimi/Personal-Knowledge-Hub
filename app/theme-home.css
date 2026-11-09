@@ -41,21 +41,25 @@
   text-decoration: none;
 }
 .hm-brand__mark {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  background: var(--hm-ink);
+  /* 碎鸣像素 logo：只按 16 的整数倍显示，否则像素会糊 */
+  display: block;
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
 }
-.hm-brand__mark::after {
-  content: "";
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--hm-c-yoru);
+.hm-brand__text {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.hm-brand__name {
+  letter-spacing: 0.14em;
+}
+.hm-brand__sub {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--hm-faint);
 }
 .hm-nav {
   display: flex;
