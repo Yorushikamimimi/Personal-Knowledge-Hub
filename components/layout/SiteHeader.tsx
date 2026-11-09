@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PageContainer } from "./PageContainer";
+import { Wordmark } from "./Wordmark";
 import { siteLinks } from "../../lib/site-config";
 
 const navItems = [
@@ -25,7 +26,7 @@ export function SiteHeader() {
           <Link href="/" className="hm-brand" aria-label="碎鸣 首页">
             <Image className="hm-brand__mark" src="/brand/suiming-mark-on-light.svg" width={32} height={32} alt="" aria-hidden="true" unoptimized priority />
             <span className="hm-brand__text">
-              <span className="hm-brand__name">碎鸣</span>
+              <Wordmark theme="light" />
               <span className="hm-brand__sub">yoruming</span>
             </span>
           </Link>

@@ -49,11 +49,14 @@
 }
 .hm-brand__text {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   gap: 6px;
 }
-.hm-brand__name {
-  letter-spacing: 0.14em;
+.hm-brand__wordmark {
+  /* 碎鸣像素字标：25×12 格按 ×2 显示，只用整数倍；碎片会画到下方约 36px，外层别加 overflow:hidden */
+  display: inline-block;
+  width: 50px;
+  height: 24px;
 }
 .hm-brand__sub {
   font-size: 11px;
