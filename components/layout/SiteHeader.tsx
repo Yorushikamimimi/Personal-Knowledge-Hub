@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PageContainer } from "./PageContainer";
+import { Logo } from "./Logo";
 import { Wordmark } from "./Wordmark";
 import { siteLinks } from "../../lib/site-config";
 
@@ -24,7 +24,7 @@ export function SiteHeader() {
       <PageContainer>
         <div className="hm-header__inner">
           <Link href="/" className="hm-brand" aria-label="碎鸣 首页">
-            <Image className="hm-brand__mark" src="/brand/suiming-mark-on-light.svg" width={32} height={32} alt="" aria-hidden="true" unoptimized priority />
+            <Logo theme="light" />
             <span className="hm-brand__text">
               <Wordmark theme="light" />
               <span className="hm-brand__sub">yoruming</span>
